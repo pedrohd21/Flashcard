@@ -8,6 +8,6 @@ export const Container = styled(SafeAreaView)`
 `;
 
 export const Text = styled.Text`
-  background-color: ${({ theme }) => theme.COLORS.WHITE};
-  font-size: 10px;
+  color: ${({ theme }) => theme.COLORS.WHITE};
+  font-size: 40px;
 `;
