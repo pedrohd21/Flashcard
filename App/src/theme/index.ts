@@ -51,13 +51,13 @@ export default {
     GRAY_400: '#373737',  // Tonalidade de cinza
     GRAY_300: '#414141',  // Tonalidade de cinza
   },
-  FONT_FAMILY: {
-    REGULAR: 'Roboto_400Regular', // Fonte regular
-    BOLD: 'Roboto_700Bold', // Fonte em negrito
-    ITALIC: 'Roboto_400Italic', // Fonte em itálico
-    LIGHT: 'Roboto_300Light', // Fonte leve
-    THIN: 'Roboto_100Thin' // Fonte fina
-  },
+  // FONT_FAMILY: {
+  //   REGULAR: 'Roboto_400Regular', // Fonte regular
+  //   BOLD: 'Roboto_700Bold', // Fonte em negrito
+  //   ITALIC: 'Roboto_400Italic', // Fonte em itálico
+  //   LIGHT: 'Roboto_300Light', // Fonte leve
+  //   THIN: 'Roboto_100Thin' // Fonte fina
+  // },
   FONT_SIZE: {
     SM: 14, // Tamanho de fonte pequeno
     MD: 16, // Tamanho de fonte médio

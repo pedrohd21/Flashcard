@@ -64,3 +64,39 @@ npm install react-native-vector-icons @expo/vector-icons
 npm install @react-native-async-storage/async-storage
 npm install --save-dev @types/jest
 npm install react-native-safe-area-context
+
+
+
+
+
+import { Button } from 'react-native';
+import Tts from 'react-native-tts';
+
+export function Home() {
+  useEffect(() => {
+    // Configurar as configurações de fala
+    Tts.setDefaultLanguage('en-US');
+    Tts.setDefaultRate(0.4); // Velocidade da fala (0.5 é metade da velocidade padrão)
+  }, []);
+
+
+  const falarPalavra = () => {
+    Tts.speak('cold  ');
+  };
+  const falarPalavra2 = () => {
+    Tts.speak('warm    ');
+  };
+  
+  return (
+    <Container>
+      <Text>
+        oi
+      </Text>
+      <Button title="Falar Palavra" onPress={falarPalavra} />
+      <Text>
+        oi
+      </Text>
+      <Button title="Falar Palavra" onPress={falarPalavra2} />
+    </Container>
+  )
+}
