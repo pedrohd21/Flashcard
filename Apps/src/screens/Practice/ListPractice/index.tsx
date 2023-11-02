@@ -9,7 +9,7 @@ export function ListPractice() {
 
   return (
     <Container>
-      <Header />
+      <Header title='' showIcon={true}/>
     </Container>
   )
 }

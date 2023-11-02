@@ -7,7 +7,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 export function EditCategory() {
   return (
     <Container>
-      <Header />
+      <Header title='' showIcon={true}/>
     </Container>
   )
 }

@@ -12,72 +12,41 @@ export default {
     INFO: '#2196F3', // Cor de informação
     DANGER: '#FF4081', // Cor de perigo
 
-    GREEN_DARK: '#007A55', // Tonalidade de verde mais escura
-    GREEN: '#00B37E', // Tonalidade de verde padrão
-    GREEN_LIGHT: '#C8E6C9', // Tonalidade de verde muito clara
+    RED: '#ED585E', // Cor vermelha
 
-    RED: '#F75A68', // Cor vermelha
-    RED_DARK: '#AA2834', // Tonalidade de vermelho mais escura
-    RED_LIGHT: '#FF8A99', // Tonalidade de vermelho mais clara
+    PURPLE: '#6B5CCB', // Cor roxa
 
-    BLUE: '#2196F3', // Cor azul
-    BLUE_DARK: '#1B79D4', // Tonalidade de azul mais escura
-    BLUE_LIGHT: '#6AB7FF', // Tonalidade de azul mais clara
+    TEAL: '#5CD7D2', // Cor verde-azulado
 
-    YELLOW: '#FFEB3B', // Cor amarela
-    YELLOW_DARK: '#D4BA00', // Tonalidade de amarelo mais escura
-    YELLOW_LIGHT: '#FFF466', // Tonalidade de amarelo mais clara
-
-    PURPLE: '#9C27B0', // Cor roxa
-    PURPLE_DARK: '#691E75', // Tonalidade de roxo mais escura
-    PURPLE_LIGHT: '#D05CE3', // Tonalidade de roxo mais clara
-
-    ORANGE: '#FF9800', // Cor laranja
-    ORANGE_DARK: '#B26C00', // Tonalidade de laranja mais escura
-    ORANGE_LIGHT: '#FFB66E', // Tonalidade de laranja mais clara
-
-    PINK: '#E91E63', // Cor rosa
-    PINK_DARK: '#A3174D', // Tonalidade de rosa mais escura
-    PINK_LIGHT: '#FF7FAE', // Tonalidade de rosa mais clara
-
-    TEAL: '#009688', // Cor verde-azulado
-    TEAL_DARK: '#00685B', // Tonalidade de verde-azulado mais escura
-    TEAL_LIGHT: '#4FD1BB', // Tonalidade de verde-azulado mais clara
-
-    GRAY_900: '#080808',  // Tonalidade de cinza mais escura
-    GRAY_800: '#121212',  // Tonalidade de cinza mais escura
-    GRAY_700: '#1B1B1B',  // Tonalidade de cinza escura
-    GRAY_600: '#242424',  // Tonalidade de cinza
-    GRAY_500: '#2E2E2E',  // Tonalidade de cinza
-    GRAY_400: '#373737',  // Tonalidade de cinza
-    GRAY_300: '#414141',  // Tonalidade de cinza
+    GRAY_1000: '#080808',  // Tonalidade de cinza mais escura
+    GRAY_900: '#01040B',  // Tonalidade de cinza mais escura
+    GRAY_500: '#1A1D26',  // Tonalidade de cinza mais escura
+    
+    GRAY_200: '#61677A',  // Tonalidade de cinza
+    
   },
-  // FONT_FAMILY: {
-  //   REGULAR: 'Roboto_400Regular', // Fonte regular
-  //   BOLD: 'Roboto_700Bold', // Fonte em negrito
-  //   ITALIC: 'Roboto_400Italic', // Fonte em itálico
-  //   LIGHT: 'Roboto_300Light', // Fonte leve
-  //   THIN: 'Roboto_100Thin' // Fonte fina
-  // },
+  // fonte
   FONT_SIZE: {
-    SM: 14, // Tamanho de fonte pequeno
-    MD: 16, // Tamanho de fonte médio
-    LG: 18, // Tamanho de fonte grande
-    XL: 24 // Tamanho de fonte extra grande
+    SM: 14, 
+    MD: 16, 
+    LG: 18,
+    XL: 24 
   },
+  // Espaçamento
   SPACING: {
-    XS: 4, // Espaçamento extra pequeno
-    SM: 8, // Espaçamento pequeno
-    MD: 16, // Espaçamento médio
-    LG: 24, // Espaçamento grande
-    XL: 32 // Espaçamento extra grande
+    XS: 4, 
+    SM: 8,
+    MD: 16,
+    LG: 24, 
+    XL: 32 
   },
+  // Raio de borda
   BORDER_RADIUS: {
-    XS: 4, // Raio de borda extra pequeno
-    SM: 8, // Raio de borda pequeno
-    MD: 12, // Raio de borda médio
-    LG: 16, // Raio de borda grande
-    XL: 24 // Raio de borda extra grande
+    XS: 4, 
+    SM: 8, 
+    MD: 12, 
+    LG: 16, 
+    XL: 24 
   },
   SHADOW: {
     SM: {
@@ -107,8 +76,8 @@ export default {
   },
   BUTTON: {
     PRIMARY: {
-      backgroundColor: '#FF5722', // Cor de fundo do botão primário
-      color: '#FFFFFF' // Cor do texto do botão primário
+      backgroundColor: '#6B5CCB', // Cor de fundo do botão primário
+      color: '#01040B' // Cor do texto do botão primário
     },
     SECONDARY: {
       backgroundColor: '#3F51B5', // Cor de fundo do botão secundário
@@ -119,8 +88,8 @@ export default {
       color: '#FFFFFF'
     },
     WARNING: {
-      backgroundColor: '#FFC107',
-      color: '#FFFFFF'
+      backgroundColor: '#ED585E',
+      color: '#01040B'
     },
     INFO: {
       backgroundColor: '#2196F3',
@@ -133,19 +102,19 @@ export default {
   },
   ICON: {
     SIZE: {
-      SM: 16, // Tamanho do ícone pequeno
-      MD: 24, // Tamanho do ícone médio
-      LG: 32, // Tamanho do ícone grande
-      XL: 48 // Tamanho do ícone extra grande
+      SM: 16, 
+      MD: 24, 
+      LG: 32, 
+      XL: 48 
     },
     COLOR: {
-      PRIMARY: '#FF5722', // Cor do ícone primário
-      SECONDARY: '#3F51B5', // Cor do ícone secundário
-      SUCCESS: '#4CAF50',
+      PRIMARY: '#01040B', 
+      SECONDARY: '#3F51B5', 
+      SUCCESS: '#5CD7D2',
       WARNING: '#FFC107',
       INFO: '#2196F3',
       DANGER: '#FF4081',
-      DEFAULT: '#000000' // Cor do ícone padrão
+      DEFAULT: '#000000'
     }
   }
 };

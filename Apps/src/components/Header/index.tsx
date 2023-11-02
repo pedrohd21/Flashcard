@@ -1,13 +1,22 @@
 import React from "react";
 // import { Text } from "react-native";
-import { Container, Text, Icons } from "./styles";
+import { Container, Text, IconsRight, IconsLeft } from "./styles";
 
-export function Header(){
+type Props = {
+  title: string;
+  iconNameLeft: string;
+  iconNameRight: string;
+  showIconLeft: boolean;
+  showIconRight: boolean;
+}
+
+export function Header({ title, iconNameLeft, iconNameRight, showIconLeft, showIconRight }: Props) {
   return (
     <Container>
-      <Icons name='bell-slash' />
-      <Text>FlashCard</Text>
+      {showIconLeft && <IconsRight name={iconNameLeft} />}
+      <Text>{title}</Text>
+      {showIconRight && <IconsLeft name={iconNameRight}/>}
     </Container>
-    
+
   );
 }

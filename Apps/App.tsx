@@ -1,10 +1,13 @@
 import React from 'react';
+import 'react-native-gesture-handler';
+
 
 import { StatusBar } from "react-native";
-
 import { ThemeProvider } from "styled-components";
 import theme from "./src/theme";
 import { Loading } from './src/components/Loading';
+
+import Routes from './src/routes';
 
 
 import { Home } from "./src/screens/Home";
@@ -17,10 +20,9 @@ export default function App(){
         backgroundColor="transparent"
         translucent
       />
-      {
-        
-        <Home/> 
-      }
+      
+        <Routes />
+      
     </ThemeProvider>
   );
 }
