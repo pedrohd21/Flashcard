@@ -6,7 +6,12 @@ export const Container = styled(SafeAreaView)`
   background-color: ${({ theme }) => theme.COLORS.GRAY_900};
 `;
 
-export const Text = styled.Text`
+export const Title = styled.Text`
   color: ${({ theme }) => theme.COLORS.WHITE};
+  font-size: 40px;
+`;
+
+export const SubTitle = styled.Text`
+  color: ${({ theme }) => theme.COLORS.GRAY_200};
   font-size: 40px;
 `;

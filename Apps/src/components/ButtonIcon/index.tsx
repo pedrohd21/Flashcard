@@ -4,9 +4,9 @@ import { Button, Icon } from './styles';
 type Props = {
   iconName: string;
 }
-export function ButtonIcon({ iconName }: Props) {
+export function ButtonIcon({ iconName, ...rest }: Props) {
   return (
-    <Button>
+    <Button{...rest}>
       <Icon name={iconName}/>
     </Button>
   )

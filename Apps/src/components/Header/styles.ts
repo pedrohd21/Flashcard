@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { TouchableOpacity } from 'react-native';
 
 export const Container = styled.View`
   height: 55px;
@@ -17,23 +18,30 @@ export const Text = styled.Text`
   top: 10px; 
 `;
 
-export const IconsRight = styled(Icon)`
+export const IconRight = styled(Icon)`
   ${({ theme }) => css`
     font-size: ${theme.ICON.SIZE.MD}px;
-    color: ${theme.COLORS.PURPLE};
+    color: ${theme.COLORS.TEAL};
   `};
+`;
+
+export const ButtonBackIcon = styled.TouchableOpacity`
   position: absolute;
   top: 14px; 
   left: 22px;
 `;
 
-export const IconsLeft = styled(Icon)`
-  ${({ theme }) => css`
-    font-size: ${theme.ICON.SIZE.MD}px;
-    color: ${theme.COLORS.TEAL};
-  `};
+export const ButtonRight = styled.TouchableOpacity`
   position: absolute;
   top: 14px; 
   right: 22px;
+`;
+
+export const IconBack = styled(Icon)`
+  ${({ theme }) => css`
+      font-size: ${theme.ICON.SIZE.MD}px;
+      color: ${theme.COLORS.PURPLE};
+    `};
+   
 `;
 

@@ -1,20 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container } from "./styles";
 import { Header } from "../../../components/Header";
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { Title } from "../../../components/Title";
 import { Card } from "../../../components/Card";
 import { ButtonIcon } from "../../../components/ButtonIcon";
+import { FlatList } from "react-native";
 
 
 export function CreateFlashCard() {
+
+  const data = [
+    { key: '1', textFront: '', textBack: '' },
+
+  ]
+
   return (
     <Container>
       <Header
         title='Create Flashcard'
-        showIconLeft={true}
-        showIconRight={true}
-        iconNameLeft='arrow-left'
+        showButtonRight={true}
+        showBackButton={true}
         iconNameRight='check'
       />
 
@@ -23,9 +28,19 @@ export function CreateFlashCard() {
         subTitle="teste"
       />
 
-      <Card/>
+
+      <FlatList
+        data={data}
+        renderItem={({ item }) => (
+          <Card
+            textFront={item.textFront}
+            textBack={item.textBack}
+          />
+        )}
+      />
       
-      <ButtonIcon iconName="plus"/>
+      
+      <ButtonIcon iconName="plus" />
     </Container>
   )
 }

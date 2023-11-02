@@ -12,18 +12,24 @@ export function Home() {
   const navigation = useNavigation();
 
   function handlePress(){
-    navigation.navigate('CreateFlashCard');
+    navigation.navigate('ListFlashCard');
+    console.log('sdfsdfsdfsdfdsfsdf')
+
+  };
+  function handlePres2(){
+    navigation.navigate('EditFlashCard');
     console.log('sdfsdfsdfsdfdsfsdf')
 
   };
   return (
     <Container>
-      <Header title='FlashCard' showIcon={true}/>
+      <Header title='FlashCard' iconNameRight="bell-slash" showButtonRight={true} showBackButton={false}/>
       
       <Text>
         Home
       </Text>
       <Button  title="Aqui" onPress={handlePress} color='#993399'/>
+      <Button  title="Aqui" onPress={handlePres2} color='#993399'/>
     </Container>
   )
 }

@@ -28,8 +28,8 @@ export function MyStack() {
           animationEnabled: false,
 
         }}
-      >
-        <Stack.Screen name="CreateFlashCard" component={CreateFlashCard} />
+      > 
+      
         <Stack.Screen name="MyTabs" component={MyTabs} />
         <Stack.Screen name="CreateAccount" component={CreateAccount} />
         <Stack.Screen name="LoginAccount" component={LoginAccount} />

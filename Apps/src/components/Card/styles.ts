@@ -3,7 +3,7 @@ import styled, { css } from "styled-components/native";
 export const Container = styled.View`
   flex-direction: column;
   height: 190px;
-  margin: 20px 22px;
+  margin: 10px 22px;
   background-color: ${({ theme }) => theme.COLORS.GRAY_500};
   border-radius: 14px ;
 `;

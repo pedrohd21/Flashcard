@@ -7,7 +7,12 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 export function ListFlashCard() {
   return (
     <Container>
-      <Header title='' showIcon={true}/>
+      <Header
+        title='List FlashCard'
+        showButtonRight={false}
+        showBackButton={true}
+        iconNameRight='check'
+      />
     </Container>
   )
 }

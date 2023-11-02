@@ -1,21 +1,35 @@
 import React from "react";
 // import { Text } from "react-native";
-import { Container, Text, IconsRight, IconsLeft } from "./styles";
+import { Container, Text, IconRight, ButtonBackIcon, IconBack, ButtonRight } from "./styles";
+import { useNavigation } from "@react-navigation/native";
 
 type Props = {
   title: string;
-  iconNameLeft: string;
   iconNameRight: string;
-  showIconLeft: boolean;
-  showIconRight: boolean;
+  showBackButton: boolean;
+  showButtonRight: boolean;
 }
 
-export function Header({ title, iconNameLeft, iconNameRight, showIconLeft, showIconRight }: Props) {
+export function Header({ title, showBackButton, iconNameRight, showButtonRight }: Props) {
+  const navigation = useNavigation();
+
+  function handleGoBack() {
+    navigation.goBack();
+  }
   return (
     <Container>
-      {showIconLeft && <IconsRight name={iconNameLeft} />}
+      {showBackButton &&
+        <ButtonBackIcon onPress={handleGoBack}>
+          <IconBack name='arrow-left' />
+        </ButtonBackIcon>}
       <Text>{title}</Text>
-      {showIconRight && <IconsLeft name={iconNameRight}/>}
+      {showButtonRight &&
+        <ButtonRight>
+          <IconRight name={iconNameRight} />
+        </ButtonRight>
+      }
+
+
     </Container>
 
   );

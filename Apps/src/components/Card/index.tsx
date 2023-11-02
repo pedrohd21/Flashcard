@@ -2,25 +2,30 @@ import React from "react";
 import { Container, Text, TextBack, TextFront, BorderRadius } from "./styles";
 import { ButtonTitle } from "../ButtonTitle";
 
-export function Card() {
+type Props = {
+  textFront: string;
+  textBack: string;
+}
+
+export function Card({textFront, textBack}: Props) {
   return (
     <Container>
       <Text>
         Front
       </Text>
       <TextFront>
-        Front
+        {textFront}
       </TextFront>
-      <BorderRadius/>
+      <BorderRadius />
 
       <Text>
         Back
       </Text>
       <TextBack>
-        back
+        {textBack}
       </TextBack>
-      <BorderRadius/>
-      <ButtonTitle iconName='trash'/>
+      <BorderRadius />
+      <ButtonTitle iconName='trash' />
     </Container>
   );
 }
