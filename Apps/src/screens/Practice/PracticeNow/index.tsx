@@ -7,7 +7,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 export function PracticeNow() {
   return (
     <Container>
-      <Header title='' showIcon={true}/>
+      <Header title='Pratice'  showBackButton/>
     </Container>
   )
 }

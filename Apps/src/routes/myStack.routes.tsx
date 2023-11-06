@@ -29,9 +29,9 @@ export function MyStack() {
 
         }}
       > 
-      
         <Stack.Screen name="MyTabs" component={MyTabs} />
         <Stack.Screen name="CreateAccount" component={CreateAccount} />
+        <Stack.Screen name="CreateFlashCard" component={CreateFlashCard} />
         <Stack.Screen name="LoginAccount" component={LoginAccount} />
         <Stack.Screen name="CreateCategory" component={CreateCategory} />
         <Stack.Screen name="EditCategory" component={EditCategory} />

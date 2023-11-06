@@ -1,11 +1,8 @@
 export default {
   COLORS: {
     WHITE: '#FFFFFF',
-    WHITE_LIGHT: '#FFFBF5',
+    WHITE_LIGHT: '#A5B5F9',
     BLACK: '#000000',
-
-    MAIN: '#FF5722', // Cor primária para uso geral
-    ACCENT: '#3F51B5', // Cor de destaque para uso especial
 
     SUCCESS: '#4CAF50', // Cor de sucesso
     WARNING: '#FFC107', // Cor de aviso

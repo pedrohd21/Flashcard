@@ -6,6 +6,7 @@ export const Container = styled.View`
   margin: 10px 22px;
   background-color: ${({ theme }) => theme.COLORS.GRAY_500};
   border-radius: 14px ;
+  justify-content: center;
 `;
 
 export const Text = styled.Text`
@@ -13,9 +14,9 @@ export const Text = styled.Text`
     font-size: ${theme.FONT_SIZE.LG}px;
     color: ${theme.COLORS.WHITE};
   `};
+  font-family: 'Roboto-Bold';
   padding-left: 10px;
   padding-top: 5px;
-
 `;
 
 export const TextFront = styled.TextInput`
@@ -26,8 +27,7 @@ export const TextFront = styled.TextInput`
   
   `};
   padding-left: 10px;
-  
-
+  font-family: 'Roboto-Regular';
 `;
 
 export const TextBack = styled.TextInput`
@@ -36,6 +36,7 @@ export const TextBack = styled.TextInput`
     color: ${theme.COLORS.GRAY_200};
   `};
   padding-left: 10px;
+  font-family: 'Roboto-Regular';
 `;
 
 export const BorderRadius = styled.Text`

@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { TouchableOpacity } from 'react-native';
 
 export const Container = styled.View`
   height: 55px;
@@ -19,9 +18,9 @@ export const Text = styled.Text`
 `;
 
 export const IconRight = styled(Icon)`
-  ${({ theme }) => css`
+  ${({ theme, color }) => css`
     font-size: ${theme.ICON.SIZE.MD}px;
-    color: ${theme.COLORS.TEAL};
+    color: ${color ? color : theme.COLORS.TEAL};
   `};
 `;
 

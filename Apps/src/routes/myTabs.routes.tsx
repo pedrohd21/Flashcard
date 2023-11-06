@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   tabBarStyle: {
     backgroundColor: theme.COLORS.GRAY_900,
     borderTopWidth: 1,
-    borderTopColor: '#75C6FF',
+    borderTopColor: theme.COLORS.PURPLE,
   },
   tabBarLabelStyle: {
     fontSize: 14,
@@ -30,8 +30,8 @@ export function MyTabs() {
         headerShown: false,
         tabBarStyle: styles.tabBarStyle,
         tabBarLabelStyle: styles.tabBarLabelStyle,
-        tabBarActiveTintColor: theme.COLORS.PURPLE,
-        tabBarInactiveTintColor: theme.COLORS.WHITE,
+        tabBarActiveTintColor: theme.COLORS.WHITE_LIGHT,
+        tabBarInactiveTintColor: theme.COLORS.PURPLE,
 
       }}
     >
@@ -51,6 +51,7 @@ export function MyTabs() {
       />
       <Tab.Screen name="Create" component={CreateFlashCard}
         options={{
+          tabBarStyle: {display: 'none'},
           tabBarIcon: ({ color }) => (
             <Icon name="plus" size={24} color={color} />
           ),
@@ -58,6 +59,7 @@ export function MyTabs() {
       />
       <Tab.Screen name="Practice" component={PracticeNow}
         options={{
+          tabBarStyle: {display: 'none'},
           tabBarIcon: ({ color }) => (
             <Icon name="feather-alt" size={20} color={color} />
           ),

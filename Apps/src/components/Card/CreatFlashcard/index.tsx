@@ -1,19 +1,19 @@
 import React from "react";
 import { Container, Text, TextBack, TextFront, BorderRadius } from "./styles";
-import { ButtonTitle } from "../ButtonTitle";
+import { ButtonTitle } from "../../ButtonTitle";
 
 type Props = {
   textFront: string;
   textBack: string;
 }
 
-export function Card({textFront, textBack}: Props) {
+export function CreateFlashcard({textFront, textBack}: Props) {
   return (
     <Container>
       <Text>
         Front
       </Text>
-      <TextFront>
+      <TextFront placeholder="Term (Front side)">
         {textFront}
       </TextFront>
       <BorderRadius />
@@ -21,7 +21,7 @@ export function Card({textFront, textBack}: Props) {
       <Text>
         Back
       </Text>
-      <TextBack>
+      <TextBack placeholder="Definition (back side)">
         {textBack}
       </TextBack>
       <BorderRadius />

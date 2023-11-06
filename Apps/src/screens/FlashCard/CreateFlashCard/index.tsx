@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import { Container } from "./styles";
 import { Header } from "../../../components/Header";
 import { Title } from "../../../components/Title";
-import { Card } from "../../../components/Card";
-import { ButtonIcon } from "../../../components/ButtonIcon";
+import { CreateFlashcard } from "../../../components/Card/CreatFlashcard";
 import { FlatList } from "react-native";
-
+import { ButtonIconBig } from "../../../components/ButtonIconBig";
 
 export function CreateFlashCard() {
 
@@ -25,22 +24,23 @@ export function CreateFlashCard() {
 
       <Title
         mainTitle="Title"
-        subTitle="teste"
+        subTitle="Title Flashcard"
       />
 
 
       <FlatList
         data={data}
         renderItem={({ item }) => (
-          <Card
+          <CreateFlashcard
             textFront={item.textFront}
             textBack={item.textBack}
           />
         )}
       />
-      
-      
-      <ButtonIcon iconName="plus" />
+
+
+      <ButtonIconBig
+        iconName="plus" />
     </Container>
-  )
+  );
 }

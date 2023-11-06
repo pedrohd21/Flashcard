@@ -5,12 +5,13 @@ import { useNavigation } from "@react-navigation/native";
 
 type Props = {
   title: string;
-  iconNameRight: string;
-  showBackButton: boolean;
-  showButtonRight: boolean;
+  iconNameRight?: string;
+  iconColorRight?: string;
+  showBackButton?: boolean;
+  showButtonRight?: boolean;
 }
 
-export function Header({ title, showBackButton, iconNameRight, showButtonRight }: Props) {
+export function Header({ title, showBackButton, iconNameRight, showButtonRight, iconColorRight }: Props) {
   const navigation = useNavigation();
 
   function handleGoBack() {
@@ -25,7 +26,7 @@ export function Header({ title, showBackButton, iconNameRight, showButtonRight }
       <Text>{title}</Text>
       {showButtonRight &&
         <ButtonRight>
-          <IconRight name={iconNameRight} />
+          <IconRight name={iconNameRight ? iconNameRight : ''} color={iconColorRight}/>
         </ButtonRight>
       }
 

@@ -10,6 +10,7 @@ export const MainTitle = styled.Text`
     color: ${theme.COLORS.WHITE};
   `};
   margin: 0 22px ;
+  font-family: 'Roboto-Bold';
 `;
 
 export const SubTitle = styled.TextInput`
@@ -22,5 +23,5 @@ export const SubTitle = styled.TextInput`
   padding-left: 10px;
   border-radius: 14px;
   height: 40px;
-
+  font-family: 'Roboto-Regular';
 `;
