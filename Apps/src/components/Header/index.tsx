@@ -9,9 +9,10 @@ type Props = {
   iconColorRight?: string;
   showBackButton?: boolean;
   showButtonRight?: boolean;
+  onPressButtonRight?: () => void;
 }
 
-export function Header({ title, showBackButton, iconNameRight, showButtonRight, iconColorRight }: Props) {
+export function Header({ title, showBackButton, iconNameRight, showButtonRight, iconColorRight, onPressButtonRight }: Props) {
   const navigation = useNavigation();
 
   function handleGoBack() {
@@ -25,7 +26,7 @@ export function Header({ title, showBackButton, iconNameRight, showButtonRight, 
         </ButtonBackIcon>}
       <Text>{title}</Text>
       {showButtonRight &&
-        <ButtonRight>
+        <ButtonRight onPress={onPressButtonRight}>
           <IconRight name={iconNameRight ? iconNameRight : ''} color={iconColorRight}/>
         </ButtonRight>
       }

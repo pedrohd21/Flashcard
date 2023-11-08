@@ -22,7 +22,7 @@ export const Text = styled.Text`
 export const TextFront = styled.TextInput`
  ${({ theme }) => css`
     font-size: ${theme.FONT_SIZE.MD}px;
-    color: ${theme.COLORS.GRAY_200};
+    color: ${theme.COLORS.WHITE};
     border-color: ${theme.COLORS.PURPLE};
   
   `};
@@ -33,7 +33,7 @@ export const TextFront = styled.TextInput`
 export const TextBack = styled.TextInput`
  ${({ theme }) => css`
     font-size: ${theme.FONT_SIZE.MD}px;
-    color: ${theme.COLORS.GRAY_200};
+    color: ${theme.COLORS.WHITE};
   `};
   padding-left: 10px;
   font-family: 'Roboto-Regular';

@@ -32,7 +32,6 @@ export function MyTabs() {
         tabBarLabelStyle: styles.tabBarLabelStyle,
         tabBarActiveTintColor: theme.COLORS.WHITE_LIGHT,
         tabBarInactiveTintColor: theme.COLORS.PURPLE,
-
       }}
     >
       <Tab.Screen name="Home" component={Home}

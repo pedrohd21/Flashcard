@@ -4,20 +4,20 @@ export const Container = styled.View`
   flex-direction: row;
   height: 70px;
   margin: 10px 22px;
+  width: 300px;
   background-color: ${({ theme }) => theme.COLORS.GRAY_500};
   border-radius: 14px ;
   align-items: center;
 `;
 
 export const ContainerText = styled.View`
-  width: 200px;
+  width: 250px;
   justify-content: center;
   padding-top: 20px;
 `;
 
 export const ContainerIcons = styled.View`
   flex-direction: row;
-  align-items: center;
 `;
 
 export const TextTitle = styled.Text`

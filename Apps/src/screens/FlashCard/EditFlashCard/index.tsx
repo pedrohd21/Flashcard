@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Container } from "./styles";
 import { Header } from "../../../components/Header";
 import { Title } from "../../../components/Title";
-import { CreateFlashcard } from "../../../components/Card/CreatFlashcard";
+import { CreateFlashcard } from "../../../components/Card/CreatFlashcardCard";
 import { FlatList } from "react-native";
 import { ButtonIconBig } from "../../../components/ButtonIconBig";
 

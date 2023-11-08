@@ -1,11 +1,12 @@
 import styled, {css} from "styled-components/native";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { TouchableOpacity } from 'react-native';
 
-export const Button = styled.TouchableOpacity`
+
+export const Button = styled(TouchableOpacity)`
 ${({ theme }) => css`
   background-color: ${theme.COLORS.PURPLE};
 `};
-  flex: 1;
   border-radius: 50px;
   width: 60px;
   height: 60px;

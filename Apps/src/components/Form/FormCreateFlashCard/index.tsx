@@ -7,7 +7,7 @@ type Props = {
   textBack: string;
 }
 
-export function CreateFlashcard({textFront, textBack}: Props) {
+export function FormCreateFlashcard({textFront, textBack}: Props) {
   return (
     <Container>
       <Text>
