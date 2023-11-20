@@ -22,7 +22,7 @@ export function Home() {
       <Header title='FlashCard' iconNameRight="bell-slash" showButtonRight={true} iconColorRight={theme.COLORS.RED}/>
       
       <ListFlashcard
-      
+        
       />
     </Container>
   )

@@ -2,33 +2,27 @@ import React, { useState, useRef, useEffect } from "react";
 import { Container } from "./styles";
 import { Header } from "../../../components/Header";
 import { Title } from "../../../components/Title";
-import { CreatFlashcardCard } from "../../../components/Card/CreatFlashcardCard";
+import { CreateFlashcardCard } from "../../../components/Card/CreateFlashcardCard";
 import { FlatList, Keyboard } from "react-native";
 import { ButtonIconBig } from "../../../components/ButtonIconBig";
 
+
 export function CreateFlashCard() {
   const [flashcards, setFlashcards] = useState([
-    { key: '', textFront: '', textBack: '' },
+    { textFront: '', textBack: '' },
   ]);
   const flatListRef = useRef<FlatList | null>(null);
   const [nextCardKey, setNextCardKey] = useState(1);
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
-
   function addFlashcard() {
     if (flatListRef.current) {
-      flatListRef.current.scrollToEnd({ animated: true, }); // Você pode especificar 'animated' como verdadeiro ou falso
+      flatListRef.current.scrollToEnd({ animated: true, });
     }
-    const newCard = {
-      key: nextCardKey.toString(),
-      textFront: '',
-      textBack: '',
-    };
-
-    setFlashcards([...flashcards, newCard]);
-    setNextCardKey(nextCardKey + 1); // Atualiza a próxima chave
-
+  
+    setFlashcards([...flashcards, {textFront: '', textBack: ''}]);
+    setNextCardKey(nextCardKey + 1);
   }
 
   function removeFlashcard() {
@@ -36,6 +30,13 @@ export function CreateFlashCard() {
   }
 
   function salvaFlashcard() {
+    console.log({ ...flashcards })
+  }
+
+  function handleTextChange(index: number, field: 'textFront' | 'textBack', value: string) {
+    const updatedFlashcards = [...flashcards];
+    updatedFlashcards[index][field] = value;
+    setFlashcards(updatedFlashcards);
 
   }
 
@@ -43,7 +44,7 @@ export function CreateFlashCard() {
     const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
       setKeyboardVisible(false);
     });
-    
+
     return () => {
       hideSubscription.remove();
     };
@@ -67,23 +68,24 @@ export function CreateFlashCard() {
       <FlatList
         ref={flatListRef}
         data={flashcards}
-        renderItem={({ item }) => (
-          <CreatFlashcardCard
+        renderItem={({ item, index }) => (
+          <CreateFlashcardCard
             textFront={item.textFront}
             textBack={item.textBack}
             onPressButton={removeFlashcard}
+            onChangeTextFront={(value) => handleTextChange(index, 'textFront', value)}
+            onChangeTextBack={(value) => handleTextChange(index, 'textBack', value)}
           />
         )}
 
       />
+
       {isKeyboardVisible ? null : (
-          <ButtonIconBig
-            iconName="plus"
-            onPress={addFlashcard}
-          />
+        <ButtonIconBig
+          iconName="plus"
+          onPress={addFlashcard}
+        />
       )}
-
-
     </Container>
   );
 }

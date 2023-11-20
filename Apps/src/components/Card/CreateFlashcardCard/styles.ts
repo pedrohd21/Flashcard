@@ -14,6 +14,7 @@ export const Text = styled.Text`
     font-size: ${theme.FONT_SIZE.LG}px;
     color: ${theme.COLORS.WHITE};
   `};
+  
   font-family: 'Roboto-Bold';
   padding-left: 10px;
   padding-top: 5px;
@@ -26,6 +27,7 @@ export const TextFront = styled.TextInput`
     border-color: ${theme.COLORS.PURPLE};
   
   `};
+ 
   padding-left: 10px;
   font-family: 'Roboto-Regular';
 `;

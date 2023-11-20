@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Container } from "./styles";
 import { Header } from "../../../components/Header";
 import { Title } from "../../../components/Title";
-import { CreateFlashcard } from "../../../components/Card/CreatFlashcardCard";
+import { CreateFlashcardCard } from "../../../components/Card/CreateFlashcardCard";
 import { FlatList } from "react-native";
 import { ButtonIconBig } from "../../../components/ButtonIconBig";
 
@@ -29,15 +29,16 @@ export function EditFlashCard() {
       />
 
 
-      <FlatList
+      {/* <FlatList
         data={data}
         renderItem={({ item }) => (
-          <CreateFlashcard
+          <CreateFlashcardCard
             textFront={item.textFront}
             textBack={item.textBack}
+            
           />
         )}
-      />
+      /> */}
 
       <ButtonIconBig
         iconName="plus" />

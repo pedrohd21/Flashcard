@@ -4,17 +4,26 @@ import { ButtonTitle } from "../../ButtonTitle";
 
 type Props = {
   textFront: string;
+  onChangeTextFront: (value: string) => void;
+
   textBack: string;
+  onChangeTextBack: (value: string) => void;
+
+  key?: number;
   onPressButton?: () => void;
 }
 
-export function CreatFlashcardCard({ textFront, textBack, onPressButton }: Props) {
+export function CreateFlashcardCard({ textFront, onChangeTextFront, textBack, onChangeTextBack, onPressButton, key }: Props) {
   return (
     <Container>
       <Text>
         Front
       </Text>
-      <TextFront placeholder="Term (Front side)" keyboardAppearance="default">
+      <TextFront
+        placeholder="Term (Front side)"
+        keyboardAppearance="default"
+        onChangeText={onChangeTextFront}
+      >
         {textFront}
       </TextFront>
       <BorderRadius />
@@ -22,9 +31,13 @@ export function CreatFlashcardCard({ textFront, textBack, onPressButton }: Props
       <Text>
         Back
       </Text>
-      <TextBack placeholder="Definition (back side)">
+      <TextBack
+        placeholder="Definition (back side)"
+        keyboardAppearance="default"
+        onChangeText={onChangeTextBack}
+      >
         {textBack}
-      </TextBack>
+      </TextBack >
       <BorderRadius />
       <ButtonTitle
         onPressOut={onPressButton}

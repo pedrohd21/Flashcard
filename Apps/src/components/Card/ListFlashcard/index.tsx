@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, ContainerIcons, ContainerText, TextTitle, TextContent } from "./styles";
 import { ButtonIconSmall } from "../../ButtonIconSmall";
-import theme from "../../../theme";
+
 
 type Props = {
   textFront: string;
