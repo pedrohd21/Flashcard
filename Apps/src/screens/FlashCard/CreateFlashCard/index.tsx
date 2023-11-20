@@ -9,23 +9,28 @@ import { ButtonIconBig } from "../../../components/ButtonIconBig";
 
 export function CreateFlashCard() {
   const [flashcards, setFlashcards] = useState([
-    { textFront: '', textBack: '' },
+    { id: 0, textFront: '', textBack: '' },
   ]);
   const flatListRef = useRef<FlatList | null>(null);
   const [nextCardKey, setNextCardKey] = useState(1);
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
-  function addFlashcard() {
+  async function addFlashcard() {
     if (flatListRef.current) {
       flatListRef.current.scrollToEnd({ animated: true, });
     }
-  
-    setFlashcards([...flashcards, {textFront: '', textBack: ''}]);
     setNextCardKey(nextCardKey + 1);
+    setFlashcards([...flashcards, { id: nextCardKey, textFront: '', textBack: '' }]);
+    console.log(flashcards)
+
   }
 
-  function removeFlashcard() {
+  async function removeFlashcard(id: number) {
+    console.log({flashcards})
+    const newFlashcards = flashcards.filter(flashcard => flashcard.id !== id);
+    setFlashcards(newFlashcards);
+    console.log({flashcards})
 
   }
 
@@ -44,11 +49,13 @@ export function CreateFlashCard() {
     const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
       setKeyboardVisible(false);
     });
-
+    console.log(flashcards)
     return () => {
       hideSubscription.remove();
     };
-  }, []);
+    
+  }, [[flashcards]]);
+
 
   return (
     <Container>
@@ -62,7 +69,7 @@ export function CreateFlashCard() {
 
       <Title
         mainTitle="Titles"
-        subTitle="Title Flashcard"
+        subTitle=''
       />
 
       <FlatList
@@ -72,7 +79,7 @@ export function CreateFlashCard() {
           <CreateFlashcardCard
             textFront={item.textFront}
             textBack={item.textBack}
-            onPressButton={removeFlashcard}
+            onPressButton={() => (removeFlashcard(item.id))}
             onChangeTextFront={(value) => handleTextChange(index, 'textFront', value)}
             onChangeTextBack={(value) => handleTextChange(index, 'textBack', value)}
           />

@@ -4,7 +4,6 @@ export const Container = styled.View`
   flex-direction: row;
   height: 70px;
   margin: 10px 22px;
-  width: 300px;
   background-color: ${({ theme }) => theme.COLORS.GRAY_500};
   border-radius: 14px ;
   align-items: center;

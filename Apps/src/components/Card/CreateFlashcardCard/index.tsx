@@ -9,11 +9,11 @@ type Props = {
   textBack: string;
   onChangeTextBack: (value: string) => void;
 
-  key?: number;
+
   onPressButton?: () => void;
 }
 
-export function CreateFlashcardCard({ textFront, onChangeTextFront, textBack, onChangeTextBack, onPressButton, key }: Props) {
+export function CreateFlashcardCard({ textFront, onChangeTextFront, textBack, onChangeTextBack, onPressButton }: Props) {
   return (
     <Container>
       <Text>

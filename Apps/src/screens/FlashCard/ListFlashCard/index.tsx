@@ -4,6 +4,8 @@ import { Header } from "../../../components/Header";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { ListFlashcard } from "../../../components/Card/ListFlashcard";
 
+import { FlatList } from "react-native-reanimated/lib/typescript/Animated";
+
 
 export function ListFlashCard() {
   return (
@@ -20,3 +22,4 @@ export function ListFlashCard() {
     </Container>
   )
 }
+
