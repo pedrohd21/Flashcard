@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, ContainerIcons, ContainerText, TextTitle, TextContent } from "./styles";
+import { Container, ContainerIcons, TextTitle, TextContent } from "./styles";
 import { ButtonIconSmall } from "../../ButtonIconSmall";
 
 
@@ -11,18 +11,16 @@ type Props = {
 export function ListFlashcard() {
   return (
     <Container>
-      <ContainerText>
-        <TextTitle>
-          Front
-        </TextTitle>
-        <TextContent >
-          Description
-        </TextContent>
-      </ContainerText>
+      <TextTitle>
+        Vocabulario
+      </TextTitle>
+      <TextContent >
+        As palavras usadas em ingles ingles 
+      </TextContent>
 
       <ContainerIcons>
         <ButtonIconSmall
-          iconName="pen-square" 
+          iconName="pen-square"
         />
         <ButtonIconSmall
           iconName="trash"

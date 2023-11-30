@@ -1,22 +1,19 @@
 import styled, { css } from "styled-components/native";
 
 export const Container = styled.View`
-  flex-direction: row;
-  height: 70px;
+  flex-direction: column;
+  height: 90px;
   margin: 10px 22px;
   background-color: ${({ theme }) => theme.COLORS.GRAY_500};
   border-radius: 14px ;
-  align-items: center;
-`;
-
-export const ContainerText = styled.View`
-  width: 250px;
-  justify-content: center;
-  padding-top: 20px;
+  /* align-items: center; */
 `;
 
 export const ContainerIcons = styled.View`
   flex-direction: row;
+  position: absolute;
+  top: 15px;
+  right: 0;
 `;
 
 export const TextTitle = styled.Text`
@@ -27,6 +24,8 @@ export const TextTitle = styled.Text`
   padding: 5px 10px ;
   font-family: 'Roboto-Bold' ;
   height: 30px;
+  width: 70%;
+  justify-content: center;
 `;
 
 export const TextContent = styled.Text`
@@ -36,8 +35,10 @@ export const TextContent = styled.Text`
     border-color: ${theme.COLORS.PURPLE};
   
   `};
-  padding-left: 10px;
+  /* padding: 0px 15px; */
+  padding-left: 18px;
   font-family: 'Roboto-Regular' ;
-  height: 42px;
+  height: 60px;
+  width: 70%;
 `;
 

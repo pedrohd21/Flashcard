@@ -6,9 +6,9 @@ export declare global {
       LoginAccount: undefined;
       ViewProfile: undefined;
 
-      CreateCategory: undefined;
-      EditCategory: undefined;
-      ListCategory: undefined;
+      CreateDeck: undefined;
+      EditDeck: undefined;
+      ListDeck: undefined;
 
       EditFlashCard: undefined;
       ListFlashCard: undefined;

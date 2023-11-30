@@ -6,7 +6,7 @@ import { Home } from '../screens/Home';
 import { ViewProfile } from '../screens/Account/ViewProfile';
 import { CreateFlashCard } from '../screens/FlashCard/CreateFlashCard';
 import { PracticeNow } from '../screens/Practice/PracticeNow';
-import { ListCategory } from '../screens/Category/ListCategory';
+import { ListDeck } from '../screens/Deck/ListDeck';
 import theme from '../theme';
 
 
@@ -41,7 +41,7 @@ export function MyTabs() {
           ),
         }}
       />
-      <Tab.Screen name="Categorys" component={ListCategory}
+      <Tab.Screen name="Decks" component={ListDeck}
         options={{
           tabBarIcon: ({ color }) => (
             <Icon name="folder" size={20} color={color} />

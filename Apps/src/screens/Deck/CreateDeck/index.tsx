@@ -4,10 +4,10 @@ import { Header } from "../../../components/Header";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 
-export function ListCategory() {
+export function CreateDeck() {
   return (
     <Container>
-      <Header title='' showIcon={true}/>
+      <Header title='Decks'  />
     </Container>
   )
 }

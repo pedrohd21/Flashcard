@@ -16,22 +16,17 @@ export function CreateFlashCard() {
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
-  async function addFlashcard() {
+  function addFlashcard() {
     if (flatListRef.current) {
       flatListRef.current.scrollToEnd({ animated: true, });
     }
     setNextCardKey(nextCardKey + 1);
     setFlashcards([...flashcards, { id: nextCardKey, textFront: '', textBack: '' }]);
-    console.log(flashcards)
-
   }
 
-  async function removeFlashcard(id: number) {
-    console.log({flashcards})
+  function removeFlashcard(id: number) {
     const newFlashcards = flashcards.filter(flashcard => flashcard.id !== id);
     setFlashcards(newFlashcards);
-    console.log({flashcards})
-
   }
 
   function salvaFlashcard() {
@@ -42,6 +37,7 @@ export function CreateFlashCard() {
     const updatedFlashcards = [...flashcards];
     updatedFlashcards[index][field] = value;
     setFlashcards(updatedFlashcards);
+    console.log(updatedFlashcards)
 
   }
 
@@ -53,14 +49,14 @@ export function CreateFlashCard() {
     return () => {
       hideSubscription.remove();
     };
-    
+
   }, [[flashcards]]);
 
 
   return (
     <Container>
       <Header
-        title='Create Flashcard'
+        title='Create Flashcards'
         showButtonRight={true}
         showBackButton={true}
         iconNameRight='check'

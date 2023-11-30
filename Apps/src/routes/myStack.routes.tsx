@@ -6,8 +6,8 @@ import React from 'react';
 import { CreateAccount } from '../screens/Account/CreateAccount';
 import { LoginAccount } from '../screens/Account/LoginAccount';
 
-import { CreateCategory } from '../screens/Category/CreateCategory';
-import { EditCategory } from '../screens/Category/EditCategory';
+import { CreateDeck } from '../screens/Deck/CreateDeck';
+import { EditDeck } from '../screens/Deck/EditDeck';
 
 import { CreateFlashCard } from '../screens/FlashCard/CreateFlashCard';
 import { EditFlashCard } from '../screens/FlashCard/EditFlashCard';
@@ -33,8 +33,8 @@ export function MyStack() {
         <Stack.Screen name="CreateAccount" component={CreateAccount} />
         <Stack.Screen name="CreateFlashCard" component={CreateFlashCard} />
         <Stack.Screen name="LoginAccount" component={LoginAccount} />
-        <Stack.Screen name="CreateCategory" component={CreateCategory} />
-        <Stack.Screen name="EditCategory" component={EditCategory} />
+        <Stack.Screen name="CreateDeck" component={CreateDeck} />
+        <Stack.Screen name="EditDeck" component={EditDeck} />
         <Stack.Screen name="EditFlashCard" component={EditFlashCard} />
         <Stack.Screen name="ListFlashCard" component={ListFlashCard} />
         <Stack.Screen name="ListPractice" component={ListPractice} />
