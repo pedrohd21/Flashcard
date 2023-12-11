@@ -10,7 +10,7 @@ export const Container = styled.View`
 export const Text = styled.Text`
   ${({ theme }) => css`
     font-size: ${theme.FONT_SIZE.XL}px;
-    color: ${theme.COLORS.PURPLE};
+    color: ${theme.COLORS.BLUE};
   `};
   font-family: 'Roboto-Bold';
   position: absolute;
@@ -39,7 +39,7 @@ export const ButtonRight = styled.TouchableOpacity`
 export const IconBack = styled(Icon)`
   ${({ theme }) => css`
       font-size: ${theme.ICON.SIZE.MD}px;
-      color: ${theme.COLORS.PURPLE};
+      color: ${theme.COLORS.BLUE};
     `};
    
 `;

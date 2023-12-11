@@ -1,9 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { DecksGetAll } from './DecksGetAll';
+import { DecksGetAll } from './decksGetAll';
 import { DECK_COLLECTION } from '../storageConfig';
 
-export async function deckCreate(newDeck: string) {
+export async function CreateDeck(newDeck: string) {
   try{
     const storedDecks = await DecksGetAll();
 

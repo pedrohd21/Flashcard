@@ -11,12 +11,12 @@ export function Title({ mainTitle, subTitle }: Props) {
   return (
     <Container>
       <MainTitle>
-        {mainTitle}
+        {mainTitle}:
       </MainTitle>
 
-      <SubTitle
-        placeholder={subTitle}
-      />
+      <SubTitle>
+        {subTitle}
+      </SubTitle>
     </Container>
 
   )

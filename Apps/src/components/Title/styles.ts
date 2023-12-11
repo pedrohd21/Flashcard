@@ -1,27 +1,26 @@
 import styled, { css } from "styled-components/native";
 
 export const Container = styled.View`
-  height: 72px;
-  flex-direction: column;
+  flex-direction: row;
+  height: 40px;
+  margin: 30px 10px 0px;
+  border-radius: 14px ;
+  /* justify-content: center; */
+  align-items: center;
 `;
 export const MainTitle = styled.Text`
   ${({ theme }) => css`
     font-size: ${theme.FONT_SIZE.LG}px;
     color: ${theme.COLORS.WHITE};
   `};
-  margin: 0 22px ;
+  margin: 0 10px ;
   font-family: 'Roboto-Bold';
 `;
 
-export const SubTitle = styled.TextInput`
+export const SubTitle = styled.Text`
   ${({ theme }) => css`
-    background-color: ${theme.COLORS.GRAY_500};
-    font-size: ${theme.FONT_SIZE.MD}px;
+    font-size: ${theme.FONT_SIZE.LG}px;
     color: ${theme.COLORS.WHITE};
   `};
-  margin: 5px 20px;
-  padding-left: 10px;
-  border-radius: 14px;
-  height: 40px;
   font-family: 'Roboto-Regular';
 `;

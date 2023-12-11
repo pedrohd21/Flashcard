@@ -3,9 +3,13 @@ import { Container } from "./styles";
 import { Header } from "../../../components/Header";
 import { Title } from "../../../components/Title";
 import { CreateFlashcardCard } from "../../../components/Card/CreateFlashcardCard";
-import { FlatList, Keyboard } from "react-native";
-import { ButtonIconBig } from "../../../components/ButtonIconBig";
+import { FlatList } from "react-native";
+import { useRoute, useNavigation } from '@react-navigation/native';
+import { DecksGetAll } from '../../../storage/deck/decksGetAll';
 
+type RouteParams = {
+  deck: string;
+}
 
 export function CreateFlashCard() {
   const [flashcards, setFlashcards] = useState([
@@ -14,7 +18,8 @@ export function CreateFlashCard() {
   const flatListRef = useRef<FlatList | null>(null);
   const [nextCardKey, setNextCardKey] = useState(1);
 
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  const route = useRoute();
+  const { deck } = route.params as RouteParams;
 
   function addFlashcard() {
     if (flatListRef.current) {
@@ -29,8 +34,10 @@ export function CreateFlashCard() {
     setFlashcards(newFlashcards);
   }
 
-  function salvaFlashcard() {
-    console.log({ ...flashcards })
+  async function salvaFlashcard() {
+    
+    const data = await DecksGetAll();
+    console.log( data )
   }
 
   function handleTextChange(index: number, field: 'textFront' | 'textBack', value: string) {
@@ -40,18 +47,6 @@ export function CreateFlashCard() {
     console.log(updatedFlashcards)
 
   }
-
-  useEffect(() => {
-    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
-      setKeyboardVisible(false);
-    });
-    console.log(flashcards)
-    return () => {
-      hideSubscription.remove();
-    };
-
-  }, [[flashcards]]);
-
 
   return (
     <Container>
@@ -64,31 +59,16 @@ export function CreateFlashCard() {
       />
 
       <Title
-        mainTitle="Titles"
-        subTitle=''
+        mainTitle="Deck"
+        subTitle='Vocabulario'
       />
 
-      <FlatList
-        ref={flatListRef}
-        data={flashcards}
-        renderItem={({ item, index }) => (
-          <CreateFlashcardCard
-            textFront={item.textFront}
-            textBack={item.textBack}
-            onPressButton={() => (removeFlashcard(item.id))}
-            onChangeTextFront={(value) => handleTextChange(index, 'textFront', value)}
-            onChangeTextBack={(value) => handleTextChange(index, 'textBack', value)}
-          />
-        )}
-
+      <CreateFlashcardCard
+        onChangeTextBack={() => { }}
+        onChangeTextFront={() => { }}
+        textBack=""
+        textFront=""
       />
-
-      {isKeyboardVisible ? null : (
-        <ButtonIconBig
-          iconName="plus"
-          onPress={addFlashcard}
-        />
-      )}
     </Container>
   );
 }

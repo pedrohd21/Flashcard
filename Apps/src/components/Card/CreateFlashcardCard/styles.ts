@@ -2,11 +2,9 @@ import styled, { css } from "styled-components/native";
 
 export const Container = styled.View`
   flex-direction: column;
-  height: 190px;
-  margin: 10px 22px;
-  background-color: ${({ theme }) => theme.COLORS.GRAY_500};
+  height: 100%;
+  margin: 10px 10px;
   border-radius: 14px ;
-  justify-content: center;
 `;
 
 export const Text = styled.Text`
@@ -17,19 +15,23 @@ export const Text = styled.Text`
   
   font-family: 'Roboto-Bold';
   padding-left: 10px;
-  padding-top: 5px;
+  padding-top: 20px;
 `;
 
 export const TextFront = styled.TextInput`
  ${({ theme }) => css`
     font-size: ${theme.FONT_SIZE.MD}px;
     color: ${theme.COLORS.WHITE};
-    border-color: ${theme.COLORS.PURPLE};
-  
+    border-color: ${theme.COLORS.BLUE};
   `};
- 
+  padding-top: 15px;
   padding-left: 10px;
   font-family: 'Roboto-Regular';
+
+  max-height: 200px;
+  border-bottom-width: 2px; 
+  margin: -12px 6px 0;
+  border-bottom-width: 2px;
 `;
 
 export const TextBack = styled.TextInput`
@@ -37,15 +39,11 @@ export const TextBack = styled.TextInput`
     font-size: ${theme.FONT_SIZE.MD}px;
     color: ${theme.COLORS.WHITE};
   `};
+  max-height: 200px;
   padding-left: 10px;
+  padding-top: 15px;
   font-family: 'Roboto-Regular';
-`;
 
-export const BorderRadius = styled.Text`
- ${({ theme }) => css`
-    border-color: ${theme.COLORS.PURPLE};
-  `};
   border-bottom-width: 2px; 
-  height: 1px;
   margin: -12px 6px 0;
 `;

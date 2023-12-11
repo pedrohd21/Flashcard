@@ -6,7 +6,6 @@ export const Container = styled.View`
   margin: 10px 22px;
   background-color: ${({ theme }) => theme.COLORS.GRAY_500};
   border-radius: 14px ;
-  /* align-items: center; */
 `;
 
 export const ContainerIcons = styled.View`
@@ -32,7 +31,7 @@ export const TextContent = styled.Text`
  ${({ theme }) => css`
     font-size: ${theme.FONT_SIZE.LG}px;
     color: ${theme.COLORS.GRAY_200};
-    border-color: ${theme.COLORS.PURPLE};
+    border-color: ${theme.COLORS.BLUE};
   
   `};
   /* padding: 0px 15px; */

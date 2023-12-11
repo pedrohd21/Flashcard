@@ -11,7 +11,7 @@ export default {
 
     RED: '#ED585E', // Cor vermelha
 
-    PURPLE: '#6B5CCB', // Cor roxa
+    BLUE: '#446FF2', // Cor azul
 
     TEAL: '#5CD7D2', // Cor verde-azulado
 

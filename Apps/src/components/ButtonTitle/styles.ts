@@ -5,10 +5,13 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 export const Button = styled.TouchableOpacity`
   flex-direction: row;
   height: 30px;
-  width: 110px;
-  background-color: red; 
+  width: 130px;
+  background-color: ${({ theme }) => theme.COLORS.BLUE};
   margin: auto;
   border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+
 `;
 
 export const Text = styled.Text`
@@ -17,15 +20,13 @@ export const Text = styled.Text`
   color: ${theme.COLORS.GRAY_900};
 `};
   font-family: 'Roboto-Bold';
-  margin: auto 18px;
+
 `;
 
 export const Icon = styled(FontAwesome5)`
 ${({ theme }) => css`
-  font-size: ${theme.ICON.SIZE.SM}px;
+  font-size: ${theme.ICON.SIZE.MD}px;
   color: ${theme.COLORS.GRAY_900};
 `};
-  position: absolute;
-  top: 6px; 
-  right: 18px;
+  padding-left: 10px;
 `;

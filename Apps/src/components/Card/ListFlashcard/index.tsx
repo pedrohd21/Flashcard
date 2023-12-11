@@ -1,32 +1,24 @@
 import React from "react";
-import { Container, ContainerIcons, TextTitle, TextContent } from "./styles";
-import { ButtonIconSmall } from "../../ButtonIconSmall";
+import { Container, TextTitle, TextContent } from "./styles";
 
 
 type Props = {
-  textFront: string;
-  textBack: string;
+  textTitle: string;
+  textContent: string;
 }
 
-export function ListFlashcard() {
+export function ListFlashcard({textTitle, textContent}: Props) {
+ 
   return (
     <Container>
       <TextTitle>
         Vocabulario
+        {textTitle}
       </TextTitle>
       <TextContent >
         As palavras usadas em ingles ingles 
+        {textContent}
       </TextContent>
-
-      <ContainerIcons>
-        <ButtonIconSmall
-          iconName="pen-square"
-        />
-        <ButtonIconSmall
-          iconName="trash"
-        />
-      </ContainerIcons>
-
     </Container>
   );
 }

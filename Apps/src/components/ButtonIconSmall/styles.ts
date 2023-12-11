@@ -12,7 +12,7 @@ export const Button = styled(TouchableOpacity)`
 export const Icon = styled(FontAwesome5)`
 ${({ theme, size, color }) => css`
     font-size: ${size ? size : theme.ICON.SIZE.LG}px;
-    color: ${color ? color : theme.COLORS.PURPLE};
+    color: ${color ? color : theme.COLORS.BLUE};
   `};
   margin: auto;
 

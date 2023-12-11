@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {DECK_COLLECTION, FLASHCARD_COLLECTION} from '../storageConfig';
 
-import { DecksGetAll } from './DecksGetAll';
+import { DecksGetAll } from './decksGetAll';
 
 export async function groupRemoveByName(deckDeleted: string) {
   try {
