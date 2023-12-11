@@ -7,9 +7,9 @@ import { FlatList } from "react-native";
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { DecksGetAll } from '../../../storage/deck/decksGetAll';
 
-type RouteParams = {
-  deck: string;
-}
+// type RouteParams = {
+//   deck: string;
+// }
 
 export function CreateFlashCard() {
   const [flashcards, setFlashcards] = useState([
@@ -19,7 +19,7 @@ export function CreateFlashCard() {
   const [nextCardKey, setNextCardKey] = useState(1);
 
   const route = useRoute();
-  const { deck } = route.params as RouteParams;
+  // const { deck } = route.params as RouteParams;
 
   function addFlashcard() {
     if (flatListRef.current) {
