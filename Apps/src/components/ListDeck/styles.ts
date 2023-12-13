@@ -1,6 +1,7 @@
+import { TouchableOpacity } from "react-native";
 import styled, { css } from "styled-components/native";
 
-export const Container = styled.View`
+export const ButtonContainer = styled(TouchableOpacity)`
   flex-direction: row;
   height: 50px;
 

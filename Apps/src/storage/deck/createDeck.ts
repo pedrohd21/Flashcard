@@ -10,8 +10,7 @@ export async function CreateDeck(newDeck: string) {
     const deckAlreadyExists = storedDecks.includes(newDeck);
 
     if (deckAlreadyExists){
-      console.log('ja existe um deck cadastrado com esse nome')
-      throw 'ja existe um deck cadastrado com esse nome'
+      throw new Error ('ja existe um deck cadastrado com esse nome')
     }
     const storage = JSON.stringify([...storedDecks, newDeck])
     await AsyncStorage.setItem(DECK_COLLECTION, storage);

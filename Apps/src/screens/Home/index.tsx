@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { Container, ModalContainer, ModalContent, Text, ModalButton, TextInput, ButtonModalContainer } from "./styles";
 import { Header } from "../../components/Header";
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { ListFlashcard } from "../../components/Card/ListFlashcard";
+import { ListDeck } from "../../components/ListDeck";
 import theme from "../../theme";
 import { ButtonIconBig } from "../../components/ButtonIconBig";
 import { Alert, Modal, FlatList } from 'react-native';
@@ -21,15 +21,14 @@ export function Home() {
   };
 
   function closeModal() {
-    console.log(decks)
     setModalVisible(false);
     setDeckName('')
   };
 
   async function handleSave() {
     try {
+      const deckNameGroup = await DecksGetAll();
       if (deckName.trim().length === 0) {
-        console.log('#############', deckName)
         throw new Error('Não é possível salvar sem um nome.');
       }
       await CreateDeck(deckName);
@@ -38,8 +37,7 @@ export function Home() {
       navigation.navigate('CreateFlashCard', { deckName });
       setDeckName('')
     } catch (error: any) {
-      console.log(error.message)
-      Alert.alert(error.message);
+      Alert.alert('Error', error.message);
     }
   }
   
@@ -49,7 +47,6 @@ export function Home() {
       setDecks(data)
     } catch (error) {
       Alert.alert('Decks', 'Não foi possível carregar os Decks.');
-      console.log(error);
     } 
   }
   
@@ -64,14 +61,13 @@ export function Home() {
   return (
     <Container>
       <Header title='FlashCard' iconNameRight="bell-slash" showButtonRight={true} iconColorRight={theme.COLORS.RED} />
-      <ListFlashcard
-        textTitle=""
-      />
+  
       <FlatList
         data={decks}
         keyExtractor={(item) => item}
         renderItem={({ item }) => (
-          <ListFlashcard
+          <ListDeck
+            onPress={() => {}}
             textTitle={item}
           />
         )}
