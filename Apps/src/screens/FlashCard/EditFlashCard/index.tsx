@@ -4,7 +4,7 @@ import { Header } from "../../../components/Header";
 import { Title } from "../../../components/Title";
 import { CreateFlashcardCard } from "../../../components/Card/CreateFlashcardCard";
 import { FlatList } from "react-native";
-import { ButtonIconBig } from "../../../components/ButtonIconBig";
+import { ButtonIconBig } from "../../../components/Botton/ButtonIconBig";
 
 
 export function EditFlashCard() {
@@ -25,7 +25,6 @@ export function EditFlashCard() {
 
       <Title
         mainTitle="Title"
-        subTitle="Title FlashCard"
       />
 
 

@@ -16,7 +16,8 @@ export default {
     TEAL: '#5CD7D2', // Cor verde-azulado
 
     GRAY_1000: '#080808',  // Tonalidade de cinza mais escura
-    GRAY_900: '#01040B',  // Tonalidade de cinza mais escura
+    GRAY_900: '#0D0D0D',  // Tonalidade de cinza mais escura
+    // GRAY_900: '#01040B',  // Tonalidade de cinza mais escura
     GRAY_500: '#1A1D26',  // Tonalidade de cinza mais escura
     
     GRAY_200: '#61677A',  // Tonalidade de cinza

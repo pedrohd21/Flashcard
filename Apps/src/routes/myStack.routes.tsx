@@ -9,6 +9,7 @@ import { LoginAccount } from '../screens/Account/LoginAccount';
 
 import { CreateFlashCard } from '../screens/FlashCard/CreateFlashCard';
 import { EditFlashCard } from '../screens/FlashCard/EditFlashCard';
+import { ListFlashCard } from '../screens/FlashCard/ListFlashCard';
 
 const Stack = createStackNavigator();
 
@@ -27,6 +28,7 @@ export function MyStack() {
         <Stack.Screen name="CreateFlashCard" component={CreateFlashCard} />
         <Stack.Screen name="LoginAccount" component={LoginAccount} />
         <Stack.Screen name="EditFlashCard" component={EditFlashCard} />   
+        <Stack.Screen name="ListFlashCard" component={ListFlashCard} />   
       </Stack.Navigator>
     </NavigationContainer>
   )

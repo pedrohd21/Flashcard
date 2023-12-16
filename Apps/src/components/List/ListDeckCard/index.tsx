@@ -1,13 +1,13 @@
 import React from "react";
 import { ButtonContainer, TextTitle } from "./styles";
-import { ButtonIconSmall } from "../ButtonIconSmall";
+import { ButtonIconSmall } from "../../Botton/ButtonIconSmall";
 import { TouchableOpacityProps } from "react-native";
 
 type Props = TouchableOpacityProps &  {
   textTitle: string;
 }
 
-export function ListFlashcard({textTitle, ...rest}: Props) {
+export function ListDeckCard({textTitle, ...rest}: Props) {
   return (
     <ButtonContainer {...rest}>
       <TextTitle>

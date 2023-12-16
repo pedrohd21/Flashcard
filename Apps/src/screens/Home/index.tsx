@@ -2,12 +2,14 @@ import React, { useEffect, useState, useCallback } from "react";
 import { Container, ModalContainer, ModalContent, Text, ModalButton, TextInput, ButtonModalContainer } from "./styles";
 import { Header } from "../../components/Header";
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { ListDeck } from "../../components/ListDeck";
+
 import theme from "../../theme";
-import { ButtonIconBig } from "../../components/ButtonIconBig";
 import { Alert, Modal, FlatList } from 'react-native';
 import { CreateDeck } from '../../storage/deck/createDeck';
 import { DecksGetAll } from '../../storage/deck/decksGetAll'
+import { Loading } from "../../components/Loading";
+import { ListDeckCard } from "../../components/List/ListDeckCard";
+import { ButtonIconBig } from "../../components/Botton/ButtonIconBig";
 
 export function Home() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -15,7 +17,8 @@ export function Home() {
   const [decks, setDecks] = useState<string[]>([]);
 
   const navigation = useNavigation();
-  
+  const [isLoading, setIsLoading] = useState(true);
+
   function openModal() {
     setModalVisible(true);
   };
@@ -32,27 +35,33 @@ export function Home() {
         throw new Error('Não é possível salvar sem um nome.');
       }
       await CreateDeck(deckName);
-      closeModal(); 
-      fetchDecks(); 
+      closeModal();
+      fetchDecks();
       navigation.navigate('CreateFlashCard', { deckName });
       setDeckName('')
     } catch (error: any) {
       Alert.alert('Error', error.message);
     }
   }
-  
+
+  function navegar(deckName: string) {
+    navigation.navigate('ListFlashCard', { deckName })
+  }
   async function fetchDecks() {
     try {
+      setIsLoading(true);
       const data = await DecksGetAll();
       setDecks(data)
     } catch (error) {
       Alert.alert('Decks', 'Não foi possível carregar os Decks.');
-    } 
+    } finally {
+      setIsLoading(false);
+    }
   }
-  
+
   useFocusEffect(useCallback(() => {
     fetchDecks()
-  },[]))
+  }, []))
 
   useEffect(() => {
     //Atualiza o input
@@ -61,17 +70,18 @@ export function Home() {
   return (
     <Container>
       <Header title='FlashCard' iconNameRight="bell-slash" showButtonRight={true} iconColorRight={theme.COLORS.RED} />
-  
-      <FlatList
-        data={decks}
-        keyExtractor={(item) => item}
-        renderItem={({ item }) => (
-          <ListDeck
-            onPress={() => {}}
-            textTitle={item}
-          />
-        )}
-      />
+      {isLoading ? <Loading /> :
+        <FlatList
+          data={decks}
+          keyExtractor={(item) => item}
+          renderItem={({ item }) => (
+            <ListDeckCard
+              onPress={() => navegar(item)}
+              textTitle={item}
+            />
+          )}
+        />
+      }
       <ButtonIconBig
         iconName="plus"
         onPress={() => openModal()}

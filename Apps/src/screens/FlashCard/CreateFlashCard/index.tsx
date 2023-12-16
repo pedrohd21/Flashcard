@@ -5,12 +5,12 @@ import { Title } from "../../../components/Title";
 import { CreateFlashcardCard } from "../../../components/Card/CreateFlashcardCard";
 import { Alert, FlatList, Keyboard, TextInput } from "react-native";
 import { useRoute, useNavigation } from '@react-navigation/native';
-import { DecksGetAll } from '../../../storage/deck/decksGetAll';
-import { ButtonIconBig } from "../../../components/ButtonIconBig";
+import { ButtonIconBig } from "../../../components/Botton/ButtonIconBig";
 import { flashcardAddDeck } from "../../../storage/flashcard/flashcardAddDeck";
+import { FlashcardStorageDTO } from "../../../storage/flashcard/FlashcardStorageDTO";
 
 type RouteParams = {
-  deck: string;
+  deckName: string;
 }
 
 export function CreateFlashCard() {
@@ -21,33 +21,30 @@ export function CreateFlashCard() {
   const newTextBackInputRef = useRef<TextInput>(null);
 
   const route = useRoute();
-  const { deck } = route.params as RouteParams;
+  const { deckName } = route.params as RouteParams;
 
   async function addFlashcard() {
     if (newFlashcardFront.trim().length === 0) {
       return Alert.alert('Novo Flashcard', 'Adicione algo no flascard.');
     }
 
-    const newFlashcard = {
+    const newFlashcard: FlashcardStorageDTO = {
       front: newFlashcardFront,
       back: newFlashcardBack,
     }
 
     try {
-      await flashcardAddDeck(newFlashcard, deck);
-
+      await flashcardAddDeck(newFlashcard, deckName);
       newTextFrontInputRef.current?.blur();
       newTextBackInputRef.current?.blur();
-      console.log(newFlashcard)
       setNewFlashcardFront('');
       setNewFlashcardBack('');
       
-      // fetchPlayersByTeam();
+      // FlascardGetByDeck()
     } catch (error: any) {
       if (error) {
         Alert.alert('Novo Flashcard', error.message);
       } else {
-        console.log(error);
         Alert.alert('Novo Flashcard', 'Não foi possível adicionar.');
       }
     }
@@ -63,7 +60,6 @@ export function CreateFlashCard() {
 
       <Title
         mainTitle="Deck"
-        subTitle='Vocabulario'
       />
 
       <CreateFlashcardCard

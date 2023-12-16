@@ -1,22 +1,16 @@
 import React from "react";
-import { MainTitle, SubTitle, Container } from "./styles";
+import { MainTitle, Container } from "./styles";
 
 type Props = {
-  mainTitle: string;
-  subTitle: string;
-
+  mainTitle: any;
 }
 
-export function Title({ mainTitle, subTitle }: Props) {
+export function Title({ mainTitle }: Props) {
   return (
     <Container>
       <MainTitle>
-        {mainTitle}:
+        {mainTitle}
       </MainTitle>
-
-      <SubTitle>
-        {subTitle}
-      </SubTitle>
     </Container>
 
   )

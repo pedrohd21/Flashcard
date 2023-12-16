@@ -1,21 +1,8 @@
 import React, { useState } from "react";
 import { Container, Text, TextBack, TextFront } from "./styles";
-import { ButtonTitle } from "../../ButtonTitle";
 import { ScrollView, TextInput, TextInputProps } from "react-native";
 import theme from "../../../theme";
-import { ButtonIconBig } from "../../ButtonIconBig";
 
-
-
-// type Props = {
-//   textFront: string;
-//   onChangeTextFront: (value: string) => void;
-
-//   textBack: string;
-//   onChangeTextBack: (value: string) => void;
-
-//   onPressButton?: () => void;
-// }
 type Props = TextInputProps & {
   inputRefFront?: React.RefObject<TextInput>;
   inputRefBack?: React.RefObject<TextInput>;

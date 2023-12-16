@@ -1,18 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "./styles";
 import { Header } from "../../../components/Header";
 import { Title } from "../../../components/Title";
-import { CreateFlashcardCard } from "../../../components/Card/CreateFlashcardCard";
-import { FlatList } from "react-native";
-import { ButtonIconBig } from "../../../components/ButtonIconBig";
+import { ListFlashcardsCard } from "../../../components/List/ListFlashcardsCard";
+import { Alert, FlatList } from "react-native";
+import { FlascardGetByDeck } from "../../../storage/flashcard/FlascardGetByDeck";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { FlashcardStorageDTO } from "../../../storage/flashcard/FlashcardStorageDTO";
+import { Loading } from "../../../components/Loading";
 
+type RouteParams = {
+  deckName: string;
+}
 
 export function ListFlashCard() {
+  const navigation = useNavigation();
+  const route = useRoute();
+  const [isLoading, setIsLoading] = useState(true);
 
-  const data = [
-    { key: '1', textFront: '', textBack: '' },
+  const [flashcards, setFlashcards] = useState<FlashcardStorageDTO[]>([]);
 
-  ]
+  const { deckName } = route.params as RouteParams;
+
+  async function fetchflashcardByDeck() {
+    try {
+      setIsLoading(true);
+      const flashcardByDeck = await FlascardGetByDeck(deckName);
+      setFlashcards(flashcardByDeck)
+      console.log("###############")
+    } catch (error) {
+      Alert.alert('Flashcard', 'Não foi possível carregar os flashcards.');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  function AddFlashcard() {
+    navigation.navigate('CreateFlashCard', { deckName });
+  }
+
+  useEffect(() => {
+    fetchflashcardByDeck();
+  }, [flashcards])
 
   return (
     <Container>
@@ -20,28 +49,25 @@ export function ListFlashCard() {
         title='Edit Flashcard'
         showButtonRight={true}
         showBackButton={true}
-        iconNameRight='check'
+        iconNameRight='plus'
+        onPressButtonRight={AddFlashcard}
       />
 
       <Title
-        mainTitle="Title"
-        subTitle="Title FlashCard"
+        mainTitle={deckName}
       />
 
-
-      {/* <FlatList
-        data={data}
-        renderItem={({ item }) => (
-          <CreateFlashcardCard
-            textFront={item.textFront}
-            textBack={item.textBack}
-            
-          />
-        )}
-      /> */}
-
-      <ButtonIconBig
-        iconName="plus" />
+      {isLoading ? <Loading /> :
+        <FlatList
+          data={flashcards}
+          renderItem={({ item }) => (
+            <ListFlashcardsCard
+              textFront={item.front}
+              textBack={item.back}
+            />
+          )}
+        />
+      }
     </Container>
   )
 }

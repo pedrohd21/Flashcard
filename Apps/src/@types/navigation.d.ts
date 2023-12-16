@@ -12,7 +12,9 @@ export declare global {
       ListDeck: undefined;
 
       EditFlashCard: undefined;
-      ListFlashCard: undefined;
+      ListFlashCard: {
+        deckName: string;
+      }
       CreateFlashCard: {
         deckName: string;
       }

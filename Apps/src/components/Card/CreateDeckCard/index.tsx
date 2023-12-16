@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Text, TextInput, BorderRadius } from "./styles";
-import { ButtonTitle } from "../../ButtonTitle";
+import { ButtonTitle } from "../../Botton/ButtonTitle";
 
 type Props = {
   titleDeck: string;
