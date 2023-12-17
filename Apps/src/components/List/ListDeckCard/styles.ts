@@ -36,6 +36,15 @@ export const ContadorFlascard = styled.Text`
   border-radius: 5px;
   text-align: center;
   position: absolute;
-  top: -12px;
+  bottom: -10px;
   right: 15px;
+`;
+
+export const ContainerIcon = styled.TouchableOpacity`
+  position: absolute;
+  right: 3px;
+  top: 5px;
+  z-index: 1;
+  width: 30px;
+  height: 20px;
 `;

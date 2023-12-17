@@ -1,23 +1,28 @@
 import React from "react";
-import { ButtonContainer, Text, TitleFront, TitleBack } from "./styles";
+import { ButtonContainer, Text} from "./styles";
 import { TouchableOpacityProps } from "react-native";
+import { ButtonGeneric } from "../../Botton/ButtonGeneric";
 
 type Props = TouchableOpacityProps &  {
   textFront: string;
   textBack: string;
+  deleteFlashcard?: () => void;
+  editFlashcard?: () => void;
 }
 
-export function ListFlashcardsCard({textFront, textBack, ...rest}: Props) {
+export function ListFlashcardsCard({textFront, textBack, deleteFlashcard, editFlashcard, ...rest}: Props) {
   return (
     <ButtonContainer {...rest}>
-      <TitleFront>Front</TitleFront>
       <Text>
         {textFront}
       </Text>
-      <TitleBack>Back</TitleBack>
       <Text>
         {textBack}
       </Text>
+      <ButtonGeneric
+        onPressButtonEdit={editFlashcard}
+        onPressButtonDeletar={deleteFlashcard}
+      />
     </ButtonContainer>
   );
 }

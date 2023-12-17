@@ -15,6 +15,8 @@ export const Text = styled.Text`
   font-family: 'Roboto-Bold';
   position: absolute;
   top: 10px; 
+  width: 70%;
+  text-align:center;
 `;
 
 export const IconRight = styled(Icon)`

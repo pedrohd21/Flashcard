@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Container } from "./styles";
 import { Header } from "../../../components/Header";
-import { Title } from "../../../components/Title";
 import { Alert, FlatList } from "react-native";
 import { FlascardGetByDeck } from "../../../storage/flashcard/FlascardGetByDeck";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { FlashcardStorageDTO } from "../../../storage/flashcard/FlashcardStorageDTO";
 import { Loading } from "../../../components/Loading";
 import { ListFlashcardsCard } from "../../../components/List/ListFlashcardsCard";
+import { FlashcardRemoveDeck } from "../../../storage/flashcard/flashcardRemoveDeck";
 
 type RouteParams = {
   deckName: string;
@@ -27,7 +27,6 @@ export function ListFlashCard() {
       setIsLoading(true);
       const flashcardByDeck = await FlascardGetByDeck(deckName);
       setFlashcards(flashcardByDeck)
-      console.log("###############")
     } catch (error) {
       Alert.alert('Flashcard', 'Não foi possível carregar os flashcards.');
     } finally {
@@ -35,9 +34,29 @@ export function ListFlashCard() {
     }
   }
 
-  function AddFlashcard() {
+  function addFlashcard() {
     navigation.navigate('CreateFlashCard', { deckName });
+    fetchflashcardByDeck()
   }
+
+    function handleGoBack() {
+    navigation.goBack();
+  }
+
+
+    async function handledeckRemove(front: string, back: string) {
+      try {
+        console.log(front, back, deckName)
+        await FlashcardRemoveDeck(front, back, deckName);
+  
+        fetchflashcardByDeck()
+        
+      } catch (error) {
+        console.log(error);
+  
+        Alert.alert('Remover Flashcard', 'Não foi possível remover flashcard.');
+      }
+    }
 
   useEffect(() => {
     fetchflashcardByDeck();
@@ -46,15 +65,13 @@ export function ListFlashCard() {
   return (
     <Container>
       <Header
-        title='Listar Flashcard'
+        title={deckName}
         showButtonRight={true}
         showBackButton={true}
         iconNameRight='plus'
-        onPressButtonRight={AddFlashcard}
-      />
-
-      <Title
-        mainTitle={deckName}
+        onPressButtonRight={addFlashcard}
+        onPressButtonLeft={handleGoBack}
+        style={{marginBottom: 20}}
       />
 
       {isLoading ? <Loading /> :
@@ -64,6 +81,8 @@ export function ListFlashCard() {
             <ListFlashcardsCard
               textFront={item.front}
               textBack={item.back}
+              deleteFlashcard={() => handledeckRemove(item.front, item.back)}
+              editFlashcard={()=> {}}
             />
           )}
         />

@@ -3,10 +3,9 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { TouchableOpacity } from "react-native";
 
 export const Button = styled(TouchableOpacity)`
-  width: 50px;
-  height: 60px;
   justify-content: center; 
   align-items: center; 
+  z-index: 1;
 `;
 
 export const Icon = styled(FontAwesome5)`
@@ -14,6 +13,5 @@ ${({ theme, size, color }) => css`
     font-size: ${size ? size : theme.ICON.SIZE.LG}px;
     color: ${color ? color : theme.COLORS.BLUE};
   `};
-  margin: auto;
-
+  margin-right: 7px;
 `;

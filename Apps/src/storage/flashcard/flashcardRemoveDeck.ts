@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FlascardGetByDeck } from './FlascardGetByDeck';
 import { FLASHCARD_COLLECTION } from '../storageConfig';
 
-export async function playerRemoveByGroup(flashcardFront: string, flashcardBack: string, deck: string) {
+export async function FlashcardRemoveDeck(flashcardFront: string, flashcardBack: string, deck: string) {
   try {
     const storage = await FlascardGetByDeck(deck);
 

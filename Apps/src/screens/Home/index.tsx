@@ -48,10 +48,10 @@ export function Home() {
   function navegar(deckName: string) {
     navigation.navigate('ListFlashCard', { deckName })
   }
+
   async function fetchDecks() {
     try {
       setIsLoading(true);
-      console.log('$$$$$$$$$')
       const data = await DecksGetAll();
       setDecks(data)
     } catch (error) {
@@ -59,6 +59,11 @@ export function Home() {
     } finally {
       setIsLoading(false);
     }
+  }
+
+  function buttonAddFlashcard(deckName: string) {
+
+    navigation.navigate('CreateFlashCard', { deckName });
   }
 
   useFocusEffect(useCallback(() => {
@@ -81,6 +86,7 @@ export function Home() {
               onPress={() => navegar(item)}
               textTitle={item}
               contadorFlashcard={decks.length}
+              onPressButtonCreate={() => buttonAddFlashcard(item)}
             />
           )}
         />
@@ -94,31 +100,6 @@ export function Home() {
         }}
       />
 
-
-      {/* <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={closeModal}
-      >
-        <ModalContainer >
-          <ModalContent >
-            <Text>Criar Deck:</Text>
-            <TextInput
-              onChangeText={setDeckName}
-              placeholder="Nome do Deck"
-            />
-            <ButtonModalContainer >
-              <ModalButton onPress={closeModal} style={{ backgroundColor: theme.COLORS.RED }}>
-                <Text>Cancelar</Text>
-              </ModalButton>
-              <ModalButton onPress={handleSave} style={{ backgroundColor: theme.COLORS.GRAY_500 }}>
-                <Text>Salvar</Text>
-              </ModalButton>
-            </ButtonModalContainer>
-          </ModalContent>
-        </ModalContainer>
-      </Modal> */}
       <Modal
         animationType="fade"
         transparent={true}

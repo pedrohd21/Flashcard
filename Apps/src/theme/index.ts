@@ -10,6 +10,8 @@ export default {
     DANGER: '#FF4081', // Cor de perigo
 
     RED: '#ED585E', // Cor vermelha
+    GREEN: '#4CAF50', // 
+
 
     BLUE: '#446FF2', // Cor azul
     BLUE_LIGHT: '#98AFF5', // Cor azul

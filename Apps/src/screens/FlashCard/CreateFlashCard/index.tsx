@@ -20,8 +20,11 @@ export function CreateFlashCard() {
   const newTextFrontInputRef = useRef<TextInput>(null);
   const newTextBackInputRef = useRef<TextInput>(null);
 
+  const navigation = useNavigation();
   const route = useRoute();
   const { deckName } = route.params as RouteParams;
+
+  const addCard = `Add ao ${deckName}`
 
   async function addFlashcard() {
     if (newFlashcardFront.trim().length === 0) {
@@ -39,7 +42,7 @@ export function CreateFlashCard() {
       newTextBackInputRef.current?.blur();
       setNewFlashcardFront('');
       setNewFlashcardBack('');
-      
+
       // FlascardGetByDeck()
     } catch (error: any) {
       if (error) {
@@ -50,16 +53,22 @@ export function CreateFlashCard() {
     }
   }
 
+  function handleGoBack() {
+    if (newFlashcardFront.trim().length === 0) {
+      navigation.goBack();
+    } else {
+      addFlashcard()
+      navigation.goBack();
+    }
+  }
+
   return (
     <Container>
       <Header
-        title='Create Flashcards'
+        title={deckName}
         showBackButton={true}
         onPressButtonRight={addFlashcard}
-      />
-
-      <Title
-        mainTitle="Deck"
+        onPressButtonLeft={handleGoBack}
       />
 
       <CreateFlashcardCard
@@ -70,7 +79,7 @@ export function CreateFlashCard() {
         onSubmitEditing={addFlashcard}
         valueTextFront={newFlashcardFront}
         valueTextBack={newFlashcardBack}
-        
+
       />
       <ButtonIconBig
         onPress={addFlashcard}

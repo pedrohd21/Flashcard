@@ -2,10 +2,10 @@ import { TouchableOpacity } from "react-native";
 import styled, { css } from "styled-components/native";
 
 export const Text = styled.Text`
-  color: ${({ theme }) => theme.COLORS.WHITE};
-  font-size: ${({ theme }) => theme.FONT_SIZE.LG}px;
+  color: ${({ theme }) => theme.COLORS.BLACK};
+  font-size: ${({ theme }) => theme.FONT_SIZE.MD}px;
   font-family: 'Roboto-Bold';
-  margin-top: -5px;
+
 `;
 
 export const TextInput = styled.TextInput`
@@ -44,7 +44,7 @@ export const ModalContent = styled.View`
   `;
 
 export const ModalButton = styled(TouchableOpacity)`
-
+  flex-direction: row;
   width: 100px;
   height: 30px;
   margin: 0 5px;

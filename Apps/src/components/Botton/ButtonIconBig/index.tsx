@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Icon, Container } from './styles';
+import { Button, Icon, Container, Text } from './styles';
 import { TouchableOpacityProps } from "react-native";
 
 type Props = TouchableOpacityProps & {
@@ -13,7 +13,9 @@ export function ButtonIconBig({ iconName, iconSize, iconColor, onPressButton, ..
   return (
     <Container>
       <Button {...rest} onPressOut={onPressButton}>
+        
         <Icon name={iconName} size={iconSize} color={iconColor} />
+        <Text>Add</Text>
       </Button>
     </Container>
 

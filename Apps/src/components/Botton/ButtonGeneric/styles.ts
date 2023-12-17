@@ -1,29 +1,16 @@
 import styled, {css} from "styled-components/native";
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { TouchableOpacity } from 'react-native';
 
 export const Container = styled(TouchableOpacity)`
   flex-direction: row;
   align-items: center;
-  margin-left: 20px;
-  margin-top: 10px;
+  justify-content: center;
+  margin: 10px 0;
   width: 100%;
 `;
 
-export const ButtonCreateFlascard = styled(TouchableOpacity)`
-${({ theme }) => css`
-  background-color: ${theme.COLORS.BLUE};
-`};
-  flex-direction: row;
-  border-radius: 10px;
-  width: 100px;
-  height: 30px; 
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-`;
-
-export const ButtonpracticeFlascard = styled(TouchableOpacity)`
+export const Button = styled(TouchableOpacity)`
   flex-direction: row;
   border-radius: 10px;
   border-color: ${({ theme }) => theme.COLORS.BLUE};
@@ -34,6 +21,7 @@ export const ButtonpracticeFlascard = styled(TouchableOpacity)`
   align-items: center;
   justify-content: center;
   margin-left: 20px;
+  z-index: 1;
 `;
 
 export const Text = styled.Text`

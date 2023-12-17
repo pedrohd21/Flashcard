@@ -1,10 +1,7 @@
 import styled, { css } from "styled-components/native";
 
 export const Container = styled.View`
-  flex-direction: column;
-  height: 100%;
   margin: 10px 10px;
-  border-radius: 14px ;
 `;
 
 export const Text = styled.Text`
@@ -12,7 +9,6 @@ export const Text = styled.Text`
     font-size: ${theme.FONT_SIZE.LG}px;
     color: ${theme.COLORS.WHITE};
   `};
-  
   font-family: 'Roboto-Bold';
   padding-left: 10px;
   padding-top: 20px;
