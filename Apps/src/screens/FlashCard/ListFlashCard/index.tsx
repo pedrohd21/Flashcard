@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Container } from "./styles";
 import { Header } from "../../../components/Header";
 import { Title } from "../../../components/Title";
-import { ListFlashcardsCard } from "../../../components/List/ListFlashcardsCard";
 import { Alert, FlatList } from "react-native";
 import { FlascardGetByDeck } from "../../../storage/flashcard/FlascardGetByDeck";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { FlashcardStorageDTO } from "../../../storage/flashcard/FlashcardStorageDTO";
 import { Loading } from "../../../components/Loading";
+import { ListFlashcardsCard } from "../../../components/List/ListFlashcardsCard";
 
 type RouteParams = {
   deckName: string;
@@ -41,12 +41,12 @@ export function ListFlashCard() {
 
   useEffect(() => {
     fetchflashcardByDeck();
-  }, [flashcards])
+  }, [])
 
   return (
     <Container>
       <Header
-        title='Edit Flashcard'
+        title='Listar Flashcard'
         showButtonRight={true}
         showBackButton={true}
         iconNameRight='plus'

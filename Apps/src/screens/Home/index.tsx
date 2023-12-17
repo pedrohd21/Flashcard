@@ -10,6 +10,7 @@ import { DecksGetAll } from '../../storage/deck/decksGetAll'
 import { Loading } from "../../components/Loading";
 import { ListDeckCard } from "../../components/List/ListDeckCard";
 import { ButtonIconBig } from "../../components/Botton/ButtonIconBig";
+import { ModalCreateDeck } from "../../components/Modal/ModalCreateDeck";
 
 export function Home() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -50,6 +51,7 @@ export function Home() {
   async function fetchDecks() {
     try {
       setIsLoading(true);
+      console.log('$$$$$$$$$')
       const data = await DecksGetAll();
       setDecks(data)
     } catch (error) {
@@ -78,6 +80,7 @@ export function Home() {
             <ListDeckCard
               onPress={() => navegar(item)}
               textTitle={item}
+              contadorFlashcard={decks.length}
             />
           )}
         />
@@ -92,7 +95,7 @@ export function Home() {
       />
 
 
-      <Modal
+      {/* <Modal
         animationType="fade"
         transparent={true}
         visible={modalVisible}
@@ -115,6 +118,18 @@ export function Home() {
             </ButtonModalContainer>
           </ModalContent>
         </ModalContainer>
+      </Modal> */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={closeModal}
+      >
+        <ModalCreateDeck
+          onChangeNameDeck={setDeckName}
+          onCancel={closeModal}
+          onSave={handleSave}
+        />
       </Modal>
     </Container>
   )

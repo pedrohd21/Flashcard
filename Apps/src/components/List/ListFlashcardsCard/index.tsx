@@ -1,6 +1,5 @@
 import React from "react";
 import { ButtonContainer, Text, TitleFront, TitleBack } from "./styles";
-import { ButtonIconSmall } from "../../Botton/ButtonIconSmall";
 import { TouchableOpacityProps } from "react-native";
 
 type Props = TouchableOpacityProps &  {
