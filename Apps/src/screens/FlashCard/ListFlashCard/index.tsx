@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Container } from "./styles";
 import { Header } from "../../../components/Header";
 import { Alert, FlatList } from "react-native";
 import { FlascardGetByDeck } from "../../../storage/flashcard/FlascardGetByDeck";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import { FlashcardStorageDTO } from "../../../storage/flashcard/FlashcardStorageDTO";
 import { Loading } from "../../../components/Loading";
 import { ListFlashcardsCard } from "../../../components/List/ListFlashcardsCard";
@@ -39,28 +39,32 @@ export function ListFlashCard() {
     fetchflashcardByDeck()
   }
 
-    function handleGoBack() {
+  function handleGoBack() {
     navigation.goBack();
   }
 
 
-    async function handledeckRemove(front: string, back: string) {
-      try {
-        console.log(front, back, deckName)
-        await FlashcardRemoveDeck(front, back, deckName);
-  
-        fetchflashcardByDeck()
-        
-      } catch (error) {
-        console.log(error);
-  
-        Alert.alert('Remover Flashcard', 'Não foi possível remover flashcard.');
-      }
-    }
+  async function handledeckRemove(front: string, back: string) {
+    try {
+      console.log(front, back, deckName)
+      await FlashcardRemoveDeck(front, back, deckName);
 
-  useEffect(() => {
+      fetchflashcardByDeck()
+
+    } catch (error) {
+      console.log(error);
+
+      Alert.alert('Remover Flashcard', 'Não foi possível remover flashcard.');
+    }
+  }
+
+  useFocusEffect(useCallback(() => {
     fetchflashcardByDeck();
-  }, [])
+  }, []));
+
+  // useEffect(() => {
+  //   fetchflashcardByDeck();
+  // }, [deckName]);
 
   return (
     <Container>
@@ -71,7 +75,7 @@ export function ListFlashCard() {
         iconNameRight='plus'
         onPressButtonRight={addFlashcard}
         onPressButtonLeft={handleGoBack}
-        style={{marginBottom: 20}}
+        style={{ marginBottom: 20 }}
       />
 
       {isLoading ? <Loading /> :
@@ -82,7 +86,7 @@ export function ListFlashCard() {
               textFront={item.front}
               textBack={item.back}
               deleteFlashcard={() => handledeckRemove(item.front, item.back)}
-              editFlashcard={()=> {}}
+              editFlashcard={() => { }}
             />
           )}
         />

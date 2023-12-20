@@ -18,6 +18,9 @@ export declare global {
       CreateFlashCard: {
         deckName: string;
       }
+      ListDeckCard: {
+        deckName: string;
+      }
 
       ListPractice: undefined;
       PracticeNow: undefined;

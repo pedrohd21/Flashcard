@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Container } from "./styles";
 import { Header } from "../../../components/Header";
 import { Title } from "../../../components/Title";
 import { CreateFlashcardCard } from "../../../components/Card/CreateFlashcardCard";
 import { Alert, FlatList, Keyboard, TextInput } from "react-native";
-import { useRoute, useNavigation } from '@react-navigation/native';
+import { useRoute, useNavigation, useFocusEffect } from '@react-navigation/native';
 import { ButtonIconBig } from "../../../components/Botton/ButtonIconBig";
 import { flashcardAddDeck } from "../../../storage/flashcard/flashcardAddDeck";
 import { FlashcardStorageDTO } from "../../../storage/flashcard/FlashcardStorageDTO";
@@ -24,8 +24,6 @@ export function CreateFlashCard() {
   const route = useRoute();
   const { deckName } = route.params as RouteParams;
 
-  const addCard = `Add ao ${deckName}`
-
   async function addFlashcard() {
     if (newFlashcardFront.trim().length === 0) {
       return Alert.alert('Novo Flashcard', 'Adicione algo no flascard.');
@@ -43,7 +41,6 @@ export function CreateFlashCard() {
       setNewFlashcardFront('');
       setNewFlashcardBack('');
 
-      // FlascardGetByDeck()
     } catch (error: any) {
       if (error) {
         Alert.alert('Novo Flashcard', error.message);

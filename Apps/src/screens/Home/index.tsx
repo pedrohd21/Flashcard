@@ -11,11 +11,12 @@ import { Loading } from "../../components/Loading";
 import { ListDeckCard } from "../../components/List/ListDeckCard";
 import { ButtonIconBig } from "../../components/Botton/ButtonIconBig";
 import { ModalCreateDeck } from "../../components/Modal/ModalCreateDeck";
+import { FlascardGetByDeck } from "../../storage/flashcard/FlascardGetByDeck";
 
 export function Home() {
   const [modalVisible, setModalVisible] = useState(false);
   const [deckName, setDeckName] = useState("");
-  const [decks, setDecks] = useState<string[]>([]);
+  const [decks, setDecks] = useState<{ deck: string; flashcardCount: number }[]>([]);
 
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(true);
@@ -53,7 +54,16 @@ export function Home() {
     try {
       setIsLoading(true);
       const data = await DecksGetAll();
-      setDecks(data)
+
+      // Atualizar a lista de decks com o número de flashcards
+      const decksWithFlashcardCount = await Promise.all(
+        data.map(async (deck) => {
+          const flashcards = await FlascardGetByDeck(deck);
+          return { deck, flashcardCount: flashcards.length };
+        })
+      );
+  
+      setDecks(decksWithFlashcardCount);
     } catch (error) {
       Alert.alert('Decks', 'Não foi possível carregar os Decks.');
     } finally {
@@ -70,23 +80,19 @@ export function Home() {
     fetchDecks()
   }, []))
 
-  useEffect(() => {
-    //Atualiza o input
-  }, [deckName]);
-
   return (
     <Container>
       <Header title='FlashCard' iconNameRight="bell-slash" showButtonRight={true} iconColorRight={theme.COLORS.RED} />
       {isLoading ? <Loading /> :
         <FlatList
           data={decks}
-          keyExtractor={(item) => item}
+          keyExtractor={(item) => item.deck}
           renderItem={({ item }) => (
             <ListDeckCard
-              onPress={() => navegar(item)}
-              textTitle={item}
-              contadorFlashcard={decks.length}
-              onPressButtonCreate={() => buttonAddFlashcard(item)}
+              onPress={() => navegar(item.deck)}
+              textTitle={item.deck}
+              contadorFlashcard={item.flashcardCount}
+              onPressButtonCreate={() => buttonAddFlashcard(item.deck)}
             />
           )}
         />
