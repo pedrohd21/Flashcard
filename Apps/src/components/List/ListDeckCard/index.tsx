@@ -14,12 +14,16 @@ type Props = TouchableOpacityProps & {
 
 export function ListDeckCard({ textTitle, contadorFlashcard, onPressButtonCreate, ...rest }: Props) {
   return (
-    <ButtonContainer {...rest}>
+    <ButtonContainer
+      hitSlop={30}
+      {...rest}
+    >
       <ContainerIcon>
         <ButtonIconSmall
           iconName="ellipsis-v"
           iconColor={theme.COLORS.BLUE}
           iconSize={20}
+          
         />
       </ContainerIcon>
       <ContadorFlascard>{contadorFlashcard}</ContadorFlascard>

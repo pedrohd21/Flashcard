@@ -2,7 +2,7 @@ import styled, {css} from "styled-components/native";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { TouchableOpacity } from 'react-native';
 
-export const Container = styled.View`
+export const Container = styled(TouchableOpacity)`
   align-items: center;
 `;
 

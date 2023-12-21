@@ -11,7 +11,7 @@ type Props = TouchableOpacityProps & {
 
 export function ButtonGeneric({onPressButtonEdit, onPressButtonDeletar, ...rest }: Props) {
   return (
-    <Container>
+    <Container hitSlop={30}>
       <Button {...rest} onPressOut={onPressButtonEdit} style={{borderColor: theme.COLORS.BLUE}}>
         <ButtonIconSmall
           iconName='edit'

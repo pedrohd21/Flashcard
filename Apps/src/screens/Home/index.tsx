@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { Container, ModalContainer, ModalContent, Text, ModalButton, TextInput, ButtonModalContainer } from "./styles";
 import { Header } from "../../components/Header";
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
@@ -17,6 +17,9 @@ export function Home() {
   const [modalVisible, setModalVisible] = useState(false);
   const [deckName, setDeckName] = useState("");
   const [decks, setDecks] = useState<{ deck: string; flashcardCount: number }[]>([]);
+  const decksOrdenados = decks.sort((a, b) => a.deck.localeCompare(b.deck));
+
+  const flatListRef = useRef(null);
 
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(true);
@@ -85,7 +88,7 @@ export function Home() {
       <Header title='FlashCard' iconNameRight="bell-slash" showButtonRight={true} iconColorRight={theme.COLORS.RED} />
       {isLoading ? <Loading /> :
         <FlatList
-          data={decks}
+          data={decksOrdenados}
           keyExtractor={(item) => item.deck}
           renderItem={({ item }) => (
             <ListDeckCard

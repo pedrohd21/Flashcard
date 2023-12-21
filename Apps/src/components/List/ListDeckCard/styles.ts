@@ -8,7 +8,6 @@ export const ButtonContainer = styled(TouchableOpacity)`
   margin: 12px 12px;
   border-radius: 14px ;
   justify-content: center;
-  align-items: center;
   border-width: 1px;
   border-color: ${({ theme }) => theme.COLORS.BLUE};
 `;
@@ -18,7 +17,7 @@ export const TextTitle = styled.Text`
     font-size: ${theme.FONT_SIZE.LG}px;
     color: ${theme.COLORS.WHITE};
   `};
-  width: 100%;
+  width: 90%;
   padding-left: 10px;
   font-family: 'Roboto-Bold' ;
   text-align: left;

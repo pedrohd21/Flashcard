@@ -9,7 +9,7 @@ type Props = TouchableOpacityProps & {
 }
 export function ButtonTitle({ iconName, onPressButton, descriptionText, ...rest }: Props) {
   return (
-    <Button {...rest} onPress={onPressButton}>
+    <Button hitSlop={30} {...rest} onPress={onPressButton}>
       <Text>
         {descriptionText}
       </Text>
