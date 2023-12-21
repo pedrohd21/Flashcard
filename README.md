@@ -22,3 +22,7 @@ Antes de começar, certifique-se de ter as seguintes dependências instaladas:
 
 - [Node.js](https://nodejs.org/)
 - [npm](https://www.npmjs.com/) (geralmente incluído com o Node.js)
+![Screenshot_20231220_212604_Apps](https://github.com/pedrohd21/Flashcard/assets/67549131/2360ce7a-b579-4a42-8322-1271da6fb38c)
+![Screenshot_20231220_212758_Apps](https://github.com/pedrohd21/Flashcard/assets/67549131/1ac44945-9432-4047-9192-c0468d3f11fa)
+![Screenshot_20231220_212750_Apps](https://github.com/pedrohd21/Flashcard/assets/67549131/cb123797-e0d1-44fa-889d-1caad21c65b5)
+![Screenshot_20231220_212742_Apps](https://github.com/pedrohd21/Flashcard/assets/67549131/c0516ca5-3bd7-4fdf-ac5e-1e9b5ab56171)
