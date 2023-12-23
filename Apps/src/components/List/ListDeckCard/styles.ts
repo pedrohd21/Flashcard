@@ -1,5 +1,5 @@
 import { TouchableOpacity } from "react-native";
-import styled, { css } from "styled-components/native";
+import styled from "styled-components/native";
 
 export const ButtonContainer = styled(TouchableOpacity)`
   height: 100px;
@@ -11,10 +11,8 @@ export const ButtonContainer = styled(TouchableOpacity)`
 `;
 
 export const TextTitle = styled.Text`
- ${({ theme }) => css`
-    font-size: ${theme.FONT_SIZE.LG}px;
-    color: ${theme.COLORS.WHITE};
-  `};
+  font-size: ${({ theme }) => theme.FONT_SIZE.LG}px;
+  color: ${({ theme }) => theme.COLORS.WHITE};
   width: 90%;
   padding-left: 10px;
   font-family: 'Roboto-Bold' ;
@@ -23,11 +21,9 @@ export const TextTitle = styled.Text`
 `;
 
 export const ContadorFlascard = styled.Text`
- ${({ theme }) => css`
-    font-size: ${theme.FONT_SIZE.MD}px;
-    color: ${theme.COLORS.BLACK};
-    background-color: ${theme.COLORS.BLUE};
-  `};
+  font-size: ${({ theme }) => theme.FONT_SIZE.MD}px;
+  color: ${({ theme }) => theme.COLORS.BLACK};
+  background-color: ${({ theme }) => theme.COLORS.BLUE};
   width: 25px;
   font-family: 'Roboto-Regular';
   border-radius: 5px;

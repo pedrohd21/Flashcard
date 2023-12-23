@@ -1,5 +1,5 @@
 import { TouchableOpacity } from "react-native";
-import styled, { css } from "styled-components/native";
+import styled from "styled-components/native";
 
 export const ButtonContainer = styled.View`
   /* flex: 1; */
@@ -11,10 +11,8 @@ export const ButtonContainer = styled.View`
 `;
 
 export const Text = styled.Text`
- ${({ theme }) => css`
-    font-size: ${theme.FONT_SIZE.LG}px;
-    color: ${theme.COLORS.WHITE};
-  `};
+  font-size: ${({ theme }) => theme.FONT_SIZE.LG}px;
+  color: ${({ theme }) => theme.COLORS.WHITE};
   width: 100%;
   padding: 10px;
   font-family: 'Roboto-Regular' ;

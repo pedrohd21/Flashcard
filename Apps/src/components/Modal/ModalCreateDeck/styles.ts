@@ -1,5 +1,5 @@
 import { TouchableOpacity } from "react-native";
-import styled, { css } from "styled-components/native";
+import styled from "styled-components/native";
 
 export const Text = styled.Text`
   color: ${({ theme }) => theme.COLORS.BLACK};
@@ -9,10 +9,8 @@ export const Text = styled.Text`
 `;
 
 export const TextInput = styled.TextInput`
-  ${({ theme }) => css`
-   font-size: ${theme.FONT_SIZE.MD}px;
-   color: ${theme.COLORS.WHITE}; 
- `};
+  font-size: ${({ theme }) => theme.FONT_SIZE.MD}px;
+  color: ${({ theme }) => theme.COLORS.WHITE};
    padding-left: 10px;
    font-family: 'Roboto-Regular';
    border-radius: 10px;

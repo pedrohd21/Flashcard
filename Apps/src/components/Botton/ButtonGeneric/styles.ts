@@ -1,25 +1,30 @@
-import styled, {css} from "styled-components/native";
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import styled from "styled-components/native";
 import { TouchableOpacity } from 'react-native';
 
 export const Container = styled(TouchableOpacity)`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+
   margin: 10px 0;
+
   width: 100%;
 `;
 
 export const Button = styled(TouchableOpacity)`
   flex-direction: row;
+
   border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.COLORS.BLUE};
+
   width: 120px;
   height: 30px; 
+
+  margin-left: 20px;
+
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-left: 20px;
   z-index: 1;
 `;
 

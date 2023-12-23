@@ -1,12 +1,15 @@
-import styled, {css} from 'styled-components/native';
+import styled from 'styled-components/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TouchableOpacity} from 'react-native';
 
 export const Container = styled(SafeAreaView)`
   flex: 1;
-  background-color: ${({ theme }) => theme.COLORS.GRAY_900};
-  font-family: 'Roboto';
   justify-content: center;
+
+  background-color: ${({ theme }) => theme.COLORS.GRAY_900};
+
+  font-family: 'Roboto';
+  
 `;
 
 export const Text = styled.Text`
@@ -16,14 +19,10 @@ export const Text = styled.Text`
 `;
 
 export const TextInput = styled.TextInput`
-  ${({ theme }) => css`
-   font-size: ${theme.FONT_SIZE.MD}px;
-   color: ${theme.COLORS.WHITE};
-   border-color: ${theme.COLORS.BLUE};
- 
- `};
- padding-left: 10px;
- font-family: 'Roboto-Regular';
+  font-size: ${({ theme }) => theme.FONT_SIZE.MD}px;
+  color: ${({ theme }) => theme.COLORS.WHITE};
+  padding-left: 10px;
+  font-family: 'Roboto-Regular';
 `;
 
 export const ModalContainer = styled.View`
@@ -34,12 +33,14 @@ export const ModalContainer = styled.View`
 `;
 
 export const ModalContent = styled.View`
-   justify-content: center;
-   align-items: center;
-   width: 50%;
-   height: 40%;
-   background-color: ${({ theme }) => theme.COLORS.BLUE};
-  height: 150px;
+  justify-content: center;
+  align-items: center;
+
+  width: 50%;
+  height: 40%;
+
+  background-color: ${({ theme }) => theme.COLORS.BLUE};
+
   border-radius: 10px;
   `;
 

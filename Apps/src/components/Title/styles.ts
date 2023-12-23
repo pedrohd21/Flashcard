@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components/native";
+import styled from "styled-components/native";
 
 export const Container = styled.View`
   height: 30px;
@@ -8,10 +8,8 @@ export const Container = styled.View`
   align-items: center;
 `;
 export const MainTitle = styled.Text`
-  ${({ theme }) => css`
-    font-size: ${theme.FONT_SIZE.XL}px;
-    color: ${theme.COLORS.WHITE};
-  `};
+  font-size: ${({ theme }) => theme.FONT_SIZE.XL}px;
+  color: ${({ theme }) => theme.COLORS.WHITE};
   font-family: 'Roboto-Bold';
 `;
 
