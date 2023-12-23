@@ -2,14 +2,12 @@ import { TouchableOpacity } from "react-native";
 import styled, { css } from "styled-components/native";
 
 export const ButtonContainer = styled(TouchableOpacity)`
-  flex: 1;
   height: 100px;
 
   margin: 12px 12px;
   border-radius: 14px ;
+  border: 1px solid ${({ theme }) => theme.COLORS.BLUE};
   justify-content: center;
-  border-width: 1px;
-  border-color: ${({ theme }) => theme.COLORS.BLUE};
 `;
 
 export const TextTitle = styled.Text`

@@ -12,7 +12,7 @@ type Props = TouchableOpacityProps & {
 export function ButtonIconBig({ iconName, iconSize, iconColor, onPressButton, ...rest }: Props) {
   return (
     <Container >
-      <Button hitSlop={30} {...rest} onPressOut={onPressButton}>
+      <Button hitSlop={20} {...rest} onPressOut={onPressButton}>
         
         <Icon name={iconName} size={iconSize} color={iconColor} />
         <Text>Add</Text>

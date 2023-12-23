@@ -10,9 +10,7 @@ export const Container = styled(TouchableOpacity)`
 `;
 
 export const ButtonCreateFlascard = styled(TouchableOpacity)`
-${({ theme }) => css`
-  background-color: ${theme.COLORS.BLUE};
-`};
+  background-color: ${({ theme }) => theme.COLORS.BLUE};
   flex-direction: row;
   border-radius: 10px;
   width: 100px;
@@ -26,8 +24,8 @@ ${({ theme }) => css`
 export const ButtonpracticeFlascard = styled(TouchableOpacity)`
   flex-direction: row;
   border-radius: 10px;
-  border-color: ${({ theme }) => theme.COLORS.BLUE};
-  border-width: 1px;
+  border: 1px solid ${({ theme }) => theme.COLORS.BLUE};
+
   width: 120px;
   height: 30px; 
   flex-direction: row;

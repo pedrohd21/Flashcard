@@ -1,13 +1,16 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Container } from "./styles";
 import { Header } from "../../../components/Header";
-import { Alert, FlatList } from "react-native";
+import { Alert, FlatList, Modal } from "react-native";
 import { FlascardGetByDeck } from "../../../storage/flashcard/FlascardGetByDeck";
 import { useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import { FlashcardStorageDTO } from "../../../storage/flashcard/FlashcardStorageDTO";
 import { Loading } from "../../../components/Loading";
 import { ListFlashcardsCard } from "../../../components/List/ListFlashcardsCard";
 import { FlashcardRemoveDeck } from "../../../storage/flashcard/flashcardRemoveDeck";
+import { SearchFlashcard } from "../../../components/Search/SearchFlashcard";
+import { ButtonIconBig } from "../../../components/Botton/ButtonIconBig";
+import theme from "../../../theme";
 
 type RouteParams = {
   deckName: string;
@@ -21,7 +24,15 @@ export function ListFlashCard() {
   const [flashcards, setFlashcards] = useState<FlashcardStorageDTO[]>([]);
 
   const { deckName } = route.params as RouteParams;
+  const [modalVisible, setModalVisible] = useState(false);
 
+  function openModal() {
+    setModalVisible(true);
+  };
+
+  function closeModal() {
+    setModalVisible(false);
+  };
   async function fetchflashcardByDeck() {
     try {
       setIsLoading(true);
@@ -72,8 +83,9 @@ export function ListFlashCard() {
         title={deckName}
         showButtonRight={true}
         showBackButton={true}
-        iconNameRight='plus'
-        onPressButtonRight={addFlashcard}
+        iconNameRight='search'
+        iconColorRight={theme.COLORS.BLUE}
+        onPressButtonRight={() => openModal()}
         onPressButtonLeft={handleGoBack}
         style={{ marginBottom: 20 }}
       />
@@ -91,6 +103,25 @@ export function ListFlashCard() {
           )}
         />
       }
+      <ButtonIconBig
+        iconName="plus"
+        onPress={addFlashcard}
+        style={{
+          position: "absolute",
+          bottom: 30
+        }}
+      />
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={closeModal}
+      >
+        <SearchFlashcard
+          onChangeNameDeck={() => { }}
+          onCancel={closeModal}
+        />
+      </Modal>
     </Container>
   )
 }

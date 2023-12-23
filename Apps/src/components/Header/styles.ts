@@ -8,10 +8,8 @@ export const Container = styled.View`
 `;
 
 export const Text = styled.Text`
-  ${({ theme }) => css`
-    font-size: ${theme.FONT_SIZE.XL}px;
-    color: ${theme.COLORS.BLUE};
-  `};
+  font-size: ${({ theme }) => theme.FONT_SIZE.XL}px;
+  color: ${({ theme }) => theme.COLORS.BLUE};
   font-family: 'Roboto-Bold';
   position: absolute;
   top: 10px; 
@@ -20,10 +18,8 @@ export const Text = styled.Text`
 `;
 
 export const IconRight = styled(Icon)`
-  ${({ theme, color }) => css`
-    font-size: ${theme.ICON.SIZE.MD}px;
-    color: ${color ? color : theme.COLORS.TEAL};
-  `};
+  font-size: ${({ theme }) => theme.ICON.SIZE.MD}px;
+  color: ${({ theme, color }) => color ? color : theme.COLORS.BLUE};
 `;
 
 export const ButtonBackIcon = styled.TouchableOpacity`
@@ -39,10 +35,7 @@ export const ButtonRight = styled.TouchableOpacity`
 `;
 
 export const IconBack = styled(Icon)`
-  ${({ theme }) => css`
-      font-size: ${theme.ICON.SIZE.MD}px;
-      color: ${theme.COLORS.BLUE};
-    `};
-   
+  font-size: ${({ theme }) => theme.ICON.SIZE.MD}px;
+  color: ${({ theme, color }) => color ? color : theme.COLORS.BLUE};
 `;
 

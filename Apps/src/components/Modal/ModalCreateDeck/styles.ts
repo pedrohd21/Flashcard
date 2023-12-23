@@ -11,14 +11,12 @@ export const Text = styled.Text`
 export const TextInput = styled.TextInput`
   ${({ theme }) => css`
    font-size: ${theme.FONT_SIZE.MD}px;
-   color: ${theme.COLORS.WHITE};
-   border-color: ${theme.COLORS.BLUE};
- 
+   color: ${theme.COLORS.WHITE}; 
  `};
    padding-left: 10px;
    font-family: 'Roboto-Regular';
-   border-width: 1px;
    border-radius: 10px;
+   border: 1px solid ${({ theme }) => theme.COLORS.BLUE};
    height: 40px;
    width: 90%;
    margin: 20px 0;
@@ -39,8 +37,7 @@ export const ModalContent = styled.View`
    height: 180px;
    background-color: ${({ theme }) => theme.COLORS.GRAY_900};
    border-radius: 10px;
-   border-color:  ${({ theme }) => theme.COLORS.BLUE};
-   border-width: 1px;
+   border: 1px solid ${({ theme }) => theme.COLORS.BLUE};
   `;
 
 export const ModalButton = styled(TouchableOpacity)`

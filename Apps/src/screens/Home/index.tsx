@@ -17,9 +17,8 @@ export function Home() {
   const [modalVisible, setModalVisible] = useState(false);
   const [deckName, setDeckName] = useState("");
   const [decks, setDecks] = useState<{ deck: string; flashcardCount: number }[]>([]);
+  
   const decksOrdenados = decks.sort((a, b) => a.deck.localeCompare(b.deck));
-
-  const flatListRef = useRef(null);
 
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(true);

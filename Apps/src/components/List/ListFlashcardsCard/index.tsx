@@ -12,7 +12,7 @@ type Props = TouchableOpacityProps &  {
 
 export function ListFlashcardsCard({textFront, textBack, deleteFlashcard, editFlashcard, ...rest}: Props) {
   return (
-    <ButtonContainer {...rest}>
+    <ButtonContainer >
       <Text>
         {textFront}
       </Text>

@@ -20,21 +20,15 @@ export const Text = styled.Text`
 `;
 
 export const TextInput = styled.TextInput`
-${({ theme }) => css`
-   font-size: ${theme.FONT_SIZE.MD}px;
-   color: ${theme.COLORS.WHITE};
-   border-color: ${theme.COLORS.BLUE};
- 
- `};
+  font-size: ${({ theme }) => theme.FONT_SIZE.MD}px;
+  color: ${({ theme }) => theme.COLORS.BLUE};
 
- padding-left: 10px;
- font-family: 'Roboto-Regular';
+  padding-left: 10px;
+  font-family: 'Roboto-Regular';
 `;
 export const BorderRadius = styled.Text`
- ${({ theme }) => css`
-    border-color: ${theme.COLORS.BLUE};
-  `};
   border-bottom-width: 2px; 
+  border: 1px solid ${({ theme }) => theme.COLORS.BLUE};
   height: 1px;
   margin: -12px 6px 0;
 `;

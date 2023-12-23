@@ -11,7 +11,7 @@ type Props = TouchableOpacityProps & {
 
 export function ButtonCreate({onPressButtonCreate, onPressButtonPratice, ...rest }: Props) {
   return (
-    <Container hitSlop={30}>
+    <Container hitSlop={20}>
       <ButtonCreateFlascard {...rest} onPressOut={onPressButtonCreate}>
         <ButtonIconSmall
           iconName='plus'

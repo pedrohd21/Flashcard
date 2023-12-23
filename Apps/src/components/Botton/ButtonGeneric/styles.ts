@@ -13,8 +13,7 @@ export const Container = styled(TouchableOpacity)`
 export const Button = styled(TouchableOpacity)`
   flex-direction: row;
   border-radius: 10px;
-  border-color: ${({ theme }) => theme.COLORS.BLUE};
-  border-width: 1px;
+  border: 1px solid ${({ theme }) => theme.COLORS.BLUE};
   width: 120px;
   height: 30px; 
   flex-direction: row;

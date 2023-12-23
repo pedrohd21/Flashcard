@@ -1,12 +1,11 @@
 import { TouchableOpacity } from "react-native";
 import styled, { css } from "styled-components/native";
 
-export const ButtonContainer = styled(TouchableOpacity)`
-  flex: 1;
+export const ButtonContainer = styled.View`
+  /* flex: 1; */
   margin: 10px 10px;
   border-radius: 14px ;
-  border-color: ${({ theme }) => theme.COLORS.BLUE};
-  border-width: 1px;
+  border: 1px solid ${({ theme }) => theme.COLORS.BLUE};
   justify-content: center;
   align-items: center;
 `;
