@@ -12,6 +12,7 @@ import { ListDeckCard } from "../../components/List/ListDeckCard";
 import { ButtonIconBig } from "../../components/Botton/ButtonIconBig";
 import { ModalCreateDeck } from "../../components/Modal/ModalCreateDeck";
 import { FlascardGetByDeck } from "../../storage/flashcard/FlascardGetByDeck";
+import { ModalButtonOptions } from "../../components/Modal/ModalButtonOptions";
 
 export function Home() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -74,7 +75,6 @@ export function Home() {
   }
 
   function buttonAddFlashcard(deckName: string) {
-
     navigation.navigate('CreateFlashCard', { deckName });
   }
 
@@ -114,11 +114,20 @@ export function Home() {
         visible={modalVisible}
         onRequestClose={closeModal}
       >
+        { 1== 1 ? 
+          <ModalButtonOptions
+          onChangeNameDeck={setDeckName}
+          onCancel={closeModal}
+          onSave={handleSave}
+        />
+        :
         <ModalCreateDeck
           onChangeNameDeck={setDeckName}
           onCancel={closeModal}
           onSave={handleSave}
         />
+        }
+        
       </Modal>
     </Container>
   )
