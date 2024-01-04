@@ -6,18 +6,20 @@ import { ButtonIconSmall } from "../../Botton/ButtonIconSmall";
 type Props = {
   onCancel?: () => void;
   onSave?: () => void;
-  onChangeNameDeck: (value: string) => void;
+  onChangeNameDeck?: () => void;
+  onChangeStatistic?: () => void;
+  onChangeDelete?: () => void;
 }
 
-export function ModalButtonOptions({ onCancel, onSave, onChangeNameDeck }: Props) {
+export function ModalButtonOptions({ onCancel, onSave, onChangeNameDeck, onChangeStatistic, onChangeDelete }: Props) {
   return (
-    <ModalContainer >
+    <ModalContainer>
       <ModalContent >
-      <Text>Selecione: </Text>
-      <ModalButton><Text>Editar nome Deck</Text></ModalButton>
-      <ModalButton><Text>Estastiticas</Text></ModalButton>
-      <ModalButton><Text style={{color: theme.COLORS.RED}}>Excluir</Text></ModalButton>
-      <ModalButton><Text style={{borderColor: theme.COLORS.BLACK, color: theme.COLORS.WHITE}}>Cancelar</Text></ModalButton>
+      <Text style={{fontFamily: 'Roboto-Bold'}}>Selecione: </Text>
+      <ModalButton onPress={onChangeNameDeck}><Text>Editar nome Deck</Text></ModalButton>
+      <ModalButton onPress={onChangeStatistic}><Text>Estastiticas</Text></ModalButton>
+      <ModalButton onPress={onChangeDelete}><Text style={{color: theme.COLORS.RED}}>Excluir</Text></ModalButton>
+      <ModalButton onPress={onCancel}><Text style={{color: theme.COLORS.WHITE, borderBottomWidth: 0}}>Cancelar</Text></ModalButton>
       
       </ModalContent>
     </ModalContainer>

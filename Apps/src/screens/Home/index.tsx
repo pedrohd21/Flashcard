@@ -18,11 +18,12 @@ export function Home() {
   const [modalVisible, setModalVisible] = useState(false);
   const [deckName, setDeckName] = useState("");
   const [decks, setDecks] = useState<{ deck: string; flashcardCount: number }[]>([]);
-  
+
   const decksOrdenados = decks.sort((a, b) => a.deck.localeCompare(b.deck));
 
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(true);
+  const [useButtonOptions, setUseButtonOptions] = useState(false);
 
   function openModal() {
     setModalVisible(true);
@@ -30,6 +31,7 @@ export function Home() {
 
   function closeModal() {
     setModalVisible(false);
+    setUseButtonOptions(false)
     setDeckName('')
   };
 
@@ -50,6 +52,7 @@ export function Home() {
   }
 
   function navegar(deckName: string) {
+    console.log('##########')
     navigation.navigate('ListFlashCard', { deckName })
   }
 
@@ -65,7 +68,7 @@ export function Home() {
           return { deck, flashcardCount: flashcards.length };
         })
       );
-  
+
       setDecks(decksWithFlashcardCount);
     } catch (error) {
       Alert.alert('Decks', 'Não foi possível carregar os Decks.');
@@ -76,6 +79,12 @@ export function Home() {
 
   function buttonAddFlashcard(deckName: string) {
     navigation.navigate('CreateFlashCard', { deckName });
+  }
+
+  function handleButtonOptions() {
+    setUseButtonOptions(true)
+    openModal()
+    
   }
 
   useFocusEffect(useCallback(() => {
@@ -95,6 +104,7 @@ export function Home() {
               textTitle={item.deck}
               contadorFlashcard={item.flashcardCount}
               onPressButtonCreate={() => buttonAddFlashcard(item.deck)}
+              onPressButtonOptions={() => handleButtonOptions()}
             />
           )}
         />
@@ -114,20 +124,20 @@ export function Home() {
         visible={modalVisible}
         onRequestClose={closeModal}
       >
-        { 1== 1 ? 
+        {useButtonOptions ?
           <ModalButtonOptions
-          onChangeNameDeck={setDeckName}
-          onCancel={closeModal}
-          onSave={handleSave}
-        />
-        :
-        <ModalCreateDeck
-          onChangeNameDeck={setDeckName}
-          onCancel={closeModal}
-          onSave={handleSave}
-        />
+            onCancel={closeModal}
+            onSave={handleSave}
+          />
+          :
+          <ModalCreateDeck
+            onChangeNameDeck={setDeckName}
+            onCancel={closeModal}
+            onSave={handleSave}
+            
+          />
         }
-        
+
       </Modal>
     </Container>
   )

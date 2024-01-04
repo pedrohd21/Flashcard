@@ -9,7 +9,7 @@ type Props = {
   onChangeNameDeck: (value: string) => void;
 }
 
-export function ModalCreateDeck({ onCancel, onSave, onChangeNameDeck }: Props) {
+export function ModalCreateDeck({ onCancel, onSave, onChangeNameDeck, ...rest }: Props) {
   return (
     <ModalContainer >
       <ModalContent >
@@ -20,7 +20,7 @@ export function ModalCreateDeck({ onCancel, onSave, onChangeNameDeck }: Props) {
           maxLength={40}
         />
         <ButtonModalContainer >
-          <ModalButton onPress={onCancel} style={{ borderColor: theme.COLORS.RED, borderWidth: 1, }}>
+          <ModalButton {...rest} onPress={onCancel} style={{ borderColor: theme.COLORS.RED, borderWidth: 1, }}>
             <ButtonIconSmall
               iconName="times-circle"
               iconColor={theme.COLORS.RED}
@@ -28,7 +28,7 @@ export function ModalCreateDeck({ onCancel, onSave, onChangeNameDeck }: Props) {
             />
             <Text style={{ color: theme.COLORS.RED }}>Cancelar</Text>
           </ModalButton>
-          <ModalButton onPress={onSave} style={{ borderColor: theme.COLORS.BLUE, borderWidth: 1, }}>
+          <ModalButton  {...rest} onPress={onSave} style={{ borderColor: theme.COLORS.BLUE, borderWidth: 1, }}>
             <ButtonIconSmall
               iconName="save"
               iconColor={theme.COLORS.BLUE}

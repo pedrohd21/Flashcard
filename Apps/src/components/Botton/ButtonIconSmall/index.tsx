@@ -11,7 +11,7 @@ type Props = TouchableOpacityProps & {
 
 export function ButtonIconSmall({ iconName, iconSize, iconColor, style, ...rest }: Props) {
   return (
-      <Button hitSlop={20} {...rest}>
+      <Button hitSlop={20} {...rest} >
         <Icon name={iconName ? iconName : ''} size={iconSize} color={iconColor} style={style}/>
       </Button>
   )

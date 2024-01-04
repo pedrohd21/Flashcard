@@ -9,10 +9,12 @@ type Props = TouchableOpacityProps & {
   textTitle: string;
   contadorFlashcard?: number;
   onPressButtonCreate?: () => void;
+  onPressButtonOptions?: () => void;
+  onPressOpenModal?: () => void;
 }
 
 
-export function ListDeckCard({ textTitle, contadorFlashcard, onPressButtonCreate, ...rest }: Props) {
+export function ListDeckCard({ textTitle, contadorFlashcard, onPressButtonCreate, onPressButtonOptions, onPressOpenModal, ...rest }: Props) {
   return (
     <ButtonContainer
       hitSlop={30}
@@ -23,7 +25,7 @@ export function ListDeckCard({ textTitle, contadorFlashcard, onPressButtonCreate
           iconName="ellipsis-v"
           iconColor={theme.COLORS.BLUE}
           iconSize={20}
-          
+          onPress={onPressButtonOptions}
         />
       </ContainerIcon>
       <ContadorFlascard>{contadorFlashcard}</ContadorFlascard>
