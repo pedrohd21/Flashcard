@@ -1,17 +1,15 @@
 import React from "react";
 import { ModalButton, ModalContainer, ModalContent, Text } from "./styles";
 import theme from "../../../theme";
-import { ButtonIconSmall } from "../../Botton/ButtonIconSmall";
 
 type Props = {
   onCancel?: () => void;
-  onSave?: () => void;
   onChangeNameDeck?: () => void;
   onChangeStatistic?: () => void;
   onChangeDelete?: () => void;
 }
 
-export function ModalButtonOptions({ onCancel, onSave, onChangeNameDeck, onChangeStatistic, onChangeDelete }: Props) {
+export function ModalButtonOptions({ onCancel, onChangeNameDeck, onChangeStatistic, onChangeDelete }: Props) {
   return (
     <ModalContainer>
       <ModalContent >

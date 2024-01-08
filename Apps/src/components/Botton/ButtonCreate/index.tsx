@@ -1,7 +1,6 @@
 import React from 'react';
-import { ButtonCreateFlascard, ButtonpracticeFlascard, Container, Text } from './styles';
+import { ButtonCreateFlascard, ButtonpracticeFlascard, Container, Icon, Text } from './styles';
 import { TouchableOpacityProps } from "react-native";
-import { ButtonIconSmall } from '../ButtonIconSmall';
 import theme from '../../../theme';
 
 type Props = TouchableOpacityProps & {
@@ -13,19 +12,19 @@ export function ButtonCreate({onPressButtonCreate, onPressButtonPratice, ...rest
   return (
     <Container hitSlop={20}>
       <ButtonCreateFlascard {...rest} onPressOut={onPressButtonCreate}>
-        <ButtonIconSmall
-          iconName='plus'
-          iconColor={theme.COLORS.BLACK}
-          iconSize={15}
+        <Icon
+          name='plus'
+          color={theme.COLORS.BLACK}
+          size={15}
           onPress={onPressButtonCreate}
         />
         <Text>Add</Text>
       </ButtonCreateFlascard>
       <ButtonpracticeFlascard {...rest} onPressOut={onPressButtonPratice}>
-        <ButtonIconSmall
-          iconName='book-reader'
-          iconColor={theme.COLORS.BLUE}
-          iconSize={15}
+        <Icon
+          name='book-reader'
+          color={theme.COLORS.BLUE}
+          size={15}
         />
         <Text style={{color: theme.COLORS.BLUE}}>Praticar</Text>
       </ButtonpracticeFlascard >

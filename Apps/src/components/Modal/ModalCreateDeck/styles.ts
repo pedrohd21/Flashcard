@@ -1,4 +1,5 @@
 import { TouchableOpacity } from "react-native";
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import styled from "styled-components/native";
 
 export const Text = styled.Text`
@@ -53,4 +54,10 @@ export const ModalButton = styled(TouchableOpacity)`
 export const ButtonModalContainer = styled.View`
    flex-direction: row;
 
+`;
+
+export const Icon = styled(FontAwesome5Icon)`
+  font-size: ${({ theme, size }) => size ? size : theme.ICON.SIZE.LG}px;
+  color: ${({ theme, color }) => color ? color : theme.COLORS.BLUE};
+  margin-right: 7px;
 `;

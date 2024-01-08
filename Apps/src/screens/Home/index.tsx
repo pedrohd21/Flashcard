@@ -13,11 +13,14 @@ import { ButtonIconBig } from "../../components/Botton/ButtonIconBig";
 import { ModalCreateDeck } from "../../components/Modal/ModalCreateDeck";
 import { FlascardGetByDeck } from "../../storage/flashcard/FlascardGetByDeck";
 import { ModalButtonOptions } from "../../components/Modal/ModalButtonOptions";
+import { deleteDeck } from "../../storage/deck/deleteDeck";
 
 export function Home() {
   const [modalVisible, setModalVisible] = useState(false);
   const [deckName, setDeckName] = useState("");
   const [decks, setDecks] = useState<{ deck: string; flashcardCount: number }[]>([]);
+  const [selectedDeck, setSelectedDeck] = useState('');
+
 
   const decksOrdenados = decks.sort((a, b) => a.deck.localeCompare(b.deck));
 
@@ -51,8 +54,23 @@ export function Home() {
     }
   }
 
+  async function handledeckRemove() {
+    try {
+      await deleteDeck(selectedDeck)
+      fetchDecks();
+    } catch (error) {
+      console.log(error);
+
+      Alert.alert('Remover Flashcard', 'Não foi possível remover flashcard.');
+    }
+    closeModal()
+  }
+
+  async function handleChangeNameDeck(){
+
+  }
+
   function navegar(deckName: string) {
-    console.log('##########')
     navigation.navigate('ListFlashCard', { deckName })
   }
 
@@ -81,10 +99,11 @@ export function Home() {
     navigation.navigate('CreateFlashCard', { deckName });
   }
 
-  function handleButtonOptions() {
+  function handleButtonOptions(deckName: string) {
+    setSelectedDeck(deckName)
     setUseButtonOptions(true)
     openModal()
-    
+
   }
 
   useFocusEffect(useCallback(() => {
@@ -104,7 +123,7 @@ export function Home() {
               textTitle={item.deck}
               contadorFlashcard={item.flashcardCount}
               onPressButtonCreate={() => buttonAddFlashcard(item.deck)}
-              onPressButtonOptions={() => handleButtonOptions()}
+              onPressButtonOptions={() => handleButtonOptions(item.deck)}
             />
           )}
         />
@@ -127,14 +146,15 @@ export function Home() {
         {useButtonOptions ?
           <ModalButtonOptions
             onCancel={closeModal}
-            onSave={handleSave}
+            onChangeDelete={handledeckRemove}
+            onChangeNameDeck={handleChangeNameDeck}
           />
           :
           <ModalCreateDeck
             onChangeNameDeck={setDeckName}
             onCancel={closeModal}
             onSave={handleSave}
-            
+
           />
         }
 

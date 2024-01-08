@@ -1,5 +1,5 @@
 import React from "react";
-import { ModalContainer, ModalContent, Text, ModalButton, TextInput, ButtonModalContainer } from "./styles";
+import { ModalContainer, ModalContent, Text, ModalButton, TextInput, ButtonModalContainer, Icon } from "./styles";
 import theme from "../../../theme";
 import { ButtonIconSmall } from "../../Botton/ButtonIconSmall";
 
@@ -21,18 +21,18 @@ export function ModalCreateDeck({ onCancel, onSave, onChangeNameDeck, ...rest }:
         />
         <ButtonModalContainer >
           <ModalButton {...rest} onPress={onCancel} style={{ borderColor: theme.COLORS.RED, borderWidth: 1, }}>
-            <ButtonIconSmall
-              iconName="times-circle"
-              iconColor={theme.COLORS.RED}
-              iconSize={17}
+            <Icon
+              name="times-circle"
+              color={theme.COLORS.RED}
+              size={17}
             />
             <Text style={{ color: theme.COLORS.RED }}>Cancelar</Text>
           </ModalButton>
           <ModalButton  {...rest} onPress={onSave} style={{ borderColor: theme.COLORS.BLUE, borderWidth: 1, }}>
-            <ButtonIconSmall
-              iconName="save"
-              iconColor={theme.COLORS.BLUE}
-              iconSize={17}
+            <Icon
+              name="save"
+              color={theme.COLORS.BLUE}
+              size={17}
             />
             <Text style={{ color: theme.COLORS.BLUE }}>Salvar</Text>
           </ModalButton>

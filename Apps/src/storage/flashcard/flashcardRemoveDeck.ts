@@ -7,7 +7,7 @@ export async function FlashcardRemoveDeck(flashcardFront: string, flashcardBack:
   try {
     const storage = await FlascardGetByDeck(deck);
 
-    const filtered = storage.filter(flashcard => (flashcard.front !== flashcardFront) && (flashcard.back !== flashcardBack));
+    const filtered = storage.filter(flashcard => (flashcard.front !== flashcardFront) || (flashcard.back !== flashcardBack));
 
     const flashcards = JSON.stringify(filtered);
 

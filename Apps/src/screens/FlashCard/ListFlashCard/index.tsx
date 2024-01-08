@@ -55,7 +55,7 @@ export function ListFlashCard() {
   }
 
 
-  async function handledeckRemove(front: string, back: string) {
+  async function handledeckFlashcardRemove(front: string, back: string) {
     try {
       console.log(front, back, deckName)
       await FlashcardRemoveDeck(front, back, deckName);
@@ -97,7 +97,7 @@ export function ListFlashCard() {
             <ListFlashcardsCard
               textFront={item.front}
               textBack={item.back}
-              deleteFlashcard={() => handledeckRemove(item.front, item.back)}
+              deleteFlashcard={() => handledeckFlashcardRemove(item.front, item.back)}
               editFlashcard={() => { }}
             />
           )}
