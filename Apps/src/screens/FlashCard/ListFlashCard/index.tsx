@@ -54,7 +54,7 @@ export function ListFlashCard() {
     navigation.goBack();
   }
 
-
+ 
   async function handledeckFlashcardRemove(front: string, back: string) {
     try {
       await FlashcardRemoveDeck(front, back, deckName);
