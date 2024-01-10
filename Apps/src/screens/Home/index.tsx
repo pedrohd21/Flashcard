@@ -6,6 +6,7 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import theme from "../../theme";
 import { Alert, Modal, FlatList } from 'react-native';
 import { CreateDeck } from '../../storage/deck/createDeck';
+import { EditNameDeck } from '../../storage/deck/editNameDeck';
 import { DecksGetAll } from '../../storage/deck/decksGetAll'
 import { Loading } from "../../components/Loading";
 import { ListDeckCard } from "../../components/List/ListDeckCard";
@@ -14,6 +15,7 @@ import { ModalCreateDeck } from "../../components/Modal/ModalCreateDeck";
 import { FlascardGetByDeck } from "../../storage/flashcard/FlascardGetByDeck";
 import { ModalButtonOptions } from "../../components/Modal/ModalButtonOptions";
 import { deleteDeck } from "../../storage/deck/deleteDeck";
+import { ModalChangeNameDeck } from "../../components/Modal/ModalChangeNameDeck";
 
 export function Home() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -27,6 +29,7 @@ export function Home() {
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(true);
   const [useButtonOptions, setUseButtonOptions] = useState(false);
+  const [useButtonChangeName, setUseButtonChangeName] = useState(false);
 
   function openModal() {
     setModalVisible(true);
@@ -35,10 +38,11 @@ export function Home() {
   function closeModal() {
     setModalVisible(false);
     setUseButtonOptions(false)
+    setUseButtonChangeName(false)
     setDeckName('')
   };
 
-  async function handleSave() {
+  async function handleSaveDeck() {
     try {
       const deckNameGroup = await DecksGetAll();
       if (deckName.trim().length === 0) {
@@ -54,6 +58,21 @@ export function Home() {
     }
   }
 
+  async function handleEditNameDeck() {
+    try {
+      if (deckName.trim().length === 0) {
+        throw new Error('Não é possível salvar sem um nome.');
+      }
+      await EditNameDeck(selectedDeck, deckName);
+      closeModal();
+      fetchDecks();
+      setDeckName('')
+    } catch (error: any) {
+      Alert.alert('Error', error.message);
+
+    }
+  }
+
   async function handledeckRemove() {
     try {
       await deleteDeck(selectedDeck)
@@ -66,8 +85,17 @@ export function Home() {
     closeModal()
   }
 
-  async function handleChangeNameDeck(){
+  function handleButtonOptions(deckName: string) {
+    setSelectedDeck(deckName)
+    setUseButtonOptions(true)
+    openModal()
 
+  }
+
+  function handleButtonEditNameDeck() {
+    setUseButtonOptions(false)
+    setUseButtonChangeName(true)
+    openModal()
   }
 
   function navegar(deckName: string) {
@@ -97,13 +125,6 @@ export function Home() {
 
   function buttonAddFlashcard(deckName: string) {
     navigation.navigate('CreateFlashCard', { deckName });
-  }
-
-  function handleButtonOptions(deckName: string) {
-    setSelectedDeck(deckName)
-    setUseButtonOptions(true)
-    openModal()
-
   }
 
   useFocusEffect(useCallback(() => {
@@ -147,15 +168,22 @@ export function Home() {
           <ModalButtonOptions
             onCancel={closeModal}
             onChangeDelete={handledeckRemove}
-            onChangeNameDeck={handleChangeNameDeck}
+            onChangeNameDeck={handleButtonEditNameDeck}
           />
           :
-          <ModalCreateDeck
-            onChangeNameDeck={setDeckName}
-            onCancel={closeModal}
-            onSave={handleSave}
-
-          />
+          useButtonChangeName ? 
+            <ModalChangeNameDeck
+              onChangeNameDeck={setDeckName}
+              onCancel={closeModal}
+              onSave={handleEditNameDeck}
+            />
+           : (
+            <ModalCreateDeck
+              onChangeNameDeck={setDeckName}
+              onCancel={closeModal}
+              onSave={handleSaveDeck}
+            />
+          )
         }
 
       </Modal>

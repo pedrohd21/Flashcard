@@ -57,7 +57,6 @@ export function ListFlashCard() {
 
   async function handledeckFlashcardRemove(front: string, back: string) {
     try {
-      console.log(front, back, deckName)
       await FlashcardRemoveDeck(front, back, deckName);
 
       fetchflashcardByDeck()
