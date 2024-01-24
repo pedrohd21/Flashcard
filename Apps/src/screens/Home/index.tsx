@@ -16,6 +16,7 @@ import { FlascardGetByDeck } from "../../storage/flashcard/FlascardGetByDeck";
 import { ModalButtonOptions } from "../../components/Modal/ModalButtonOptions";
 import { deleteDeck } from "../../storage/deck/deleteDeck";
 import { ModalChangeNameDeck } from "../../components/Modal/ModalChangeNameDeck";
+import { AlertButton } from "../../components/AlertGeneric/style";
 
 export function Home() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -75,6 +76,7 @@ export function Home() {
 
   async function handledeckRemove() {
     try {
+
       await deleteDeck(selectedDeck)
       fetchDecks();
     } catch (error) {
@@ -133,6 +135,7 @@ export function Home() {
 
   return (
     <Container>
+      
       <Header title='FlashCard' iconNameRight="bell-slash" showButtonRight={true} iconColorRight={theme.COLORS.RED} />
       {isLoading ? <Loading /> :
         <FlatList

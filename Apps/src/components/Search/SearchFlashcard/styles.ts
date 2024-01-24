@@ -9,26 +9,26 @@ export const Text = styled.Text`
 
 export const TextInput = styled.TextInput`
   font-size: ${({ theme }) => theme.FONT_SIZE.MD}px;
-  border: 1px solid ${({ theme }) => theme.COLORS.BLUE};
   font-family: 'Roboto-Regular';
-  border-radius: 10px;
+  
   height: 40px;
-  width: 80%;
-  margin: 0 10px;
+  width: 90%;
+  padding-left: 20px;
+  /* margin: 0 10px; */
 `;
 
-export const ModalContainer = styled.View`
-   flex: 1;
-   background-color: ${({ theme }) => theme.COLORS.GRAY_900};
-`;
-
-export const ModalContent = styled.View`
+export const Container = styled.View`
+  background-color: ${({ theme }) => theme.COLORS.GRAY_900};
   flex-direction: row;
-  width: 100%;
+  margin: 10px 10px;
   height: 40px;
-  margin-top: 20px;
   align-items: center;
   justify-content: center;
-  `;
+  border-radius: 15px;
+  border: 1px solid ${({ theme }) => theme.COLORS.BLUE};
+
+`;
+
+
 
 

@@ -22,17 +22,15 @@ export function ListFlashCard() {
   const [isLoading, setIsLoading] = useState(true);
 
   const [flashcards, setFlashcards] = useState<FlashcardStorageDTO[]>([]);
+  const [isButtonVisible, setIsButtonVisible] = useState(true);
 
   const { deckName } = route.params as RouteParams;
-  const [modalVisible, setModalVisible] = useState(false);
+  const [searchText, setSearchText] = useState('');
 
-  function openModal() {
-    setModalVisible(true);
+  const clearSearchText = () => {
+    setSearchText('');
   };
 
-  function closeModal() {
-    setModalVisible(false);
-  };
   async function fetchflashcardByDeck() {
     try {
       setIsLoading(true);
@@ -54,7 +52,6 @@ export function ListFlashCard() {
     navigation.goBack();
   }
 
- 
   async function handledeckFlashcardRemove(front: string, back: string) {
     try {
       await FlashcardRemoveDeck(front, back, deckName);
@@ -70,6 +67,7 @@ export function ListFlashCard() {
 
   useFocusEffect(useCallback(() => {
     fetchflashcardByDeck();
+    console.log(searchText)
   }, []));
 
   // useEffect(() => {
@@ -80,18 +78,27 @@ export function ListFlashCard() {
     <Container>
       <Header
         title={deckName}
-        showButtonRight={true}
+        // showButtonRight={true}
         showBackButton={true}
-        iconNameRight='search'
-        iconColorRight={theme.COLORS.BLUE}
-        onPressButtonRight={() => openModal()}
+        // iconNameRight='search'
+        // iconColorRight={theme.COLORS.BLUE}
+        onPressButtonRight={() => { }}
         onPressButtonLeft={handleGoBack}
         style={{ marginBottom: 20 }}
       />
-
+      <SearchFlashcard
+        valueCleanText={searchText}
+        onChangeNameDeck={(text) => setSearchText(text)}
+        clearText={clearSearchText}
+        buttonFocus={() => setIsButtonVisible(false)}
+        buttonBlur={() => setIsButtonVisible(true)}
+      />
       {isLoading ? <Loading /> :
         <FlatList
-          data={flashcards}
+          data={flashcards.filter(item =>
+            item.front.toLowerCase().includes(searchText.toLowerCase()) ||
+            item.back.toLowerCase().includes(searchText.toLowerCase())
+          )}
           renderItem={({ item }) => (
             <ListFlashcardsCard
               textFront={item.front}
@@ -102,25 +109,16 @@ export function ListFlashCard() {
           )}
         />
       }
-      <ButtonIconBig
-        iconName="plus"
-        onPress={addFlashcard}
-        style={{
-          position: "absolute",
-          bottom: 30
-        }}
-      />
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={closeModal}
-      >
-        <SearchFlashcard
-          onChangeNameDeck={() => { }}
-          onCancel={closeModal}
+      {isButtonVisible && (
+        <ButtonIconBig
+          iconName="plus"
+          onPress={addFlashcard}
+          style={{
+            position: "absolute",
+            bottom: 30
+          }}
         />
-      </Modal>
+      )}
     </Container>
   )
 }

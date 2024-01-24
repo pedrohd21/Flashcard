@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Container, Text } from './styles';
+import { Button, Container, Icon, Text } from './styles';
 import { TouchableOpacityProps } from "react-native";
 import { ButtonIconSmall } from '../ButtonIconSmall';
 import theme from '../../../theme';
@@ -13,18 +13,18 @@ export function ButtonGeneric({onPressButtonEdit, onPressButtonDeletar, ...rest 
   return (
     <Container hitSlop={30}>
       <Button {...rest} onPressOut={onPressButtonEdit} style={{borderColor: theme.COLORS.BLUE}}>
-        <ButtonIconSmall
-          iconName='edit'
-          iconColor={theme.COLORS.BLUE}
-          iconSize={15}
+        <Icon
+          name='edit'
+          color={theme.COLORS.BLUE}
+          size={15}
         />
         <Text style={{color: theme.COLORS.BLUE}}>Editar</Text>
       </Button>
       <Button {...rest} onPressOut={onPressButtonDeletar} style={{borderColor: theme.COLORS.RED}}>
-        <ButtonIconSmall
-          iconName='trash'
-          iconColor={theme.COLORS.RED}
-          iconSize={15}
+        <Icon
+          name='trash'
+          color={theme.COLORS.RED}
+          size={15}
         />
         <Text style={{color: theme.COLORS.RED}}>Apagar</Text>
       </Button>

@@ -1,29 +1,34 @@
-import React from "react";
-import { ModalContainer, ModalContent, TextInput } from "./styles";
+import React, { useState } from "react";
+import { Container, TextInput } from "./styles";
 import theme from "../../../theme";
 import { ButtonIconSmall } from "../../Botton/ButtonIconSmall";
 
 type Props = {
-  onCancel?: () => void;
-  onChangeNameDeck: (value: string) => void;
+  onChangeNameDeck?: (value: string) => void;
+  clearText?: () => void;
+  valueCleanText?: string;
+  buttonFocus?: () => void;
+  buttonBlur?: () => void;
 }
 
-export function SearchFlashcard({ onCancel, onChangeNameDeck }: Props) {
+export function SearchFlashcard({ clearText, onChangeNameDeck, valueCleanText, buttonFocus, buttonBlur }: Props) {
   return (
-    <ModalContainer >
-      <ModalContent >
-        <TextInput
-          onChangeText={onChangeNameDeck}
-          placeholder="Pesquisar"
-          maxLength={40}
-        />
-        <ButtonIconSmall
-          onPress={onCancel}
-          iconName="times-circle"
-          iconColor={theme.COLORS.RED}
-          iconSize={30}
-        />
-      </ModalContent>
-    </ModalContainer>
+    <Container >
+      <TextInput
+        onChangeText={onChangeNameDeck}
+        placeholder="Pesquisar"
+        maxLength={40}
+        value={valueCleanText}
+        onFocus={buttonFocus}
+        onBlur={buttonBlur}
+      />
+      <ButtonIconSmall
+        iconName="times-circle"
+        iconColor={theme.COLORS.RED}
+        iconSize={30}
+        onPress={clearText}
+        
+      />
+    </Container>
   );
 }
