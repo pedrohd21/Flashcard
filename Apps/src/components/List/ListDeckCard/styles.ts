@@ -1,8 +1,7 @@
-import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 
-export const ButtonContainer = styled(TouchableOpacity)`
-  height: 100px;
+export const Container = styled.View`
+  height: 110px;
 
   margin: 12px 12px;
   border-radius: 14px ;
@@ -14,10 +13,11 @@ export const TextTitle = styled.Text`
   font-size: ${({ theme }) => theme.FONT_SIZE.LG}px;
   color: ${({ theme }) => theme.COLORS.WHITE};
   width: 90%;
+  height: 25px;
   padding-left: 10px;
-  font-family: 'Roboto-Bold' ;
+  font-family: 'Roboto-Medium' ;
   text-align: left;
-  margin-bottom: 10px
+  margin-bottom: 10px;
 `;
 
 export const ContadorFlascard = styled.Text`
@@ -35,7 +35,7 @@ export const ContadorFlascard = styled.Text`
 
 export const ContainerIcon = styled.TouchableOpacity`
   position: absolute;
-  right: 3px;
+  right: -10px;
   top: 5px;
   z-index: 1;
   width: 30px;

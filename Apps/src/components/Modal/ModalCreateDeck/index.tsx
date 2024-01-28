@@ -17,7 +17,7 @@ export function ModalCreateDeck({ onCancel, onSave, onChangeNameDeck, ...rest }:
         <TextInput
           onChangeText={onChangeNameDeck}
           placeholder="Nome do Deck"
-          maxLength={40}
+          maxLength={30}
         />
         <ButtonModalContainer >
           <ModalButton {...rest} onPress={onCancel} style={{ borderColor: theme.COLORS.RED, borderWidth: 1, }}>

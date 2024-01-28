@@ -20,6 +20,8 @@
 		E3F22DBEFBD5402DBE90D1D3 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 53CEB9FE28CE4FEF8E0EC8AB /* Roboto-Regular.ttf */; };
 		D2DC4FAFF9284EFFBEE51D07 /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 36784DD0F76C491BB1EA1EC4 /* Roboto-Thin.ttf */; };
 		83F2E20443184EB28A7EF274 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E8AC82A028A44617817FC916 /* Roboto.ttf */; };
+		1D4E15703D5C4BD680DE30DD /* KleeOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 389BEDC7B5A74E44AC08EB6D /* KleeOne-Regular.ttf */; };
+		ED65FEE2A3724BC78CB442AA /* KleeOne-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8492655E6AFB462E94FA6090 /* KleeOne-SemiBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +58,8 @@
 		53CEB9FE28CE4FEF8E0EC8AB /* Roboto-Regular.ttf */ = {isa = PBXFileReference; name = "Roboto-Regular.ttf"; path = "../assets/fonts/Roboto-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		36784DD0F76C491BB1EA1EC4 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; name = "Roboto-Thin.ttf"; path = "../assets/fonts/Roboto-Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		E8AC82A028A44617817FC916 /* Roboto.ttf */ = {isa = PBXFileReference; name = "Roboto.ttf"; path = "../assets/fonts/Roboto.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		389BEDC7B5A74E44AC08EB6D /* KleeOne-Regular.ttf */ = {isa = PBXFileReference; name = "KleeOne-Regular.ttf"; path = "../assets/fonts/KleeOne-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8492655E6AFB462E94FA6090 /* KleeOne-SemiBold.ttf */ = {isa = PBXFileReference; name = "KleeOne-SemiBold.ttf"; path = "../assets/fonts/KleeOne-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +174,8 @@
 				53CEB9FE28CE4FEF8E0EC8AB /* Roboto-Regular.ttf */,
 				36784DD0F76C491BB1EA1EC4 /* Roboto-Thin.ttf */,
 				E8AC82A028A44617817FC916 /* Roboto.ttf */,
+				389BEDC7B5A74E44AC08EB6D /* KleeOne-Regular.ttf */,
+				8492655E6AFB462E94FA6090 /* KleeOne-SemiBold.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -277,6 +283,8 @@
 				E3F22DBEFBD5402DBE90D1D3 /* Roboto-Regular.ttf in Resources */,
 				D2DC4FAFF9284EFFBEE51D07 /* Roboto-Thin.ttf in Resources */,
 				83F2E20443184EB28A7EF274 /* Roboto.ttf in Resources */,
+				1D4E15703D5C4BD680DE30DD /* KleeOne-Regular.ttf in Resources */,
+				ED65FEE2A3724BC78CB442AA /* KleeOne-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

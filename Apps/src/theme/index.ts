@@ -11,6 +11,7 @@ export default {
 
     RED: '#ED585E', // Cor vermelha
     GREEN: '#4CAF50', // 
+    GREEN_LIGHT: '#7ebc80', // 
 
 
     BLUE: '#446FF2', // Cor azul

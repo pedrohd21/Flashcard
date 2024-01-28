@@ -136,30 +136,30 @@ export function Home() {
   return (
     <Container>
       
-      <Header title='FlashCard' iconNameRight="bell-slash" showButtonRight={true} iconColorRight={theme.COLORS.RED} />
+      <Header title='FlashCard' iconNameRight="plus" showButtonRight={true} iconColorRight={theme.COLORS.BLUE} onPressButtonRight={() => openModal()}/>
       {isLoading ? <Loading /> :
         <FlatList
           data={decksOrdenados}
           keyExtractor={(item) => item.deck}
           renderItem={({ item }) => (
             <ListDeckCard
-              onPress={() => navegar(item.deck)}
               textTitle={item.deck}
               contadorFlashcard={item.flashcardCount}
               onPressButtonCreate={() => buttonAddFlashcard(item.deck)}
               onPressButtonOptions={() => handleButtonOptions(item.deck)}
+              onPressButtonEdit={() => navegar(item.deck)}
             />
           )}
         />
       }
-      <ButtonIconBig
+      {/* <ButtonIconBig
         iconName="plus"
         onPress={() => openModal()}
         style={{
           position: "absolute",
           bottom: 30
         }}
-      />
+      /> */}
 
       <Modal
         animationType="fade"
@@ -185,6 +185,7 @@ export function Home() {
               onChangeNameDeck={setDeckName}
               onCancel={closeModal}
               onSave={handleSaveDeck}
+              
             />
           )
         }

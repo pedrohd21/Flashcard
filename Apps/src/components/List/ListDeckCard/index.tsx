@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ButtonContainer, TextTitle, ContadorFlascard, ContainerIcon } from "./styles";
+import { TextTitle, ContadorFlascard, ContainerIcon, Container } from "./styles";
 import { Modal, TouchableOpacityProps } from "react-native";
 import { ButtonIconSmall } from '../../Botton/ButtonIconSmall';
 import { ButtonCreate } from "../../Botton/ButtonCreate";
@@ -10,16 +10,14 @@ type Props = TouchableOpacityProps & {
   contadorFlashcard?: number;
   onPressButtonCreate?: () => void;
   onPressButtonOptions?: () => void;
+  onPressButtonEdit?: () => void;
   onPressOpenModal?: () => void;
 }
 
 
-export function ListDeckCard({ textTitle, contadorFlashcard, onPressButtonCreate, onPressButtonOptions, onPressOpenModal, ...rest }: Props) {
+export function ListDeckCard({ textTitle, contadorFlashcard, onPressButtonCreate, onPressButtonOptions, onPressOpenModal, onPressButtonEdit, ...rest }: Props) {
   return (
-    <ButtonContainer
-      hitSlop={30}
-      {...rest}
-    >
+    <Container>
       <ContainerIcon>
         <ButtonIconSmall
           iconName="ellipsis-v"
@@ -30,13 +28,14 @@ export function ListDeckCard({ textTitle, contadorFlashcard, onPressButtonCreate
       </ContainerIcon>
       <ContadorFlascard>{contadorFlashcard}</ContadorFlascard>
       <TextTitle>
-        {textTitle}
+        {textTitle} testabndo o trem pra ver se
       </TextTitle>
 
       <ButtonCreate
         onPressButtonCreate={onPressButtonCreate}
+        onPressButtonEdit={onPressButtonEdit}
       />
 
-    </ButtonContainer>
+    </Container>
   );
 }

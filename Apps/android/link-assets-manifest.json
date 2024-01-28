@@ -2,6 +2,14 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "assets/fonts/KleeOne-Regular.ttf",
+      "sha1": "761ddaaf8e7ebcb462fab36a2f9519214e92d118"
+    },
+    {
+      "path": "assets/fonts/KleeOne-SemiBold.ttf",
+      "sha1": "7ed32ad4271d9e99987b60aebd4f0eddfb0290d9"
+    },
+    {
       "path": "assets/fonts/Roboto-Bold.ttf",
       "sha1": "62442a18a9fe9457c1afeabf683d263a691b7798"
     },
