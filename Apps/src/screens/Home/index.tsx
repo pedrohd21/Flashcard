@@ -17,6 +17,7 @@ import { ModalButtonOptions } from "../../components/Modal/ModalButtonOptions";
 import { deleteDeck } from "../../storage/deck/deleteDeck";
 import { ModalChangeNameDeck } from "../../components/Modal/ModalChangeNameDeck";
 import { AlertButton } from "../../components/AlertGeneric/style";
+import { ListEmpty } from "../../components/List/ListEmpty";
 
 export function Home() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -135,8 +136,7 @@ export function Home() {
 
   return (
     <Container>
-      
-      <Header title='FlashCard' iconNameRight="plus" showButtonRight={true} iconColorRight={theme.COLORS.BLUE} onPressButtonRight={() => openModal()}/>
+      <Header title='FlashCard' iconNameRight="plus" showButtonRight={true} iconColorRight={theme.COLORS.BLUE} onPressButtonRight={() => openModal()} />
       {isLoading ? <Loading /> :
         <FlatList
           data={decksOrdenados}
@@ -148,7 +148,11 @@ export function Home() {
               onPressButtonCreate={() => buttonAddFlashcard(item.deck)}
               onPressButtonOptions={() => handleButtonOptions(item.deck)}
               onPressButtonEdit={() => navegar(item.deck)}
+              onPressButtonPractice={() => { navigation.navigate('Practice')}}
             />
+          )}
+          ListEmptyComponent={() => (
+            <ListEmpty message="Crie seu primeiro Deck!" />
           )}
         />
       }
@@ -174,20 +178,20 @@ export function Home() {
             onChangeNameDeck={handleButtonEditNameDeck}
           />
           :
-          useButtonChangeName ? 
+          useButtonChangeName ?
             <ModalChangeNameDeck
               onChangeNameDeck={setDeckName}
               onCancel={closeModal}
               onSave={handleEditNameDeck}
             />
-           : (
-            <ModalCreateDeck
-              onChangeNameDeck={setDeckName}
-              onCancel={closeModal}
-              onSave={handleSaveDeck}
-              
-            />
-          )
+            : (
+              <ModalCreateDeck
+                onChangeNameDeck={setDeckName}
+                onCancel={closeModal}
+                onSave={handleSaveDeck}
+
+              />
+            )
         }
 
       </Modal>

@@ -11,11 +11,12 @@ type Props = TouchableOpacityProps & {
   onPressButtonCreate?: () => void;
   onPressButtonOptions?: () => void;
   onPressButtonEdit?: () => void;
+  onPressButtonPractice?: () => void;
   onPressOpenModal?: () => void;
 }
 
 
-export function ListDeckCard({ textTitle, contadorFlashcard, onPressButtonCreate, onPressButtonOptions, onPressOpenModal, onPressButtonEdit, ...rest }: Props) {
+export function ListDeckCard({ textTitle, contadorFlashcard, onPressButtonCreate, onPressButtonOptions, onPressButtonPractice, onPressOpenModal, onPressButtonEdit, ...rest }: Props) {
   return (
     <Container>
       <ContainerIcon>
@@ -34,6 +35,7 @@ export function ListDeckCard({ textTitle, contadorFlashcard, onPressButtonCreate
       <ButtonCreate
         onPressButtonCreate={onPressButtonCreate}
         onPressButtonEdit={onPressButtonEdit}
+        onPressButtonPratice={onPressButtonPractice}
       />
 
     </Container>

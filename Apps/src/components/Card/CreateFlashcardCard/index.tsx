@@ -6,10 +6,10 @@ import theme from "../../../theme";
 type Props = TextInputProps & {
   inputRefFront?: React.RefObject<TextInput>;
   inputRefBack?: React.RefObject<TextInput>;
-  onChangeTextFront: (value: string) => void;
-  onChangeTextBack: (value: string) => void;
-  valueTextFront: any;
-  valueTextBack: any;
+  onChangeTextFront?: (value: string) => void;
+  onChangeTextBack?: (value: string) => void;
+  valueTextFront?: any;
+  valueTextBack?: any;
 }
 
 

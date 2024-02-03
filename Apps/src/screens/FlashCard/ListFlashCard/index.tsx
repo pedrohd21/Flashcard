@@ -11,6 +11,7 @@ import { FlashcardRemoveDeck } from "../../../storage/flashcard/flashcardRemoveD
 import { SearchFlashcard } from "../../../components/Search/SearchFlashcard";
 import { ButtonIconBig } from "../../../components/Botton/ButtonIconBig";
 import theme from "../../../theme";
+import { ListEmpty } from "../../../components/List/ListEmpty";
 
 type RouteParams = {
   deckName: string;
@@ -78,10 +79,7 @@ export function ListFlashCard() {
     <Container>
       <Header
         title={deckName}
-        // showButtonRight={true}
         showBackButton={true}
-        // iconNameRight='search'
-        // iconColorRight={theme.COLORS.BLUE}
         onPressButtonRight={() => { }}
         onPressButtonLeft={handleGoBack}
         style={{ marginBottom: 20 }}
@@ -106,6 +104,9 @@ export function ListFlashCard() {
               deleteFlashcard={() => handledeckFlashcardRemove(item.front, item.back)}
               editFlashcard={() => { }}
             />
+          )}
+          ListEmptyComponent={() => (
+            <ListEmpty message="Crie seu primeiro Flashcard!" />
           )}
         />
       }

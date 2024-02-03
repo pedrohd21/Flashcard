@@ -14,14 +14,12 @@ export default {
     GREEN_LIGHT: '#7ebc80', // 
 
 
-    BLUE: '#446FF2', // Cor azul
+    BLUE: '#39A7FF', // Cor azul
     BLUE_LIGHT: '#98AFF5', // Cor azul
 
     TEAL: '#5CD7D2', // Cor verde-azulado
 
-    GRAY_1000: '#080808',  // Tonalidade de cinza mais escura
-    GRAY_900: '#0D0D0D',  // Tonalidade de cinza mais escura
-    // GRAY_900: '#01040B',  // Tonalidade de cinza mais escura
+    GRAY_900: '#000000',  // Tonalidade de cinza mais escura
     GRAY_500: '#1A1D26',  // Tonalidade de cinza mais escura
     
     GRAY_200: '#61677A',  // Tonalidade de cinza
@@ -29,6 +27,7 @@ export default {
   },
   // fonte
   FONT_SIZE: {
+    ESM: 12,
     SM: 14, 
     MD: 16, 
     LG: 18,

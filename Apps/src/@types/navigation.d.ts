@@ -23,7 +23,7 @@ export declare global {
       }
 
       ListPractice: undefined;
-      PracticeNow: undefined;
+      Practice: undefined;
     }
   }
 }
