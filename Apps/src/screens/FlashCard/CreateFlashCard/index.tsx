@@ -24,7 +24,11 @@ export function CreateFlashCard() {
   const route = useRoute();
   const { deckName } = route.params as RouteParams;
 
+  const [isLoading, setIsLoading] = useState(true);
+
+
   async function addFlashcard() {
+    setIsLoading(true);
     if (newFlashcardFront.trim().length === 0) {
       return Alert.alert('Novo Flashcard', 'Adicione algo no flascard.');
     }
@@ -48,6 +52,7 @@ export function CreateFlashCard() {
         Alert.alert('Novo Flashcard', 'Não foi possível adicionar.');
       }
     }
+    setIsLoading(true);
   }
 
   function handleGoBack() {

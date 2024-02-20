@@ -44,3 +44,38 @@ export const Text = styled.Text`
   font-family: 'Roboto-Regular';
 `;
 
+export const ContainerButtonOption = styled.View`
+  background-color: ${({ theme }) => theme.COLORS.GRAY_900};
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 10px;
+`;
+
+export const ButtonShow = styled(TouchableOpacity)`
+  border-radius: 10px;
+  border: 1px solid ${({ theme }) => theme.COLORS.BLUE};
+
+  width: 200px;
+  height: 50px; 
+
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ButtonOption = styled(TouchableOpacity)`
+  border-radius: 7px;
+  border: 1px solid;
+
+  width: 23%;
+  height: 40px;
+
+  margin: 0 1px;
+
+  align-items: center;
+  justify-content: center;
+`;
+
+export const Icon = styled(FontAwesome5)`
+  font-size: ${({ theme, size }) => size ? size : theme.ICON.SIZE.LG}px;
+  color: ${({ theme, color }) => color ? color : theme.COLORS.BLUE};
+`;

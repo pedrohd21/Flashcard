@@ -106,8 +106,9 @@ export function Home() {
   }
 
   async function fetchDecks() {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
+      
       const data = await DecksGetAll();
 
       // Atualizar a lista de decks com o número de flashcards
@@ -122,12 +123,16 @@ export function Home() {
     } catch (error) {
       Alert.alert('Decks', 'Não foi possível carregar os Decks.');
     } finally {
-      setIsLoading(false);
+      
     }
+    setIsLoading(false);
   }
 
   function buttonAddFlashcard(deckName: string) {
     navigation.navigate('CreateFlashCard', { deckName });
+  }
+  function buttonPracticeFlashcard(deckName: string) {
+    navigation.navigate('Practice', { deckName });
   }
 
   useFocusEffect(useCallback(() => {
@@ -148,7 +153,7 @@ export function Home() {
               onPressButtonCreate={() => buttonAddFlashcard(item.deck)}
               onPressButtonOptions={() => handleButtonOptions(item.deck)}
               onPressButtonEdit={() => navegar(item.deck)}
-              onPressButtonPractice={() => { navigation.navigate('Practice')}}
+              onPressButtonPractice={() => { buttonPracticeFlashcard(item.deck)}}
             />
           )}
           ListEmptyComponent={() => (

@@ -33,15 +33,17 @@ export function ListFlashCard() {
   };
 
   async function fetchflashcardByDeck() {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
+      
       const flashcardByDeck = await FlascardGetByDeck(deckName);
       setFlashcards(flashcardByDeck)
     } catch (error) {
       Alert.alert('Flashcard', 'Não foi possível carregar os flashcards.');
     } finally {
-      setIsLoading(false);
+      
     }
+    setIsLoading(false);
   }
 
   function addFlashcard() {
@@ -70,10 +72,6 @@ export function ListFlashCard() {
     fetchflashcardByDeck();
     console.log(searchText)
   }, []));
-
-  // useEffect(() => {
-  //   fetchflashcardByDeck();
-  // }, [deckName]);
 
   return (
     <Container>

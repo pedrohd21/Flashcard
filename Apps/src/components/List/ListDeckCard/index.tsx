@@ -29,7 +29,7 @@ export function ListDeckCard({ textTitle, contadorFlashcard, onPressButtonCreate
       </ContainerIcon>
       <ContadorFlascard>{contadorFlashcard}</ContadorFlascard>
       <TextTitle>
-        {textTitle} testabndo o trem pra ver se
+        {textTitle}
       </TextTitle>
 
       <ButtonCreate

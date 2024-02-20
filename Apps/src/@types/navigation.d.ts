@@ -7,23 +7,28 @@ export declare global {
       ViewProfile: undefined;
 
       CreateDeck: undefined;
-      
+
       EditDeck: undefined;
       ListDeck: undefined;
 
       EditFlashCard: undefined;
       ListFlashCard: {
         deckName: string;
-      }
+      };
+
       CreateFlashCard: {
         deckName: string;
-      }
+      };
+
       ListDeckCard: {
         deckName: string;
-      }
+      };
 
       ListPractice: undefined;
-      Practice: undefined;
+
+      Practice: {
+        deckName: string;
+      };
     }
   }
 }
