@@ -9,7 +9,7 @@ import { Loading } from "../../../components/Loading";
 import { ListFlashcardsCard } from "../../../components/List/ListFlashcardsCard";
 import { FlashcardRemoveDeck } from "../../../storage/flashcard/flashcardRemoveDeck";
 import { SearchFlashcard } from "../../../components/Search/SearchFlashcard";
-import { ButtonIconBig } from "../../../components/Botton/ButtonIconBig";
+import { ButtonIconBig } from "../../../components/Button/ButtonIconBig";
 import theme from "../../../theme";
 import { ListEmpty } from "../../../components/List/ListEmpty";
 
@@ -23,7 +23,6 @@ export function ListFlashCard() {
   const [isLoading, setIsLoading] = useState(true);
 
   const [flashcards, setFlashcards] = useState<FlashcardStorageDTO[]>([]);
-  const [isButtonVisible, setIsButtonVisible] = useState(true);
 
   const { deckName } = route.params as RouteParams;
   const [searchText, setSearchText] = useState('');
@@ -74,12 +73,14 @@ export function ListFlashCard() {
   }, []));
 
   return (
-    <ImageBackground source={require('../../../assets/img/back6.png')} style={{flex: 1}}>
+    <ImageBackground source={require('../../../assets/img/back14.png')} style={{flex: 1}}>
       <Container>
         <Header
           title={deckName}
           showBackButton={true}
           onPressButtonRight={() => { }}
+          showButtonRight={true}
+          iconNameRight="plus"
           onPressButtonLeft={handleGoBack}
           style={{ marginBottom: 20 }}
         />
@@ -87,8 +88,6 @@ export function ListFlashCard() {
           valueCleanText={searchText}
           onChangeNameDeck={(text) => setSearchText(text)}
           clearText={clearSearchText}
-          buttonFocus={() => setIsButtonVisible(false)}
-          buttonBlur={() => setIsButtonVisible(true)}
         />
         {isLoading ? <Loading /> :
           <FlatList
@@ -109,7 +108,7 @@ export function ListFlashCard() {
             )}
           />
         }
-        {isButtonVisible && (
+        {flashcards.length <= 0 && (
           <ButtonIconBig
             iconName="plus"
             onPress={addFlashcard}

@@ -11,7 +11,7 @@ export const Container = styled.View`
 export const Text = styled.Text`
   font-size: ${({ theme }) => theme.FONT_SIZE.XL}px;
   color: ${({ theme }) => theme.COLORS.BLUE};
-  font-family: 'KleeOne-SemiBold';
+  font-family: 'Roboto-Bold';
   text-align:center;
 
   position: absolute;

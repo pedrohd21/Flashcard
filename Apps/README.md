@@ -11,3 +11,5 @@ module.exports = {
 e da o comando 
 npm i -g react-native-asset
 npx react-native-asset 
+
+para criar um apk

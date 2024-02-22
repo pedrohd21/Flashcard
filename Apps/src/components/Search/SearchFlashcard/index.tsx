@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, TextInput } from "./styles";
 import theme from "../../../theme";
-import { ButtonIconSmall } from "../../Botton/ButtonIconSmall";
+import { ButtonIconSmall } from "../../Button/ButtonIconSmall";
 
 type Props = {
   onChangeNameDeck?: (value: string) => void;

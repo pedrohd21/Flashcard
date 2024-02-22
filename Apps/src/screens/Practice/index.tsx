@@ -9,6 +9,8 @@ import { PracticeComponente } from "../../components/PracticeComponente";
 import theme from "../../theme";
 import { FlashcardStorageDTO } from "../../storage/flashcard/FlashcardStorageDTO";
 import { FlascardGetByDeck } from "../../storage/flashcard/FlascardGetByDeck";
+import { ListEmpty } from "../../components/List/ListEmpty";
+import { ButtonIconBig } from "../../components/Button/ButtonIconBig";
 
 type RouteParams = {
   deckName: string;
@@ -56,12 +58,17 @@ export function Practice() {
     }
   };
 
+  function addFlashcard() {
+    navigation.navigate('CreateFlashCard', { deckName });
+    fetchflashcardByDeck()
+  }
+
   useFocusEffect(useCallback(() => {
     fetchflashcardByDeck();
   }, []));
 
   return (
-    <ImageBackground source={require('../../assets/img/back6.png')} style={{ flex: 1 }}>
+    <ImageBackground source={require('../../assets/img/back14.png')} style={{ flex: 1 }}>
       <Container>
         <Header
           title='Flashcard'
@@ -87,10 +94,24 @@ export function Practice() {
                   buttonRepeat={() => buttonRepeatFlashcard()}
                 />
               )}
+
             </View>
           )}
           keyExtractor={(item) => item.key}
+          ListEmptyComponent={() => (
+            <ListEmpty message="Crie um Flashcard para começar aprender." />
+          )}
         />
+        {flashcards.length <= 0 && (
+          <ButtonIconBig
+            iconName="plus"
+            onPress={() => addFlashcard()}
+            style={{
+              position: "absolute",
+              bottom: 30
+            }}
+          />
+        )}
       </Container>
     </ImageBackground>
   )

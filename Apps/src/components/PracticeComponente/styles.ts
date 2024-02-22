@@ -46,17 +46,19 @@ export const ContainerButtonOption = styled.View`
   flex-direction: row;
   justify-content: center;
   margin-bottom: 10px;
+  bottom: 10px;
 `;
 
 export const ButtonShow = styled(TouchableOpacity)`
   border-radius: 10px;
-  border: 1px solid ${({ theme }) => theme.COLORS.BLUE};
+  border: 1.8px solid ${({ theme }) => theme.COLORS.BLUE};
 
   width: 200px;
-  height: 50px; 
+  height: 60px; 
 
   align-items: center;
   justify-content: center;
+  bottom: 10px;
 `;
 
 export const ButtonOption = styled(TouchableOpacity)`

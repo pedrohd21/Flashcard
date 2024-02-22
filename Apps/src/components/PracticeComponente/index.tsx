@@ -45,7 +45,7 @@ export function PracticeComponente({ textFront, textBack, showFlashcard, buttonR
         (
           <ContainerButtonOption>
             <ButtonShow hitSlop={20} onPress={() => setShowAnswer(true)}>
-              <Text>Mostrar Resposta</Text>
+              <Text style={{fontFamily: 'Roboto-Bold'}}>Mostrar Resposta</Text>
               <Icon
                 name='eye'
                 color={theme.COLORS.BLUE}

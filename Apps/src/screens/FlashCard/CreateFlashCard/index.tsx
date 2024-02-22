@@ -5,7 +5,7 @@ import { Title } from "../../../components/Title";
 import { CreateFlashcardCard } from "../../../components/Card/CreateFlashcardCard";
 import { Alert, FlatList, ImageBackground, Keyboard, TextInput } from "react-native";
 import { useRoute, useNavigation, useFocusEffect } from '@react-navigation/native';
-import { ButtonIconBig } from "../../../components/Botton/ButtonIconBig";
+import { ButtonIconBig } from "../../../components/Button/ButtonIconBig";
 import { flashcardAddDeck } from "../../../storage/flashcard/flashcardAddDeck";
 import { FlashcardStorageDTO } from "../../../storage/flashcard/FlashcardStorageDTO";
 
@@ -65,7 +65,7 @@ export function CreateFlashCard() {
   }
 
   return (
-    <ImageBackground source={require('../../../assets/img/back6.png')} style={{ flex: 1 }}>
+    <ImageBackground source={require('../../../assets/img/back14.png')} style={{ flex: 1 }}>
       <Container>
         <Header
           title={deckName}
@@ -87,7 +87,6 @@ export function CreateFlashCard() {
         <ButtonIconBig
           onPress={addFlashcard}
           iconName="plus"
-
         />
       </Container>
     </ImageBackground>

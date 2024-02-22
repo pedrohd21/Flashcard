@@ -1,7 +1,7 @@
 import React from "react";
 import { ButtonContainer, Text} from "./styles";
 import { TouchableOpacityProps } from "react-native";
-import { ButtonGeneric } from "../../Botton/ButtonGeneric";
+import { ButtonGeneric } from "../../Button/ButtonGeneric";
 
 type Props = TouchableOpacityProps &  {
   textFront: string;

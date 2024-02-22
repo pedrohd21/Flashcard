@@ -1,7 +1,7 @@
 import React from "react";
 import { ModalContainer, ModalContent, Text, ModalButton, TextInput, ButtonModalContainer, Icon } from "./styles";
 import theme from "../../../theme";
-import { ButtonIconSmall } from "../../Botton/ButtonIconSmall";
+import { ButtonIconSmall } from "../../Button/ButtonIconSmall";
 
 type Props = {
   onCancel?: () => void;

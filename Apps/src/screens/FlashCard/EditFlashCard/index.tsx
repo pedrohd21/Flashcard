@@ -4,7 +4,7 @@ import { Header } from "../../../components/Header";
 import { Title } from "../../../components/Title";
 import { CreateFlashcardCard } from "../../../components/Card/CreateFlashcardCard";
 import { FlatList } from "react-native";
-import { ButtonIconBig } from "../../../components/Botton/ButtonIconBig";
+import { ButtonIconBig } from "../../../components/Button/ButtonIconBig";
 
 
 export function EditFlashCard() {

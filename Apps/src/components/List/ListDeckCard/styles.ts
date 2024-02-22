@@ -25,8 +25,8 @@ export const ContadorFlascard = styled.Text`
   color: ${({ theme }) => theme.COLORS.BLUE};
   background-color: ${({ theme }) => theme.COLORS.BLACK};
 
-  border-width: 0.5px;
-  border-radius: 5px;
+  border-width: 1px;
+  border-radius: 25px;
   border-color: ${({ theme }) => theme.COLORS.BLUE};
 
   width: 25px;

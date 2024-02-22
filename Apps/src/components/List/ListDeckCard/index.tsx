@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { TextTitle, ContadorFlascard, ContainerIcon, Container } from "./styles";
 import { Modal, TouchableOpacityProps } from "react-native";
-import { ButtonIconSmall } from '../../Botton/ButtonIconSmall';
-import { ButtonCreate } from "../../Botton/ButtonCreate";
+import { ButtonIconSmall } from '../../Button/ButtonIconSmall';
+import { ButtonCreate } from "../../Button/ButtonCreate";
 import theme from "../../../theme";
 
 type Props = TouchableOpacityProps & {
