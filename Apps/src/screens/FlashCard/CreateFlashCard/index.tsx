@@ -3,7 +3,7 @@ import { Container } from "./styles";
 import { Header } from "../../../components/Header";
 import { Title } from "../../../components/Title";
 import { CreateFlashcardCard } from "../../../components/Card/CreateFlashcardCard";
-import { Alert, FlatList, Keyboard, TextInput } from "react-native";
+import { Alert, FlatList, ImageBackground, Keyboard, TextInput } from "react-native";
 import { useRoute, useNavigation, useFocusEffect } from '@react-navigation/native';
 import { ButtonIconBig } from "../../../components/Botton/ButtonIconBig";
 import { flashcardAddDeck } from "../../../storage/flashcard/flashcardAddDeck";
@@ -65,29 +65,31 @@ export function CreateFlashCard() {
   }
 
   return (
-    <Container>
-      <Header
-        title={deckName}
-        showBackButton={true}
-        onPressButtonRight={addFlashcard}
-        onPressButtonLeft={handleGoBack}
-      />
+    <ImageBackground source={require('../../../assets/img/back6.png')} style={{ flex: 1 }}>
+      <Container>
+        <Header
+          title={deckName}
+          showBackButton={true}
+          onPressButtonRight={addFlashcard}
+          onPressButtonLeft={handleGoBack}
+        />
 
-      <CreateFlashcardCard
-        inputRefFront={newTextFrontInputRef}
-        inputRefBack={newTextBackInputRef}
-        onChangeTextFront={setNewFlashcardFront}
-        onChangeTextBack={setNewFlashcardBack}
-        onSubmitEditing={addFlashcard}
-        valueTextFront={newFlashcardFront}
-        valueTextBack={newFlashcardBack}
+        <CreateFlashcardCard
+          inputRefFront={newTextFrontInputRef}
+          inputRefBack={newTextBackInputRef}
+          onChangeTextFront={setNewFlashcardFront}
+          onChangeTextBack={setNewFlashcardBack}
+          onSubmitEditing={addFlashcard}
+          valueTextFront={newFlashcardFront}
+          valueTextBack={newFlashcardBack}
 
-      />
-      <ButtonIconBig
-        onPress={addFlashcard}
-        iconName="plus"
+        />
+        <ButtonIconBig
+          onPress={addFlashcard}
+          iconName="plus"
 
-      />
-    </Container>
+        />
+      </Container>
+    </ImageBackground>
   );
 }

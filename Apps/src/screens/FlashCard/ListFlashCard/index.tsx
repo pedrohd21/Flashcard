@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Container } from "./styles";
 import { Header } from "../../../components/Header";
-import { Alert, FlatList, Modal } from "react-native";
+import { Alert, FlatList, ImageBackground, Modal } from "react-native";
 import { FlascardGetByDeck } from "../../../storage/flashcard/FlascardGetByDeck";
 import { useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import { FlashcardStorageDTO } from "../../../storage/flashcard/FlashcardStorageDTO";
@@ -35,13 +35,13 @@ export function ListFlashCard() {
   async function fetchflashcardByDeck() {
     setIsLoading(true);
     try {
-      
+
       const flashcardByDeck = await FlascardGetByDeck(deckName);
       setFlashcards(flashcardByDeck)
     } catch (error) {
       Alert.alert('Flashcard', 'Não foi possível carregar os flashcards.');
     } finally {
-      
+
     }
     setIsLoading(false);
   }
@@ -74,50 +74,52 @@ export function ListFlashCard() {
   }, []));
 
   return (
-    <Container>
-      <Header
-        title={deckName}
-        showBackButton={true}
-        onPressButtonRight={() => { }}
-        onPressButtonLeft={handleGoBack}
-        style={{ marginBottom: 20 }}
-      />
-      <SearchFlashcard
-        valueCleanText={searchText}
-        onChangeNameDeck={(text) => setSearchText(text)}
-        clearText={clearSearchText}
-        buttonFocus={() => setIsButtonVisible(false)}
-        buttonBlur={() => setIsButtonVisible(true)}
-      />
-      {isLoading ? <Loading /> :
-        <FlatList
-          data={flashcards.filter(item =>
-            item.front.toLowerCase().includes(searchText.toLowerCase()) ||
-            item.back.toLowerCase().includes(searchText.toLowerCase())
-          )}
-          renderItem={({ item }) => (
-            <ListFlashcardsCard
-              textFront={item.front}
-              textBack={item.back}
-              deleteFlashcard={() => handledeckFlashcardRemove(item.front, item.back)}
-              editFlashcard={() => { }}
-            />
-          )}
-          ListEmptyComponent={() => (
-            <ListEmpty message="Crie seu primeiro Flashcard!" />
-          )}
+    <ImageBackground source={require('../../../assets/img/back6.png')} style={{flex: 1}}>
+      <Container>
+        <Header
+          title={deckName}
+          showBackButton={true}
+          onPressButtonRight={() => { }}
+          onPressButtonLeft={handleGoBack}
+          style={{ marginBottom: 20 }}
         />
-      }
-      {isButtonVisible && (
-        <ButtonIconBig
-          iconName="plus"
-          onPress={addFlashcard}
-          style={{
-            position: "absolute",
-            bottom: 30
-          }}
+        <SearchFlashcard
+          valueCleanText={searchText}
+          onChangeNameDeck={(text) => setSearchText(text)}
+          clearText={clearSearchText}
+          buttonFocus={() => setIsButtonVisible(false)}
+          buttonBlur={() => setIsButtonVisible(true)}
         />
-      )}
-    </Container>
+        {isLoading ? <Loading /> :
+          <FlatList
+            data={flashcards.filter(item =>
+              item.front.toLowerCase().includes(searchText.toLowerCase()) ||
+              item.back.toLowerCase().includes(searchText.toLowerCase())
+            )}
+            renderItem={({ item }) => (
+              <ListFlashcardsCard
+                textFront={item.front}
+                textBack={item.back}
+                deleteFlashcard={() => handledeckFlashcardRemove(item.front, item.back)}
+                editFlashcard={() => { }}
+              />
+            )}
+            ListEmptyComponent={() => (
+              <ListEmpty message="Crie seu primeiro Flashcard!" />
+            )}
+          />
+        }
+        {isButtonVisible && (
+          <ButtonIconBig
+            iconName="plus"
+            onPress={addFlashcard}
+            style={{
+              position: "absolute",
+              bottom: 30
+            }}
+          />
+        )}
+      </Container>
+    </ImageBackground>
   )
 }

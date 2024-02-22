@@ -14,7 +14,7 @@ export default {
     GREEN_LIGHT: '#7ebc80', // 
 
 
-    BLUE: '#39A7FF', // Cor azul
+    BLUE: '#6495ED', // Cor azul
     BLUE_LIGHT: '#98AFF5', // Cor azul
 
     TEAL: '#5CD7D2', // Cor verde-azulado

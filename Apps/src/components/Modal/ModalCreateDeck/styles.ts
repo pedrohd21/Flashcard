@@ -32,10 +32,10 @@ export const ModalContainer = styled.View`
 export const ModalContent = styled.View`
    justify-content: center;
    align-items: center;
-   width: 70%;
-   height: 180px;
-   background-color: ${({ theme }) => theme.COLORS.GRAY_900};
-   border-radius: 10px;
+   width: 80%;
+   height: 190px;
+   background-Color: ${({ theme }) => theme.COLORS.BLACK};
+   border-radius: 20px;
    border: 1px solid ${({ theme }) => theme.COLORS.BLUE};
   `;
 

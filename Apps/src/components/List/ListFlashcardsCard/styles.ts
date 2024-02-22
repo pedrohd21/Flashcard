@@ -12,7 +12,7 @@ export const ButtonContainer = styled.View`
 
 export const Text = styled.Text`
   font-size: ${({ theme }) => theme.FONT_SIZE.LG}px;
-  color: ${({ theme }) => theme.COLORS.WHITE};
+  color: ${({ theme }) => theme.COLORS.BLUE};
   width: 100%;
   padding: 10px;
   font-family: 'Roboto-Regular' ;

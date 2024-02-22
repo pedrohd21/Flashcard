@@ -4,7 +4,7 @@ import { Header } from "../../components/Header";
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 import theme from "../../theme";
-import { Alert, Modal, FlatList } from 'react-native';
+import { Alert, Modal, FlatList, ImageBackground } from 'react-native';
 import { CreateDeck } from '../../storage/deck/createDeck';
 import { EditNameDeck } from '../../storage/deck/editNameDeck';
 import { DecksGetAll } from '../../storage/deck/decksGetAll'
@@ -140,7 +140,8 @@ export function Home() {
   }, []))
 
   return (
-    <Container>
+    <ImageBackground source={require('../../assets/img/back6.png')} style={{flex: 1}}>
+    <Container >
       <Header title='FlashCard' iconNameRight="plus" showButtonRight={true} iconColorRight={theme.COLORS.BLUE} onPressButtonRight={() => openModal()} />
       {isLoading ? <Loading /> :
         <FlatList
@@ -201,5 +202,6 @@ export function Home() {
 
       </Modal>
     </Container>
+    </ImageBackground>
   )
 }

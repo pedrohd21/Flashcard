@@ -2,7 +2,7 @@ import React, { useCallback, useRef, useState } from "react";
 import { Container, ContainerButtonOption, ButtonOption, ButtonShow, Icon, Text } from "./styles";
 import { Header } from "../../components/Header";
 import { Title } from "../../components/Title";
-import { Alert, Dimensions, FlatList, TouchableOpacityProps, View } from "react-native";
+import { Alert, Dimensions, FlatList, ImageBackground, TouchableOpacityProps, View } from "react-native";
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 
 import { PracticeComponente } from "../../components/PracticeComponente";
@@ -43,7 +43,7 @@ export function Practice() {
       setIsLoading(false);
     }
   }
-  function buttonRepeatFlashcard(){
+  function buttonRepeatFlashcard() {
     showNextItem()
     setShowAnswer(false)
   }
@@ -61,35 +61,37 @@ export function Practice() {
   }, []));
 
   return (
-    <Container>
-      <Header
-        title='Flashcard'
-        showButtonRight={true}
-        showBackButton={true}
-        onPressButtonLeft={handleGoBack}
-        iconNameRight='ellipsis-v'
-      />
+    <ImageBackground source={require('../../assets/img/back6.png')} style={{ flex: 1 }}>
+      <Container>
+        <Header
+          title='Flashcard'
+          showButtonRight={true}
+          showBackButton={true}
+          onPressButtonLeft={handleGoBack}
+          iconNameRight='ellipsis-v'
+        />
 
-      <FlatList
-        ref={flatListRef}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        scrollEnabled={false}
-        data={flashcards}
-        renderItem={({ item, index }) => (
-          <View style={{ width }}>
-            {index === currentIndex && (
-              <PracticeComponente
-                textFront={item.front}
-                textBack={item.back}
-                showFlashcard={showAnswer}
-                buttonRepeat={() => buttonRepeatFlashcard()}
-              />
-            )}
-          </View>
-        )}
-        keyExtractor={(item) => item.key}
-      />
-    </Container>
+        <FlatList
+          ref={flatListRef}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          scrollEnabled={false}
+          data={flashcards}
+          renderItem={({ item, index }) => (
+            <View style={{ width }}>
+              {index === currentIndex && (
+                <PracticeComponente
+                  textFront={item.front}
+                  textBack={item.back}
+                  showFlashcard={showAnswer}
+                  buttonRepeat={() => buttonRepeatFlashcard()}
+                />
+              )}
+            </View>
+          )}
+          keyExtractor={(item) => item.key}
+        />
+      </Container>
+    </ImageBackground>
   )
 }

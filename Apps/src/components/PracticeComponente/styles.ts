@@ -4,13 +4,11 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 export const Container = styled.View`
   flex: 1;
-  background-color: ${({ theme }) => theme.COLORS.GRAY_900};
   height: 500px;
   align-items: center;
 `;
 
 export const ContainerQuestionAnswer = styled.View`
-  background-color: ${({ theme }) => theme.COLORS.GRAY_900};
   height: 92%;
   width: 90%;
 `;
@@ -39,13 +37,12 @@ export const AnswerFlashcard = styled.View`
 `;
 
 export const Text = styled.Text`
-  color: ${({ theme }) => theme.COLORS.WHITE};
+  color: ${({ theme }) => theme.COLORS.BLUE};
   font-size: ${({ theme }) => theme.FONT_SIZE.LG}px;
   font-family: 'Roboto-Regular';
 `;
 
 export const ContainerButtonOption = styled.View`
-  background-color: ${({ theme }) => theme.COLORS.GRAY_900};
   flex-direction: row;
   justify-content: center;
   margin-bottom: 10px;

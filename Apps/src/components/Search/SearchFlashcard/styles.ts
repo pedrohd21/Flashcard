@@ -10,7 +10,7 @@ export const Text = styled.Text`
 export const TextInput = styled.TextInput`
   font-size: ${({ theme }) => theme.FONT_SIZE.MD}px;
   font-family: 'Roboto-Regular';
-  
+  color: ${({ theme }) => theme.COLORS.BLUE};
   height: 40px;
   width: 90%;
   padding-left: 20px;

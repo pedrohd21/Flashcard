@@ -6,7 +6,7 @@ export const Container = styled.View`
 
 export const Text = styled.Text`
   font-size: ${({ theme }) => theme.FONT_SIZE.LG}px;
-  color: ${({ theme }) => theme.COLORS.WHITE};
+  color: ${({ theme }) => theme.COLORS.BLUE};
   font-family: 'Roboto-Bold';
 
   padding-left: 10px;
@@ -15,7 +15,7 @@ export const Text = styled.Text`
 
 export const TextFront = styled.TextInput`
   font-size: ${({ theme }) => theme.FONT_SIZE.MD}px;
-  color: ${({ theme }) => theme.COLORS.WHITE};
+  color: ${({ theme }) => theme.COLORS.BLUE};
   font-family: 'Roboto-Regular';
 
   padding-top: 15px;
@@ -30,7 +30,7 @@ export const TextFront = styled.TextInput`
 
 export const TextBack = styled.TextInput`
   font-size: ${({ theme }) => theme.FONT_SIZE.MD}px;
-  color: ${({ theme }) => theme.COLORS.WHITE};
+  color: ${({ theme }) => theme.COLORS.BLUE};
   font-family: 'Roboto-Regular';
 
   max-height: 200px;

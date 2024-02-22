@@ -11,7 +11,7 @@ export const Container = styled.View`
 
 export const TextTitle = styled.Text`
   font-size: ${({ theme }) => theme.FONT_SIZE.LG}px;
-  color: ${({ theme }) => theme.COLORS.WHITE};
+  color: ${({ theme }) => theme.COLORS.BLUE};
   width: 90%;
   height: 25px;
   padding-left: 10px;
@@ -22,11 +22,16 @@ export const TextTitle = styled.Text`
 
 export const ContadorFlascard = styled.Text`
   font-size: ${({ theme }) => theme.FONT_SIZE.MD}px;
-  color: ${({ theme }) => theme.COLORS.BLACK};
-  background-color: ${({ theme }) => theme.COLORS.BLUE};
+  color: ${({ theme }) => theme.COLORS.BLUE};
+  background-color: ${({ theme }) => theme.COLORS.BLACK};
+
+  border-width: 0.5px;
+  border-radius: 5px;
+  border-color: ${({ theme }) => theme.COLORS.BLUE};
+
   width: 25px;
   font-family: 'Roboto-Regular';
-  border-radius: 5px;
+
   text-align: center;
   position: absolute;
   bottom: -10px;
