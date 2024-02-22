@@ -98,19 +98,22 @@ export function Practice() {
             </View>
           )}
           keyExtractor={(item) => item.key}
-          ListEmptyComponent={() => (
-            <ListEmpty message="Crie um Flashcard para começar aprender." />
-          )}
+
         />
         {flashcards.length <= 0 && (
-          <ButtonIconBig
-            iconName="plus"
-            onPress={() => addFlashcard()}
-            style={{
-              position: "absolute",
-              bottom: 30
-            }}
-          />
+          <View>
+            <View style={{bottom: 300}}>
+              <ListEmpty message="Vamos lá! Crie seu primeiro flashcard agora mesmo." />
+            </View>
+            <ButtonIconBig
+              iconName="plus"
+              onPress={() => addFlashcard()}
+              style={{
+                position: "absolute",
+                bottom: 30
+              }}
+            />
+          </View>
         )}
       </Container>
     </ImageBackground>

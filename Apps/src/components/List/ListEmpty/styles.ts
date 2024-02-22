@@ -2,10 +2,10 @@ import styled, { css } from "styled-components/native";
 
 export const Container = styled.View`
   justify-content: center;
+
   height: 200px;
-  width: 90%;
+  margin: 60px 20px;
   padding: 20px;
-  top: 100px;
 `;
 
 export const Message = styled.Text`

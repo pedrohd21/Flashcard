@@ -104,7 +104,7 @@ export function ListFlashCard() {
               />
             )}
             ListEmptyComponent={() => (
-              <ListEmpty message="Crie seu primeiro Flashcard!" />
+              <ListEmpty message="Que tal darmos início à sua jornada de aprendizado criando o seu primeiro flashcard agora mesmo?" />
             )}
           />
         }
