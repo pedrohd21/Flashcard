@@ -29,5 +29,4 @@ Antes de começar, certifique-se de ter as seguintes dependências instaladas:
 <img src="https://github.com/pedrohd21/Flashcard/assets/67549131/c60520bc-f6d8-4870-8039-6fcafb3892fc" width="100" />
 <img src="https://github.com/pedrohd21/Flashcard/assets/67549131/398ebe86-e35d-4be3-bbf5-5ed1fa62b71d" width="100" />
 <img src="https://github.com/pedrohd21/Flashcard/assets/67549131/c7876fda-ebb8-4a87-9fea-ae46b964e589" width="100" />
-<img src="https://github.com/pedrohd21/Flashcard/assets/67549131/c0516ca5-3bd7-4fdf-ac5e-1e9b5ab56171" width="100" />
 <img src="https://github.com/pedrohd21/Flashcard/assets/67549131/4f0ec386-764f-4d23-aa19-9672acac93e1" width="100" />
