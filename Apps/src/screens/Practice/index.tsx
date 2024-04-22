@@ -72,10 +72,11 @@ export function Practice() {
       <Container>
         <Header
           title='Flashcard'
-          showButtonRight={true}
+          showButtonRight={false}
+          iconNameRight='ellipsis-v'
           showBackButton={true}
           onPressButtonLeft={handleGoBack}
-          iconNameRight='ellipsis-v'
+          
         />
 
         <FlatList

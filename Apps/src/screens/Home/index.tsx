@@ -16,7 +16,6 @@ import { FlascardGetByDeck } from "../../storage/flashcard/FlascardGetByDeck";
 import { ModalButtonOptions } from "../../components/Modal/ModalButtonOptions";
 import { deleteDeck } from "../../storage/deck/deleteDeck";
 import { ModalChangeNameDeck } from "../../components/Modal/ModalChangeNameDeck";
-import { AlertButton } from "../../components/AlertGeneric/style";
 import { ListEmpty } from "../../components/List/ListEmpty";
 
 export function Home() {
@@ -76,15 +75,29 @@ export function Home() {
   }
 
   async function handledeckRemove() {
-    try {
+    Alert.alert(
+      'Remover Flashcard',
+      'Tem certeza que deseja remover este deck?',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Apagar',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await deleteDeck(selectedDeck)
+              fetchDecks();
+            } catch (error) {
+              console.log(error);
 
-      await deleteDeck(selectedDeck)
-      fetchDecks();
-    } catch (error) {
-      console.log(error);
+              Alert.alert('Remover Flashcard', 'Não foi possível remover flashcard.');
+            }
+          },
+        },
+      ],
+      { cancelable: true }
+    );
 
-      Alert.alert('Remover Flashcard', 'Não foi possível remover flashcard.');
-    }
     closeModal()
   }
 
@@ -108,7 +121,7 @@ export function Home() {
   async function fetchDecks() {
     setIsLoading(true);
     try {
-      
+
       const data = await DecksGetAll();
 
       // Atualizar a lista de decks com o número de flashcards
@@ -123,7 +136,7 @@ export function Home() {
     } catch (error) {
       Alert.alert('Decks', 'Não foi possível carregar os Decks.');
     } finally {
-      
+
     }
     setIsLoading(false);
   }
@@ -140,70 +153,70 @@ export function Home() {
   }, []))
 
   return (
-    <ImageBackground source={require('../../assets/img/back14.png')} style={{flex: 1}}>
-    <Container >
-      <Header title='FlashCard' iconNameRight="plus" showButtonRight={true} iconColorRight={theme.COLORS.BLUE} onPressButtonRight={() => openModal()} />
-      {isLoading ? <Loading /> :
-        <FlatList
-          data={decksOrdenados}
-          keyExtractor={(item) => item.deck}
-          renderItem={({ item }) => (
-            <ListDeckCard
-              textTitle={item.deck}
-              contadorFlashcard={item.flashcardCount}
-              onPressButtonCreate={() => buttonAddFlashcard(item.deck)}
-              onPressButtonOptions={() => handleButtonOptions(item.deck)}
-              onPressButtonEdit={() => navegar(item.deck)}
-              onPressButtonPractice={() => { buttonPracticeFlashcard(item.deck)}}
-            />
-          )}
-          ListEmptyComponent={() => (
-            <ListEmpty message="É hora de começar a construir o seu primeiro deck! Vamos nessa juntos?" />
-          )}
-        />
-      }
-      {decks.length <= 0 && (
-        <ButtonIconBig
-        iconName="plus"
-        onPress={() => openModal()}
-        style={{
-          position: "absolute",
-          bottom: 30
-        }}
-      /> 
-      )}
-     
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={closeModal}
-      >
-        {useButtonOptions ?
-          <ModalButtonOptions
-            onCancel={closeModal}
-            onChangeDelete={handledeckRemove}
-            onChangeNameDeck={handleButtonEditNameDeck}
+    <ImageBackground source={require('../../assets/img/back14.png')} style={{ flex: 1 }}>
+      <Container >
+        <Header title='FlashCard' iconNameRight="plus" showButtonRight={true} iconColorRight={theme.COLORS.BLUE} onPressButtonRight={() => openModal()} />
+        {isLoading ? <Loading /> :
+          <FlatList
+            data={decksOrdenados}
+            keyExtractor={(item) => item.deck}
+            renderItem={({ item }) => (
+              <ListDeckCard
+                textTitle={item.deck}
+                contadorFlashcard={item.flashcardCount}
+                onPressButtonCreate={() => buttonAddFlashcard(item.deck)}
+                onPressButtonOptions={() => handleButtonOptions(item.deck)}
+                onPressButtonEdit={() => navegar(item.deck)}
+                onPressButtonPractice={() => { buttonPracticeFlashcard(item.deck) }}
+              />
+            )}
+            ListEmptyComponent={() => (
+              <ListEmpty message="É hora de começar a construir o seu primeiro deck! Vamos nessa juntos?" />
+            )}
           />
-          :
-          useButtonChangeName ?
-            <ModalChangeNameDeck
-              onChangeNameDeck={setDeckName}
+        }
+        {decks.length <= 0 && (
+          <ButtonIconBig
+            iconName="plus"
+            onPress={() => openModal()}
+            style={{
+              position: "absolute",
+              bottom: 30
+            }}
+          />
+        )}
+
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={closeModal}
+        >
+          {useButtonOptions ?
+            <ModalButtonOptions
               onCancel={closeModal}
-              onSave={handleEditNameDeck}
+              onChangeDelete={handledeckRemove}
+              onChangeNameDeck={handleButtonEditNameDeck}
             />
-            : (
-              <ModalCreateDeck
+            :
+            useButtonChangeName ?
+              <ModalChangeNameDeck
                 onChangeNameDeck={setDeckName}
                 onCancel={closeModal}
-                onSave={handleSaveDeck}
-
+                onSave={handleEditNameDeck}
               />
-            )
-        }
+              : (
+                <ModalCreateDeck
+                  onChangeNameDeck={setDeckName}
+                  onCancel={closeModal}
+                  onSave={handleSaveDeck}
 
-      </Modal>
-    </Container>
+                />
+              )
+          }
+
+        </Modal>
+      </Container>
     </ImageBackground>
   )
 }

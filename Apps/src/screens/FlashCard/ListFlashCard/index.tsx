@@ -21,6 +21,7 @@ export function ListFlashCard() {
   const navigation = useNavigation();
   const route = useRoute();
   const [isLoading, setIsLoading] = useState(true);
+  const [decks, setDecks] = useState([]);
 
   const [flashcards, setFlashcards] = useState<FlashcardStorageDTO[]>([]);
 
@@ -34,7 +35,6 @@ export function ListFlashCard() {
   async function fetchflashcardByDeck() {
     setIsLoading(true);
     try {
-
       const flashcardByDeck = await FlascardGetByDeck(deckName);
       setFlashcards(flashcardByDeck)
     } catch (error) {
@@ -55,30 +55,41 @@ export function ListFlashCard() {
   }
 
   async function handledeckFlashcardRemove(front: string, back: string) {
-    try {
-      await FlashcardRemoveDeck(front, back, deckName);
-
-      fetchflashcardByDeck()
-
-    } catch (error) {
-      console.log(error);
-
-      Alert.alert('Remover Flashcard', 'Não foi possível remover flashcard.');
-    }
+    Alert.alert(
+      'Remover Flashcard',
+      'Tem certeza que deseja remover este flashcard?',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Apagar',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await FlashcardRemoveDeck(front, back, deckName);
+              fetchflashcardByDeck();
+            } catch (error) {
+              console.log(error);
+              Alert.alert('Remover Flashcard', 'Não foi possível remover o flashcard.');
+            }
+          },
+        },
+      ],
+      { cancelable: true }
+    );
   }
 
   useFocusEffect(useCallback(() => {
     fetchflashcardByDeck();
-    console.log(searchText)
+
   }, []));
 
   return (
-    <ImageBackground source={require('../../../assets/img/back14.png')} style={{flex: 1}}>
+    <ImageBackground source={require('../../../assets/img/back14.png')} style={{ flex: 1 }}>
       <Container>
         <Header
           title={deckName}
           showBackButton={true}
-          onPressButtonRight={() => { }}
+          onPressButtonRight={addFlashcard}
           showButtonRight={true}
           iconNameRight="plus"
           onPressButtonLeft={handleGoBack}

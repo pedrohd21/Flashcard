@@ -59,8 +59,28 @@ export function CreateFlashCard() {
     if (newFlashcardFront.trim().length === 0) {
       navigation.goBack();
     } else {
-      addFlashcard()
-      navigation.goBack();
+      Alert.alert(
+        'Salvar Flashcard',
+        'Tem certeza que deseja não salvar este flashcard?',
+        [
+          { text: 'Cancelar', style: 'cancel' },
+          {
+            text: 'Sim',
+            style: 'destructive',
+            onPress: async () => {
+              try {
+                navigation.goBack();
+              } catch (error) {
+                console.log(error);
+  
+                Alert.alert('Salvar Flashcard', 'Não foi possível salvar flashcard.');
+              }
+            },
+          },
+        ],
+        { cancelable: true }
+      );
+      
     }
   }
 

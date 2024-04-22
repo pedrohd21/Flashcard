@@ -1,4 +1,4 @@
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, CardStyleInterpolators  } from '@react-navigation/stack';
 
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
@@ -22,7 +22,6 @@ export function MyStack() {
         screenOptions={{
           headerShown: false,
           animationEnabled: false,
-
         }}
       > 
         <Stack.Screen name="Home" component={Home} />
