@@ -1,9 +1,9 @@
-import { createStackNavigator, CardStyleInterpolators  } from '@react-navigation/stack';
+import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 
-import { Home } from '../screens/Home'; 
+import { Home } from '../screens/Home';
 import { CreateAccount } from '../screens/Account/CreateAccount';
 import { LoginAccount } from '../screens/Account/LoginAccount';
 
@@ -23,14 +23,16 @@ export function MyStack() {
           headerShown: false,
           animationEnabled: false,
         }}
-      > 
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="CreateAccount" component={CreateAccount} />
-        <Stack.Screen name="CreateFlashCard" component={CreateFlashCard} />
+      >
         <Stack.Screen name="LoginAccount" component={LoginAccount} />
-        <Stack.Screen name="EditFlashCard" component={EditFlashCard} />   
-        <Stack.Screen name="ListFlashCard" component={ListFlashCard} />   
-        <Stack.Screen name="Practice" component={Practice} />   
+        <Stack.Screen name="CreateAccount" component={CreateAccount} />
+        <Stack.Screen name="Home" component={Home} />
+        {/* <Stack.Screen name="CreateAccount" component={CreateAccount} /> */}
+        <Stack.Screen name="CreateFlashCard" component={CreateFlashCard} />
+        {/* <Stack.Screen name="LoginAccount" component={LoginAccount} /> */}
+        <Stack.Screen name="EditFlashCard" component={EditFlashCard} />
+        <Stack.Screen name="ListFlashCard" component={ListFlashCard} />
+        <Stack.Screen name="Practice" component={Practice} />
       </Stack.Navigator>
     </NavigationContainer>
   )
