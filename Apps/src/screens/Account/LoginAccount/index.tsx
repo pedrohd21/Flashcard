@@ -3,9 +3,27 @@ import { Container, Text, TextInput, Button, TextButtton, ButtonSmall, Icon } fr
 import { Header } from "../../../components/Header";
 import { ImageBackground } from "react-native";
 import theme from "../../../theme";
+import auth from "@react-native-firebase/auth"
+import { useNavigation } from "@react-navigation/native";
 
 export function LoginAccount() {
   const [mostrarSenha, setMostrarSenha] = useState(false);
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const navigation = useNavigation();
+
+  function signIn(){
+    auth()
+    .signInWithEmailAndPassword(email, password)
+    .then(() => console.log('Usuario logado!'))
+    .catch(error => console.log(error));
+  }
+
+  function createAccount(){
+    navigation.navigate('CreateAccount');
+
+  }
+
 
   return (
     <ImageBackground source={require('../../../assets/img/back14.png')} style={{ flex: 1 }}>
@@ -15,7 +33,8 @@ export function LoginAccount() {
         <Text>Email:</Text>
         <TextInput
           keyboardAppearance="default"
-          onChangeText={() => { }}
+          value={email}
+          onChangeText={setEmail}
         >
         </TextInput>
 
@@ -23,7 +42,8 @@ export function LoginAccount() {
         <TextInput
           secureTextEntry={true}
           keyboardAppearance="default"
-          onChangeText={() => { }}
+          value={password}
+          onChangeText={setPassword}
         >
         </TextInput>
 
@@ -31,7 +51,7 @@ export function LoginAccount() {
           <TextButtton style={{fontSize: theme.FONT_SIZE.SM}}>Esqueceu a senha?</TextButtton>
         </ButtonSmall>
 
-        <Button>
+        <Button onPress={signIn}>
           <TextButtton>Entrar</TextButtton>
         </Button>
 
@@ -46,7 +66,7 @@ export function LoginAccount() {
         </Button>
 
         <Text style={{color: theme.COLORS.BLUE}}>Não tem conta? </Text>
-        <Button>
+        <Button onPress={createAccount}> 
           <TextButtton>Criar Conta</TextButtton>
         </Button>
       </Container>

@@ -13,9 +13,33 @@ import { ListFlashCard } from '../screens/FlashCard/ListFlashCard';
 
 import { Practice } from '../screens/Practice';
 
+import { useState, useEffect } from "react";
+import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth"
+import { Loading } from '../components/Loading';
+
 const Stack = createStackNavigator();
 
 export function MyStack() {
+
+  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = auth().onAuthStateChanged((_user) => {
+      setUser(_user);
+      if (isLoading) {
+        setIsLoading(false)
+      }
+    });
+
+    return unsubscribe;
+  }, [])
+  if (isLoading) {
+    return (
+      <Loading />
+    )
+  }
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -24,16 +48,14 @@ export function MyStack() {
           animationEnabled: false,
         }}
       >
-        <Stack.Screen name="LoginAccount" component={LoginAccount} />
+        {user ? <Stack.Screen name="Home" component={Home} /> : <Stack.Screen name="LoginAccount" component={LoginAccount} />}
         <Stack.Screen name="CreateAccount" component={CreateAccount} />
-        <Stack.Screen name="Home" component={Home} />
-        {/* <Stack.Screen name="CreateAccount" component={CreateAccount} /> */}
         <Stack.Screen name="CreateFlashCard" component={CreateFlashCard} />
-        {/* <Stack.Screen name="LoginAccount" component={LoginAccount} /> */}
         <Stack.Screen name="EditFlashCard" component={EditFlashCard} />
         <Stack.Screen name="ListFlashCard" component={ListFlashCard} />
         <Stack.Screen name="Practice" component={Practice} />
       </Stack.Navigator>
     </NavigationContainer>
   )
+
 }

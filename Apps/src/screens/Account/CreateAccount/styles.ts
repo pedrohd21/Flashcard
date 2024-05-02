@@ -5,6 +5,9 @@ import { TouchableOpacity } from 'react-native';
 export const Container = styled(SafeAreaView)`
   flex: 1;
   background-Color: rgba(0, 0, 0, 0.7);
+`;
+
+export const ContainerForm = styled(SafeAreaView)`
   align-items: center;
 `;
 
@@ -17,7 +20,7 @@ export const Text = styled.Text`
   padding-left: 17px;
   padding-top: 5px;
   margin-bottom: 10px;
-  
+
 `;
 
 export const TextInput = styled.TextInput`

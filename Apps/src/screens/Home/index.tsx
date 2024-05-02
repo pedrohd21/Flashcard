@@ -17,6 +17,8 @@ import { ModalButtonOptions } from "../../components/Modal/ModalButtonOptions";
 import { deleteDeck } from "../../storage/deck/deleteDeck";
 import { ModalChangeNameDeck } from "../../components/Modal/ModalChangeNameDeck";
 import { ListEmpty } from "../../components/List/ListEmpty";
+import auth from "@react-native-firebase/auth"
+
 
 export function Home() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -148,6 +150,10 @@ export function Home() {
     navigation.navigate('Practice', { deckName });
   }
 
+  function signOut(){
+    auth().signOut();
+  }
+
   useFocusEffect(useCallback(() => {
     fetchDecks()
   }, []))
@@ -155,7 +161,13 @@ export function Home() {
   return (
     <ImageBackground source={require('../../assets/img/back14.png')} style={{ flex: 1 }}>
       <Container >
-        <Header title='FlashCard' iconNameRight="plus" showButtonRight={true} iconColorRight={theme.COLORS.BLUE} onPressButtonRight={() => openModal()} />
+        <Header title='FlashCard'
+          iconNameRight="plus"
+          showButtonRight={true}
+          iconColorRight={theme.COLORS.BLUE}
+          onPressButtonRight={() => openModal()}
+          showBackButton 
+          onPressButtonLeft={signOut}/>
         {isLoading ? <Loading /> :
           <FlatList
             data={decksOrdenados}
