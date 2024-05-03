@@ -4,7 +4,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 
 import { Home } from '../screens/Home';
-import { CreateAccount } from '../screens/Account/CreateAccount';
 import { LoginAccount } from '../screens/Account/LoginAccount';
 
 import { CreateFlashCard } from '../screens/FlashCard/CreateFlashCard';
@@ -49,7 +48,6 @@ export function MyStack() {
         }}
       >
         {user ? <Stack.Screen name="Home" component={Home} /> : <Stack.Screen name="LoginAccount" component={LoginAccount} />}
-        <Stack.Screen name="CreateAccount" component={CreateAccount} />
         <Stack.Screen name="CreateFlashCard" component={CreateFlashCard} />
         <Stack.Screen name="EditFlashCard" component={EditFlashCard} />
         <Stack.Screen name="ListFlashCard" component={ListFlashCard} />
