@@ -1,7 +1,7 @@
+import React from 'react';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 
 import { NavigationContainer } from '@react-navigation/native';
-import React from 'react';
 
 import { Home } from '../screens/Home';
 import { LoginAccount } from '../screens/Account/LoginAccount';
@@ -15,6 +15,8 @@ import { Practice } from '../screens/Practice';
 import { useState, useEffect } from "react";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth"
 import { Loading } from '../components/Loading';
+
+import { MyTabs } from './myTab.routes';
 
 const Stack = createStackNavigator();
 
@@ -47,11 +49,15 @@ export function MyStack() {
           animationEnabled: false,
         }}
       >
-        {user ? <Stack.Screen name="Home" component={Home} /> : <Stack.Screen name="LoginAccount" component={LoginAccount} />}
-        <Stack.Screen name="CreateFlashCard" component={CreateFlashCard} />
-        <Stack.Screen name="EditFlashCard" component={EditFlashCard} />
-        <Stack.Screen name="ListFlashCard" component={ListFlashCard} />
-        <Stack.Screen name="Practice" component={Practice} />
+        {user ? <>
+          <Stack.Screen name="MyTabs" component={MyTabs} />
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="CreateFlashCard" component={CreateFlashCard} />
+          <Stack.Screen name="EditFlashCard" component={EditFlashCard} />
+          <Stack.Screen name="ListFlashCard" component={ListFlashCard} />
+          <Stack.Screen name="Practice" component={Practice} />
+        </> : <Stack.Screen name="LoginAccount" component={LoginAccount} />}
+
       </Stack.Navigator>
     </NavigationContainer>
   )
