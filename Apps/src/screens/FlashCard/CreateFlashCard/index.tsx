@@ -6,8 +6,7 @@ import { CreateFlashcardCard } from "../../../components/Card/CreateFlashcardCar
 import { Alert, FlatList, ImageBackground, Keyboard, TextInput } from "react-native";
 import { useRoute, useNavigation, useFocusEffect } from '@react-navigation/native';
 import { ButtonIconBig } from "../../../components/Button/ButtonIconBig";
-import { flashcardAddDeck } from "../../../storage/flashcard/flashcardAddDeck";
-import { FlashcardStorageDTO } from "../../../storage/flashcard/FlashcardStorageDTO";
+
 
 type RouteParams = {
   deckName: string;
@@ -33,13 +32,9 @@ export function CreateFlashCard() {
       return Alert.alert('Novo Flashcard', 'Adicione algo no flascard.');
     }
 
-    const newFlashcard: FlashcardStorageDTO = {
-      front: newFlashcardFront,
-      back: newFlashcardBack,
-    }
+
 
     try {
-      await flashcardAddDeck(newFlashcard, deckName);
       newTextFrontInputRef.current?.blur();
       newTextBackInputRef.current?.blur();
       setNewFlashcardFront('');

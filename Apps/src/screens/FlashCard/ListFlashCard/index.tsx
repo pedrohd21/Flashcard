@@ -2,12 +2,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Container } from "./styles";
 import { Header } from "../../../components/Header";
 import { Alert, FlatList, ImageBackground, Modal } from "react-native";
-import { FlascardGetByDeck } from "../../../storage/flashcard/FlascardGetByDeck";
 import { useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
-import { FlashcardStorageDTO } from "../../../storage/flashcard/FlashcardStorageDTO";
 import { Loading } from "../../../components/Loading";
 import { ListFlashcardsCard } from "../../../components/List/ListFlashcardsCard";
-import { FlashcardRemoveDeck } from "../../../storage/flashcard/flashcardRemoveDeck";
 import { SearchFlashcard } from "../../../components/Search/SearchFlashcard";
 import { ButtonIconBig } from "../../../components/Button/ButtonIconBig";
 import theme from "../../../theme";
@@ -23,7 +20,7 @@ export function ListFlashCard() {
   const [isLoading, setIsLoading] = useState(true);
   const [decks, setDecks] = useState([]);
 
-  const [flashcards, setFlashcards] = useState<FlashcardStorageDTO[]>([]);
+  const [flashcards, setFlashcards] = useState('');
 
   const { deckName } = route.params as RouteParams;
   const [searchText, setSearchText] = useState('');
@@ -35,8 +32,6 @@ export function ListFlashCard() {
   async function fetchflashcardByDeck() {
     setIsLoading(true);
     try {
-      const flashcardByDeck = await FlascardGetByDeck(deckName);
-      setFlashcards(flashcardByDeck)
     } catch (error) {
       Alert.alert('Flashcard', 'Não foi possível carregar os flashcards.');
     } finally {
@@ -65,7 +60,6 @@ export function ListFlashCard() {
           style: 'destructive',
           onPress: async () => {
             try {
-              await FlashcardRemoveDeck(front, back, deckName);
               fetchflashcardByDeck();
             } catch (error) {
               console.log(error);
@@ -100,7 +94,7 @@ export function ListFlashCard() {
           onChangeNameDeck={(text) => setSearchText(text)}
           clearText={clearSearchText}
         />
-        {isLoading ? <Loading /> :
+        {/* {isLoading ? <Loading /> :
           <FlatList
             data={flashcards.filter(item =>
               item.front.toLowerCase().includes(searchText.toLowerCase()) ||
@@ -118,7 +112,7 @@ export function ListFlashCard() {
               <ListEmpty message="Que tal darmos início à sua jornada de aprendizado criando o seu primeiro flashcard agora mesmo?" />
             )}
           />
-        }
+        } */}
         {flashcards.length <= 0 && (
           <ButtonIconBig
             iconName="plus"

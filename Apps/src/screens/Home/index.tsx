@@ -5,34 +5,46 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 import theme from "../../theme";
 import { Alert, Modal, FlatList, ImageBackground } from 'react-native';
-import { CreateDeck } from '../../storage/deck/createDeck';
-import { EditNameDeck } from '../../storage/deck/editNameDeck';
-import { DecksGetAll } from '../../storage/deck/decksGetAll'
+
 import { Loading } from "../../components/Loading";
 import { ListDeckCard } from "../../components/List/ListDeckCard";
 import { ButtonIconBig } from "../../components/Button/ButtonIconBig";
 import { ModalCreateDeck } from "../../components/Modal/ModalCreateDeck";
-import { FlascardGetByDeck } from "../../storage/flashcard/FlascardGetByDeck";
 import { ModalButtonOptions } from "../../components/Modal/ModalButtonOptions";
-import { deleteDeck } from "../../storage/deck/deleteDeck";
 import { ModalChangeNameDeck } from "../../components/Modal/ModalChangeNameDeck";
 import { ListEmpty } from "../../components/List/ListEmpty";
 import auth from "@react-native-firebase/auth"
+import firestore from '@react-native-firebase/firestore';
 
 
 export function Home() {
   const [modalVisible, setModalVisible] = useState(false);
   const [deckName, setDeckName] = useState("");
-  const [decks, setDecks] = useState<{ deck: string; flashcardCount: number }[]>([]);
+  const [decks, setDecks] = useState<{ id: string }[]>([]);
   const [selectedDeck, setSelectedDeck] = useState('');
-
-
-  const decksOrdenados = decks.sort((a, b) => a.deck.localeCompare(b.deck));
 
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(true);
   const [useButtonOptions, setUseButtonOptions] = useState(false);
   const [useButtonChangeName, setUseButtonChangeName] = useState(false);
+
+  firestore() // eu quero colocar o firetore como o banco de dados oficial, agora configure esse arquivo, pra que tudo possa funcionar com ele
+    .collection('Decks')
+    .get()
+    .then(querySnapshot => {
+      querySnapshot.forEach(documentSnapshot => {
+        console.log('Nome Deck: ', documentSnapshot.id);
+        // console.log('Frente: ', documentSnapshot.data().Front);
+        // console.log('Front: ', documentSnapshot.data().Back);
+        // console.log('Minutes: ', documentSnapshot.data().minutes);
+      });
+    })
+    .catch(error => {
+      console.error('Erro ao consultar decks: ', error);
+    });
+
+
+
 
   function openModal() {
     setModalVisible(true);
@@ -47,15 +59,7 @@ export function Home() {
 
   async function handleSaveDeck() {
     try {
-      const deckNameGroup = await DecksGetAll();
-      if (deckName.trim().length === 0) {
-        throw new Error('Não é possível salvar sem um nome.');
-      }
-      await CreateDeck(deckName);
-      closeModal();
-      fetchDecks();
-      navigation.navigate('CreateFlashCard', { deckName });
-      setDeckName('')
+
     } catch (error: any) {
       Alert.alert('Error', error.message);
     }
@@ -63,13 +67,7 @@ export function Home() {
 
   async function handleEditNameDeck() {
     try {
-      if (deckName.trim().length === 0) {
-        throw new Error('Não é possível salvar sem um nome.');
-      }
-      await EditNameDeck(selectedDeck, deckName);
-      closeModal();
-      fetchDecks();
-      setDeckName('')
+
     } catch (error: any) {
       Alert.alert('Error', error.message);
 
@@ -87,8 +85,8 @@ export function Home() {
           style: 'destructive',
           onPress: async () => {
             try {
-              await deleteDeck(selectedDeck)
-              fetchDecks();
+              // await deleteDeck(selectedDeck)
+              // fetchDecks();
             } catch (error) {
               console.log(error);
 
@@ -120,29 +118,6 @@ export function Home() {
     navigation.navigate('ListFlashCard', { deckName })
   }
 
-  async function fetchDecks() {
-    setIsLoading(true);
-    try {
-
-      const data = await DecksGetAll();
-
-      // Atualizar a lista de decks com o número de flashcards
-      const decksWithFlashcardCount = await Promise.all(
-        data.map(async (deck) => {
-          const flashcards = await FlascardGetByDeck(deck);
-          return { deck, flashcardCount: flashcards.length };
-        })
-      );
-
-      setDecks(decksWithFlashcardCount);
-    } catch (error) {
-      Alert.alert('Decks', 'Não foi possível carregar os Decks.');
-    } finally {
-
-    }
-    setIsLoading(false);
-  }
-
   function buttonAddFlashcard(deckName: string) {
     navigation.navigate('CreateFlashCard', { deckName });
   }
@@ -150,13 +125,29 @@ export function Home() {
     navigation.navigate('Practice', { deckName });
   }
 
-  function signOut(){
+  function signOut() {
     auth().signOut();
   }
 
-  useFocusEffect(useCallback(() => {
-    fetchDecks()
-  }, []))
+  useEffect(() => {
+    const fetchDecks = async () => {
+      try {
+        const querySnapshot = await firestore().collection('Decks').get();
+        const decksData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setDecks(decksData);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Erro ao consultar decks: ', error);
+        Alert.alert('Erro', 'Não foi possível carregar os Decks.');
+        setIsLoading(false);
+      }
+    };
+    fetchDecks();
+  }, []);
+
 
   return (
     <ImageBackground source={require('../../assets/img/back14.png')} style={{ flex: 1 }}>
@@ -166,20 +157,20 @@ export function Home() {
           showButtonRight={true}
           iconColorRight={theme.COLORS.BLUE}
           onPressButtonRight={() => openModal()}
-          showBackButton 
-          onPressButtonLeft={signOut}/>
+          showBackButton
+          onPressButtonLeft={signOut} />
         {isLoading ? <Loading /> :
-          <FlatList
-            data={decksOrdenados}
-            keyExtractor={(item) => item.deck}
+          <FlatList // aqui no flatlist e listar os decks
+            data={decks} //como fazer aparecer os dados?
+            // keyExtractor={(item) => item}
             renderItem={({ item }) => (
               <ListDeckCard
-                textTitle={item.deck}
-                contadorFlashcard={item.flashcardCount}
-                onPressButtonCreate={() => buttonAddFlashcard(item.deck)}
-                onPressButtonOptions={() => handleButtonOptions(item.deck)}
-                onPressButtonEdit={() => navegar(item.deck)}
-                onPressButtonPractice={() => { buttonPracticeFlashcard(item.deck) }}
+                textTitle={item.id}
+                // contadorFlashcard={item.flashcardCount}
+                // onPressButtonCreate={() => buttonAddFlashcard(item.deck)}
+                // onPressButtonOptions={() => handleButtonOptions(item.deck)}
+                // onPressButtonEdit={() => navegar(item.deck)}
+                // onPressButtonPractice={() => { buttonPracticeFlashcard(item.deck) }}
               />
             )}
             ListEmptyComponent={() => (
