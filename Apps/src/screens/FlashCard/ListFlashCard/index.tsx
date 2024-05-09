@@ -9,6 +9,7 @@ import { SearchFlashcard } from "../../../components/Search/SearchFlashcard";
 import { ButtonIconBig } from "../../../components/Button/ButtonIconBig";
 import theme from "../../../theme";
 import { ListEmpty } from "../../../components/List/ListEmpty";
+import firestore from '@react-native-firebase/firestore';
 
 type RouteParams = {
   deckName: string;
@@ -18,9 +19,10 @@ export function ListFlashCard() {
   const navigation = useNavigation();
   const route = useRoute();
   const [isLoading, setIsLoading] = useState(true);
-  const [decks, setDecks] = useState([]);
+  const [flashcardsData, setFlashcardsData] = useState<{ Front: string; Back: string }[]>([]);
 
-  const [flashcards, setFlashcards] = useState('');
+
+  // const [flashcards, setFlashcards] = useState<FlashcardStorageDTO[]>([]);
 
   const { deckName } = route.params as RouteParams;
   const [searchText, setSearchText] = useState('');
@@ -30,14 +32,27 @@ export function ListFlashCard() {
   };
 
   async function fetchflashcardByDeck() {
-    setIsLoading(true);
     try {
-    } catch (error) {
-      Alert.alert('Flashcard', 'Não foi possível carregar os flashcards.');
-    } finally {
+      setIsLoading(true);
+      firestore()
+        .collection('Decks')
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(documentSnapshot => {
+            if (deckName === documentSnapshot.id) {
+              // tem que ver como eu vou ver os outros cars, cards1, cards2 etc...
+              const cardsArray = documentSnapshot.data().cards;
+              const front = cardsArray[0];
+              const back = cardsArray[1];   
+              setFlashcardsData(prevState => [...prevState, { Front: front, Back: back }]);
 
+            }
+          });
+          setIsLoading(false);
+        });
+    } catch (error) {
+      console.error('Erro ao consultar flashcards: ', error);
     }
-    setIsLoading(false);
   }
 
   function addFlashcard() {
@@ -72,6 +87,7 @@ export function ListFlashCard() {
     );
   }
 
+
   useFocusEffect(useCallback(() => {
     fetchflashcardByDeck();
 
@@ -94,17 +110,17 @@ export function ListFlashCard() {
           onChangeNameDeck={(text) => setSearchText(text)}
           clearText={clearSearchText}
         />
-        {/* {isLoading ? <Loading /> :
+        {isLoading ? <Loading /> :
           <FlatList
-            data={flashcards.filter(item =>
-              item.front.toLowerCase().includes(searchText.toLowerCase()) ||
-              item.back.toLowerCase().includes(searchText.toLowerCase())
+            data={flashcardsData.filter(item =>
+              item.Front.toLowerCase().includes(searchText.toLowerCase()) ||
+              item.Back.toLowerCase().includes(searchText.toLowerCase())
             )}
             renderItem={({ item }) => (
               <ListFlashcardsCard
-                textFront={item.front}
-                textBack={item.back}
-                deleteFlashcard={() => handledeckFlashcardRemove(item.front, item.back)}
+                textFront={item.Front}
+                textBack={item.Back}
+                deleteFlashcard={() => handledeckFlashcardRemove(item.Front, item.Back)}
                 editFlashcard={() => { }}
               />
             )}
@@ -112,8 +128,8 @@ export function ListFlashCard() {
               <ListEmpty message="Que tal darmos início à sua jornada de aprendizado criando o seu primeiro flashcard agora mesmo?" />
             )}
           />
-        } */}
-        {flashcards.length <= 0 && (
+        }
+        {flashcardsData.length <= 0 && (
           <ButtonIconBig
             iconName="plus"
             onPress={addFlashcard}

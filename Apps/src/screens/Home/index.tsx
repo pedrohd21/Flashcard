@@ -33,7 +33,7 @@ export function Home() {
     .get()
     .then(querySnapshot => {
       querySnapshot.forEach(documentSnapshot => {
-        console.log('Nome Deck: ', documentSnapshot.id);
+        // console.log('Nome Deck: ', documentSnapshot.id);
         // console.log('Frente: ', documentSnapshot.data().Front);
         // console.log('Front: ', documentSnapshot.data().Back);
         // console.log('Minutes: ', documentSnapshot.data().minutes);
@@ -129,25 +129,32 @@ export function Home() {
     auth().signOut();
   }
 
-  useEffect(() => {
-    const fetchDecks = async () => {
-      try {
-        const querySnapshot = await firestore().collection('Decks').get();
-        const decksData = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        setDecks(decksData);
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Erro ao consultar decks: ', error);
-        Alert.alert('Erro', 'Não foi possível carregar os Decks.');
-        setIsLoading(false);
-      }
-    };
-    fetchDecks();
-  }, []);
+  async function fetchDecks() {
+    try {
+      firestore()
+        .collection('Decks')
+        .get()
+        .then(querySnapshot => {
+          const decksData = querySnapshot.docs.map(doc => ({
+              id: doc.id,
+              ...doc.data()
 
+          }));
+          setDecks(decksData);
+          setIsLoading(false);
+        })
+        .catch(error => {
+          console.error('Erro ao consultar decks: ', error);
+        });
+    } catch (error) {
+      Alert.alert('Erro', 'Não foi possível carregar os Decks.');
+      setIsLoading(false);
+    }
+  };
+
+  useFocusEffect(useCallback(() => {
+    fetchDecks()
+  }, []))
 
   return (
     <ImageBackground source={require('../../assets/img/back14.png')} style={{ flex: 1 }}>
@@ -160,17 +167,16 @@ export function Home() {
           showBackButton
           onPressButtonLeft={signOut} />
         {isLoading ? <Loading /> :
-          <FlatList // aqui no flatlist e listar os decks
-            data={decks} //como fazer aparecer os dados?
-            // keyExtractor={(item) => item}
+          <FlatList
+            data={decks}
             renderItem={({ item }) => (
               <ListDeckCard
                 textTitle={item.id}
-                // contadorFlashcard={item.flashcardCount}
+                // contadorFlashcard={Number(item.id.length)}
                 // onPressButtonCreate={() => buttonAddFlashcard(item.deck)}
                 // onPressButtonOptions={() => handleButtonOptions(item.deck)}
-                // onPressButtonEdit={() => navegar(item.deck)}
-                // onPressButtonPractice={() => { buttonPracticeFlashcard(item.deck) }}
+                onPressButtonEdit={() => navegar(item.id)}
+              // onPressButtonPractice={() => { buttonPracticeFlashcard(item.deck) }}
               />
             )}
             ListEmptyComponent={() => (
