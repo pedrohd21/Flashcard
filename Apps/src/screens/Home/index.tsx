@@ -22,6 +22,7 @@ export function Home() {
   const [deckName, setDeckName] = useState("");
   const [decks, setDecks] = useState<{ id: string }[]>([]);
   const [selectedDeck, setSelectedDeck] = useState('');
+  const [counter, setCounter] = useState(Number);
 
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(true);
@@ -138,7 +139,6 @@ export function Home() {
           const decksData = querySnapshot.docs.map(doc => ({
               id: doc.id,
               ...doc.data()
-
           }));
           setDecks(decksData);
           setIsLoading(false);
@@ -154,6 +154,7 @@ export function Home() {
 
   useFocusEffect(useCallback(() => {
     fetchDecks()
+    console.log(counter)
   }, []))
 
   return (
@@ -172,7 +173,7 @@ export function Home() {
             renderItem={({ item }) => (
               <ListDeckCard
                 textTitle={item.id}
-                // contadorFlashcard={Number(item.id.length)}
+                contadorFlashcard={counter}
                 // onPressButtonCreate={() => buttonAddFlashcard(item.deck)}
                 // onPressButtonOptions={() => handleButtonOptions(item.deck)}
                 onPressButtonEdit={() => navegar(item.id)}

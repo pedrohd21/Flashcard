@@ -7,8 +7,7 @@ import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/nativ
 
 import { PracticeComponente } from "../../components/PracticeComponente";
 import theme from "../../theme";
-import { FlashcardStorageDTO } from "../../storage/flashcard/FlashcardStorageDTO";
-import { FlascardGetByDeck } from "../../storage/flashcard/FlascardGetByDeck";
+
 import { ListEmpty } from "../../components/List/ListEmpty";
 import { ButtonIconBig } from "../../components/Button/ButtonIconBig";
 
@@ -21,7 +20,7 @@ export function Practice() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef<FlatList>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [flashcards, setFlashcards] = useState<FlashcardStorageDTO[]>([]);
+  // const [flashcards, setFlashcards] = useState<FlashcardStorageDTO[]>([]);
 
   const { width } = Dimensions.get('window');
 
@@ -37,8 +36,8 @@ export function Practice() {
   async function fetchflashcardByDeck() {
     try {
       setIsLoading(true);
-      const flashcardByDeck = await FlascardGetByDeck(deckName);
-      setFlashcards(flashcardByDeck)
+      // const flashcardByDeck = await FlascardGetByDeck(deckName);
+      // setFlashcards(flashcardByDeck)
     } catch (error) {
       Alert.alert('Flashcard', 'Não foi possível carregar os flashcards.');
     } finally {
@@ -46,17 +45,17 @@ export function Practice() {
     }
   }
   function buttonRepeatFlashcard() {
-    showNextItem()
+    // showNextItem()
     setShowAnswer(false)
   }
 
-  function showNextItem() {
-    const nextIndex = currentIndex + 1;
-    if (flatListRef.current && nextIndex < flashcards.length) {
-      setCurrentIndex(nextIndex);
-      flatListRef.current.scrollToIndex({ animated: true, index: nextIndex });
-    }
-  };
+  // function showNextItem() {
+  //   const nextIndex = currentIndex + 1;
+  //   if (flatListRef.current && nextIndex < flashcards.length) {
+  //     setCurrentIndex(nextIndex);
+  //     flatListRef.current.scrollToIndex({ animated: true, index: nextIndex });
+  //   }
+  // };
 
   function addFlashcard() {
     navigation.navigate('CreateFlashCard', { deckName });
@@ -79,7 +78,7 @@ export function Practice() {
           
         />
 
-        <FlatList
+        {/* <FlatList
           ref={flatListRef}
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -115,7 +114,7 @@ export function Practice() {
               }}
             />
           </View>
-        )}
+        )} */}
       </Container>
     </ImageBackground>
   )

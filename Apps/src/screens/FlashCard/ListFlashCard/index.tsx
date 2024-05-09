@@ -14,13 +14,16 @@ import firestore from '@react-native-firebase/firestore';
 type RouteParams = {
   deckName: string;
 }
+interface Flashcard {
+  front: string;
+  back: string;
+}
 
 export function ListFlashCard() {
   const navigation = useNavigation();
   const route = useRoute();
   const [isLoading, setIsLoading] = useState(true);
-  const [flashcardsData, setFlashcardsData] = useState<{ Front: string; Back: string }[]>([]);
-
+  const [flashcardsData, setFlashcardsData] = useState<Flashcard[]>([]);
 
   // const [flashcards, setFlashcards] = useState<FlashcardStorageDTO[]>([]);
 
@@ -36,20 +39,26 @@ export function ListFlashCard() {
       setIsLoading(true);
       firestore()
         .collection('Decks')
+        .doc(deckName)
         .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(documentSnapshot => {
-            if (deckName === documentSnapshot.id) {
-              // tem que ver como eu vou ver os outros cars, cards1, cards2 etc...
-              const cardsArray = documentSnapshot.data().cards;
-              const front = cardsArray[0];
-              const back = cardsArray[1];   
-              setFlashcardsData(prevState => [...prevState, { Front: front, Back: back }]);
+        .then(documentSnapshot => {
+          console.log('User exists: ', documentSnapshot.exists);
 
+          if (documentSnapshot.exists) {
+            const deckData = documentSnapshot.data();
+            if (deckData) {
+              const dataArray: Flashcard[] = Object.values(deckData);
+              setFlashcardsData(dataArray);
             }
-          });
+          }
+        })
+        .catch(error => {
+          console.error('Error getting document:', error);
+        })
+        .finally(() => {
           setIsLoading(false);
         });
+
     } catch (error) {
       console.error('Erro ao consultar flashcards: ', error);
     }
@@ -62,6 +71,8 @@ export function ListFlashCard() {
 
   function handleGoBack() {
     navigation.goBack();
+    console.log('flashcardsData', flashcardsData)
+    
   }
 
   async function handledeckFlashcardRemove(front: string, back: string) {
@@ -90,7 +101,6 @@ export function ListFlashCard() {
 
   useFocusEffect(useCallback(() => {
     fetchflashcardByDeck();
-
   }, []));
 
   return (
@@ -113,15 +123,16 @@ export function ListFlashCard() {
         {isLoading ? <Loading /> :
           <FlatList
             data={flashcardsData.filter(item =>
-              item.Front.toLowerCase().includes(searchText.toLowerCase()) ||
-              item.Back.toLowerCase().includes(searchText.toLowerCase())
+              item.front.toLowerCase().includes(searchText.toLowerCase()) ||
+              item.back.toLowerCase().includes(searchText.toLowerCase())
             )}
             renderItem={({ item }) => (
               <ListFlashcardsCard
-                textFront={item.Front}
-                textBack={item.Back}
-                deleteFlashcard={() => handledeckFlashcardRemove(item.Front, item.Back)}
+                textFront={item.front}
+                textBack={item.back}
+                deleteFlashcard={() => handledeckFlashcardRemove(item.front, item.back)}
                 editFlashcard={() => { }}
+                
               />
             )}
             ListEmptyComponent={() => (
