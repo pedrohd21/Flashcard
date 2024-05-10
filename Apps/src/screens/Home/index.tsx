@@ -60,19 +60,72 @@ export function Home() {
 
   async function handleSaveDeck() {
     try {
+      if (deckName.trim().length === 0) {
+        Alert.alert('Nome', "Não é possível salvar sem um nome.");
+        throw new Error('Não é possível salvar sem um nome.');
+      }
 
-    } catch (error: any) {
-      Alert.alert('Error', error.message);
+      setIsLoading(true);
+
+      const deckSnapshot = await firestore()
+        .collection('Decks')
+        .doc(deckName)
+        .get();
+
+      if (deckSnapshot.exists) {
+        Alert.alert('Nome duplicado', 'Já existe um deck com este nome.');
+        throw new Error('Já existe um deck com este nome.');
+      }
+
+      await firestore()
+        .collection('Decks')
+        .doc(deckName)
+        .set({
+          //
+        });
+
+      closeModal();
+      fetchDecks();
+      navigation.navigate('CreateFlashCard', { deckName });
+      setDeckName('')
+    } catch (error) {
+      console.error('Erro ao criar deck:', error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
   async function handleEditNameDeck() {
     try {
+      if (deckName.trim().length === 0) {
+        throw new Error('Não é possível salvar sem um nome.');
+      }
+      const oldDeckRef = firestore().collection('Decks').doc(selectedDeck);
+      const newDeckRef = firestore().collection('Decks').doc(deckName);
+  
+      // Obtenha os dados do documento antigo
+      const oldDeckSnapshot = await oldDeckRef.get();
+      const oldDeckData = oldDeckSnapshot.data() || {}; 
+  
+      // Crie um novo documento com o novo nome e os mesmos dados do documento antigo
+      await newDeckRef.set(oldDeckData);
 
+      await oldDeckRef.delete();
+
+      console.log('deckName')
+      console.log(deckName)
+      console.log(selectedDeck)
+
+      closeModal();
+      fetchDecks();
+      setDeckName('')
     } catch (error: any) {
       Alert.alert('Error', error.message);
-
+    } finally {
+      setIsLoading(false);
     }
+    fetchDecks()
+    closeModal()
   }
 
   async function handledeckRemove() {
@@ -86,19 +139,23 @@ export function Home() {
           style: 'destructive',
           onPress: async () => {
             try {
-              // await deleteDeck(selectedDeck)
-              // fetchDecks();
-            } catch (error) {
-              console.log(error);
+              setIsLoading(true);
 
-              Alert.alert('Remover Flashcard', 'Não foi possível remover flashcard.');
+              const deckRef = firestore().collection('Decks').doc(selectedDeck);
+              await deckRef.delete();
+              closeModal();
+              fetchDecks();
+            } catch (error) {
+              console.error('Erro apagar deck:', error);
+            } finally {
+              setIsLoading(false);
             }
           },
         },
       ],
       { cancelable: true }
     );
-
+    fetchDecks()
     closeModal()
   }
 
@@ -137,8 +194,8 @@ export function Home() {
         .get()
         .then(querySnapshot => {
           const decksData = querySnapshot.docs.map(doc => ({
-              id: doc.id,
-              ...doc.data()
+            id: doc.id,
+            ...doc.data()
           }));
           setDecks(decksData);
           setIsLoading(false);
@@ -154,7 +211,6 @@ export function Home() {
 
   useFocusEffect(useCallback(() => {
     fetchDecks()
-    console.log(counter)
   }, []))
 
   return (
@@ -174,8 +230,8 @@ export function Home() {
               <ListDeckCard
                 textTitle={item.id}
                 contadorFlashcard={counter}
-                // onPressButtonCreate={() => buttonAddFlashcard(item.deck)}
-                // onPressButtonOptions={() => handleButtonOptions(item.deck)}
+                onPressButtonCreate={() => buttonAddFlashcard(item.id)}
+                onPressButtonOptions={() => handleButtonOptions(item.id)}
                 onPressButtonEdit={() => navegar(item.id)}
               // onPressButtonPractice={() => { buttonPracticeFlashcard(item.deck) }}
               />

@@ -14,7 +14,9 @@ import firestore from '@react-native-firebase/firestore';
 type RouteParams = {
   deckName: string;
 }
+
 interface Flashcard {
+  nameCard: string;
   front: string;
   back: string;
 }
@@ -37,30 +39,34 @@ export function ListFlashCard() {
   async function fetchflashcardByDeck() {
     try {
       setIsLoading(true);
-      firestore()
-        .collection('Decks')
-        .doc(deckName)
-        .get()
-        .then(documentSnapshot => {
-          console.log('User exists: ', documentSnapshot.exists);
+      const deckRef = firestore().collection('Decks').doc(deckName);
+      const documentSnapshot = await deckRef.get();
 
-          if (documentSnapshot.exists) {
-            const deckData = documentSnapshot.data();
-            if (deckData) {
-              const dataArray: Flashcard[] = Object.values(deckData);
-              setFlashcardsData(dataArray);
+      if (documentSnapshot.exists) {
+        const deckData = documentSnapshot.data();
+        if (deckData) {
+          const flashcards: Flashcard[] = [];
+          Object.keys(deckData).forEach(key => {
+            if (key.startsWith('card')) {
+              const flashcardData = deckData[key];
+              const flashcard: Flashcard = {
+                nameCard: key,
+                front: flashcardData.front,
+                back: flashcardData.back
+              };
+              flashcards.push(flashcard);
             }
-          }
-        })
-        .catch(error => {
-          console.error('Error getting document:', error);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-
+          });
+          setFlashcardsData(flashcards);
+        }
+      } else {
+        console.log('Deck não encontrado');
+        setFlashcardsData([]);
+      }
     } catch (error) {
       console.error('Erro ao consultar flashcards: ', error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -72,13 +78,13 @@ export function ListFlashCard() {
   function handleGoBack() {
     navigation.goBack();
     console.log('flashcardsData', flashcardsData)
-    
+
   }
 
-  async function handledeckFlashcardRemove(front: string, back: string) {
+  async function handledeckFlashcardRemove(cardId: any) {
     Alert.alert(
       'Remover Flashcard',
-      'Tem certeza que deseja remover este flashcard?',
+      'Tem certeza que deseja remover este deck?',
       [
         { text: 'Cancelar', style: 'cancel' },
         {
@@ -86,10 +92,26 @@ export function ListFlashCard() {
           style: 'destructive',
           onPress: async () => {
             try {
-              fetchflashcardByDeck();
+              setIsLoading(true);
+
+              const deckRef = firestore().collection('Decks').doc(deckName);
+              const deckSnapshot = await deckRef.get();
+
+              if (!deckSnapshot.exists) {
+                console.error('Deck não encontrado');
+                return;
+              }
+
+              await deckRef.update({
+                [cardId]: firestore.FieldValue.delete()
+              });
+
+              fetchflashcardByDeck()
             } catch (error) {
-              console.log(error);
+              console.error('Erro ao remover flashcard:', error);
               Alert.alert('Remover Flashcard', 'Não foi possível remover o flashcard.');
+            } finally {
+              setIsLoading(false);
             }
           },
         },
@@ -97,6 +119,7 @@ export function ListFlashCard() {
       { cancelable: true }
     );
   }
+
 
 
   useFocusEffect(useCallback(() => {
@@ -130,9 +153,9 @@ export function ListFlashCard() {
               <ListFlashcardsCard
                 textFront={item.front}
                 textBack={item.back}
-                deleteFlashcard={() => handledeckFlashcardRemove(item.front, item.back)}
+                deleteFlashcard={() => handledeckFlashcardRemove(item.nameCard)}
                 editFlashcard={() => { }}
-                
+
               />
             )}
             ListEmptyComponent={() => (

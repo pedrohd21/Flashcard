@@ -6,6 +6,7 @@ import { CreateFlashcardCard } from "../../../components/Card/CreateFlashcardCar
 import { Alert, FlatList, ImageBackground, Keyboard, TextInput } from "react-native";
 import { useRoute, useNavigation, useFocusEffect } from '@react-navigation/native';
 import { ButtonIconBig } from "../../../components/Button/ButtonIconBig";
+import firestore from '@react-native-firebase/firestore';
 
 
 type RouteParams = {
@@ -35,6 +36,32 @@ export function CreateFlashCard() {
 
 
     try {
+      setIsLoading(true);
+
+      // Consulta o deck para obter o número atual de cartões
+      const deckRef = firestore().collection('Decks').doc(deckName);
+      const deckSnapshot = await deckRef.get();
+  
+      if (!deckSnapshot.exists) {
+        console.error('Deck não encontrado');
+        return;
+      }
+  
+      const deckData = deckSnapshot.data();
+      const currentCardCount = deckData ? Object.keys(deckData).length : 0;
+  
+      // Cria um novo cartão com o número apropriado
+      const newCardName = `card${currentCardCount}`;
+  
+      // Adiciona o novo flashcard ao deck
+      await deckRef.update({
+        [newCardName]: {
+          front: newFlashcardFront,
+          back: newFlashcardBack
+        }
+      });
+  
+      console.log('Flashcard adicionado ao deck:', deckName);
       newTextFrontInputRef.current?.blur();
       newTextBackInputRef.current?.blur();
       setNewFlashcardFront('');
