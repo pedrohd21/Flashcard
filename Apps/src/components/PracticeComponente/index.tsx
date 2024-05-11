@@ -10,17 +10,22 @@ type Props = TouchableOpacityProps & {
   textBack?: string;
   showFlashcard?: boolean;
   buttonRepeat?: () => void;
+  textRepeat?: number;
   buttonHard?: () => void;
+  textHard?: number;
   buttonGood?: () => void;
+  textGood?: number;
   buttonEasy?: () => void;
+  textEasy?: number;
 }
 
-export function PracticeComponente({ textFront, textBack, showFlashcard, buttonRepeat, buttonHard, buttonGood, buttonEasy, ...rest }: Props) {
+export function PracticeComponente({ textFront, textBack, showFlashcard, buttonRepeat, textRepeat, buttonHard, buttonGood, buttonEasy, ...rest }: Props) {
   const [showAnswer, setShowAnswer] = useState(false);
 
   useEffect(() => {
     setShowAnswer(!!showFlashcard);
   }, [showFlashcard]);
+
 
   return (
     <Container >
@@ -61,7 +66,7 @@ export function PracticeComponente({ textFront, textBack, showFlashcard, buttonR
             {/* refator isso, criar um componete unico, e personalizado */}
             {/* {currentIndex < data.length - 1 && ( */}
             <ButtonOption hitSlop={20} style={{ borderColor: theme.COLORS.RED }} onPress={buttonRepeat}>
-              <Text style={{ fontSize: theme.FONT_SIZE.ESM, color: theme.COLORS.RED }}>&lt; 1m</Text>
+              <Text style={{ fontSize: theme.FONT_SIZE.ESM, color: theme.COLORS.RED }}>&lt; {textRepeat}</Text>
               <Text style={{ fontSize: theme.FONT_SIZE.SM, fontFamily: 'Roboto-Bold', color: theme.COLORS.RED }}>Repetir</Text>
             </ButtonOption>
             {/* // )} */}

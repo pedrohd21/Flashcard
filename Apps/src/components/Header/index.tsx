@@ -7,6 +7,7 @@ import { ViewStyle } from "react-native";
 type Props = {
   title: string;
   iconNameRight?: string;
+  iconNameLeft?: string;
   iconColorRight?: string;
   showBackButton?: boolean;
   showButtonRight?: boolean;
@@ -15,14 +16,14 @@ type Props = {
   style?: ViewStyle;
 }
 
-export function Header({ title, showBackButton, iconNameRight, showButtonRight, iconColorRight, onPressButtonRight, onPressButtonLeft, style }: Props) {
+export function Header({ title, showBackButton, iconNameRight, iconNameLeft, showButtonRight, iconColorRight, onPressButtonRight, onPressButtonLeft, style }: Props) {
   return (
     <Container 
       style={style}
     >
       {showBackButton &&
         <ButtonBackIcon onPress={onPressButtonLeft}>
-          <IconBack name='arrow-left' />
+          <IconBack name={iconNameLeft || 'arrow-left'} />
         </ButtonBackIcon>}
       <Text>{title}</Text>
       {showButtonRight &&

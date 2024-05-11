@@ -4,7 +4,6 @@ import { Header } from "../../../components/Header";
 import { Alert, ImageBackground } from "react-native";
 import theme from "../../../theme";
 import auth from "@react-native-firebase/auth";
-import { useNavigation } from "@react-navigation/native";
 
 export function LoginAccount() {
   const [mostrarSenha, setMostrarSenha] = useState(false);

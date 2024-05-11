@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
-import { Container, ModalContainer, ModalContent, Text, ModalButton, TextInput, ButtonModalContainer } from "./styles";
+import React, { useState, useCallback, useRef } from "react";
+import { Container } from "./styles";
 import { Header } from "../../components/Header";
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
@@ -16,7 +16,6 @@ import { ListEmpty } from "../../components/List/ListEmpty";
 import auth from "@react-native-firebase/auth"
 import firestore from '@react-native-firebase/firestore';
 
-
 export function Home() {
   const [modalVisible, setModalVisible] = useState(false);
   const [deckName, setDeckName] = useState("");
@@ -29,24 +28,6 @@ export function Home() {
   const [useButtonOptions, setUseButtonOptions] = useState(false);
   const [useButtonChangeName, setUseButtonChangeName] = useState(false);
 
-  firestore() // eu quero colocar o firetore como o banco de dados oficial, agora configure esse arquivo, pra que tudo possa funcionar com ele
-    .collection('Decks')
-    .get()
-    .then(querySnapshot => {
-      querySnapshot.forEach(documentSnapshot => {
-        // console.log('Nome Deck: ', documentSnapshot.id);
-        // console.log('Frente: ', documentSnapshot.data().Front);
-        // console.log('Front: ', documentSnapshot.data().Back);
-        // console.log('Minutes: ', documentSnapshot.data().minutes);
-      });
-    })
-    .catch(error => {
-      console.error('Erro ao consultar decks: ', error);
-    });
-
-
-
-
   function openModal() {
     setModalVisible(true);
   };
@@ -58,11 +39,30 @@ export function Home() {
     setDeckName('')
   };
 
+  async function fetchDecks() {
+    try {
+      firestore()
+        .collection('Decks')
+        .get()
+        .then(querySnapshot => {
+          const decksData = querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }));
+          setDecks(decksData);
+          setIsLoading(false);
+        })
+    } catch (error) {
+      Alert.alert('Erro', 'Ocorreu um erro. Por favor, tente novamente mais tarde.');
+      setIsLoading(false);
+    }
+  };
+
   async function handleSaveDeck() {
     try {
       if (deckName.trim().length === 0) {
-        Alert.alert('Nome', "Não é possível salvar sem um nome.");
-        throw new Error('Não é possível salvar sem um nome.');
+        Alert.alert('Nome', "Por favor, insira um nome para o deck.");
+        return;
       }
 
       setIsLoading(true);
@@ -73,8 +73,8 @@ export function Home() {
         .get();
 
       if (deckSnapshot.exists) {
-        Alert.alert('Nome duplicado', 'Já existe um deck com este nome.');
-        throw new Error('Já existe um deck com este nome.');
+        Alert.alert('Nome Duplicado', 'Um deck com este nome já existe. Por favor, escolha outro nome.');
+        return
       }
 
       await firestore()
@@ -89,7 +89,7 @@ export function Home() {
       navigation.navigate('CreateFlashCard', { deckName });
       setDeckName('')
     } catch (error) {
-      console.error('Erro ao criar deck:', error);
+      Alert.alert('Erro', 'Ocorreu um erro. Por favor, tente novamente mais tarde.');
     } finally {
       setIsLoading(false);
     }
@@ -98,29 +98,36 @@ export function Home() {
   async function handleEditNameDeck() {
     try {
       if (deckName.trim().length === 0) {
-        throw new Error('Não é possível salvar sem um nome.');
+        Alert.alert('Nome', 'Não é possível salvar sem um nome.');
+        return;
       }
+      const deckSnapshot = await firestore()
+        .collection('Decks')
+        .doc(deckName)
+        .get();
+
+      if (deckSnapshot.exists) {
+        Alert.alert('Nome Duplicado', 'Já existe um deck com este nome. Por favor, escolha outro nome.');
+        return;
+      }
+
       const oldDeckRef = firestore().collection('Decks').doc(selectedDeck);
       const newDeckRef = firestore().collection('Decks').doc(deckName);
-  
+
       // Obtenha os dados do documento antigo
       const oldDeckSnapshot = await oldDeckRef.get();
-      const oldDeckData = oldDeckSnapshot.data() || {}; 
-  
+      const oldDeckData = oldDeckSnapshot.data() || {};
+
       // Crie um novo documento com o novo nome e os mesmos dados do documento antigo
       await newDeckRef.set(oldDeckData);
 
       await oldDeckRef.delete();
 
-      console.log('deckName')
-      console.log(deckName)
-      console.log(selectedDeck)
-
       closeModal();
       fetchDecks();
       setDeckName('')
     } catch (error: any) {
-      Alert.alert('Error', error.message);
+      Alert.alert('Erro', 'Ocorreu um erro. Por favor, tente novamente mais tarde.');
     } finally {
       setIsLoading(false);
     }
@@ -146,7 +153,7 @@ export function Home() {
               closeModal();
               fetchDecks();
             } catch (error) {
-              console.error('Erro apagar deck:', error);
+              Alert.alert('Erro', 'Ocorreu um erro. Por favor, tente novamente mais tarde.');
             } finally {
               setIsLoading(false);
             }
@@ -172,7 +179,7 @@ export function Home() {
     openModal()
   }
 
-  function navegar(deckName: string) {
+  function handleListFlascard(deckName: string) {
     navigation.navigate('ListFlashCard', { deckName })
   }
 
@@ -187,28 +194,6 @@ export function Home() {
     auth().signOut();
   }
 
-  async function fetchDecks() {
-    try {
-      firestore()
-        .collection('Decks')
-        .get()
-        .then(querySnapshot => {
-          const decksData = querySnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-          }));
-          setDecks(decksData);
-          setIsLoading(false);
-        })
-        .catch(error => {
-          console.error('Erro ao consultar decks: ', error);
-        });
-    } catch (error) {
-      Alert.alert('Erro', 'Não foi possível carregar os Decks.');
-      setIsLoading(false);
-    }
-  };
-
   useFocusEffect(useCallback(() => {
     fetchDecks()
   }, []))
@@ -222,18 +207,19 @@ export function Home() {
           iconColorRight={theme.COLORS.BLUE}
           onPressButtonRight={() => openModal()}
           showBackButton
-          onPressButtonLeft={signOut} />
+          onPressButtonLeft={signOut} 
+          iconNameLeft="power-off"/>
         {isLoading ? <Loading /> :
           <FlatList
             data={decks}
             renderItem={({ item }) => (
               <ListDeckCard
                 textTitle={item.id}
-                contadorFlashcard={counter}
+                contadorFlashcard={item.id}
                 onPressButtonCreate={() => buttonAddFlashcard(item.id)}
                 onPressButtonOptions={() => handleButtonOptions(item.id)}
-                onPressButtonEdit={() => navegar(item.id)}
-              // onPressButtonPractice={() => { buttonPracticeFlashcard(item.deck) }}
+                onPressButtonEdit={() => handleListFlascard(item.id)}
+              onPressButtonPractice={() => { buttonPracticeFlashcard(item.id) }}
               />
             )}
             ListEmptyComponent={() => (

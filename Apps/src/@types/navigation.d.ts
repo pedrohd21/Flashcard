@@ -10,7 +10,11 @@ export declare global {
       EditDeck: undefined;
       ListDeck: undefined;
 
-      EditFlashCard: undefined;
+      EditFlashCard: {
+        deckName: string;
+        nameCard: string;
+      };
+
       ListFlashCard: {
         deckName: string;
       };

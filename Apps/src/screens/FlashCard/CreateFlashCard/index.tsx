@@ -24,57 +24,45 @@ export function CreateFlashCard() {
   const route = useRoute();
   const { deckName } = route.params as RouteParams;
 
-  const [isLoading, setIsLoading] = useState(true);
-
-
   async function addFlashcard() {
-    setIsLoading(true);
+
     if (newFlashcardFront.trim().length === 0) {
-      return Alert.alert('Novo Flashcard', 'Adicione algo no flascard.');
-    }
+      Alert.alert('Novo Flashcard', 'Por favor, adicione conteúdo ao flashcard antes de salvar.');
+    } else {
+      try {
+        // Consulta o deck para obter o número atual de cartões
+        const deckRef = firestore().collection('Decks').doc(deckName);
+        const deckSnapshot = await deckRef.get();
 
-
-
-    try {
-      setIsLoading(true);
-
-      // Consulta o deck para obter o número atual de cartões
-      const deckRef = firestore().collection('Decks').doc(deckName);
-      const deckSnapshot = await deckRef.get();
-  
-      if (!deckSnapshot.exists) {
-        console.error('Deck não encontrado');
-        return;
-      }
-  
-      const deckData = deckSnapshot.data();
-      const currentCardCount = deckData ? Object.keys(deckData).length : 0;
-  
-      // Cria um novo cartão com o número apropriado
-      const newCardName = `card${currentCardCount}`;
-  
-      // Adiciona o novo flashcard ao deck
-      await deckRef.update({
-        [newCardName]: {
-          front: newFlashcardFront,
-          back: newFlashcardBack
+        if (!deckSnapshot.exists) {
+          console.error('Deck não encontrado');
+          return;
         }
-      });
-  
-      console.log('Flashcard adicionado ao deck:', deckName);
-      newTextFrontInputRef.current?.blur();
-      newTextBackInputRef.current?.blur();
-      setNewFlashcardFront('');
-      setNewFlashcardBack('');
 
-    } catch (error: any) {
-      if (error) {
-        Alert.alert('Novo Flashcard', error.message);
-      } else {
-        Alert.alert('Novo Flashcard', 'Não foi possível adicionar.');
+        const deckData = deckSnapshot.data();
+        const currentCardCount = deckData ? Object.keys(deckData).length : 0;
+
+        // Cria um novo cartão com o número apropriado
+        const newCardName = `card${currentCardCount}`;
+
+        // Adiciona o novo flashcard ao deck
+        await deckRef.update({
+          [newCardName]: {
+            front: newFlashcardFront,
+            back: newFlashcardBack,
+            minute: 1
+          }
+        });
+
+        newTextFrontInputRef.current?.blur();
+        newTextBackInputRef.current?.blur();
+        setNewFlashcardFront('');
+        setNewFlashcardBack('');
+
+      } catch (error: any) {
+        Alert.alert('Erro', 'Ocorreu um erro ao adicionar o flashcard. Por favor, tente novamente mais tarde.');
       }
     }
-    setIsLoading(true);
   }
 
   function handleGoBack() {
@@ -83,26 +71,17 @@ export function CreateFlashCard() {
     } else {
       Alert.alert(
         'Salvar Flashcard',
-        'Tem certeza que deseja não salvar este flashcard?',
+        'Tem certeza de que deseja descartar este flashcard não salvo?',
         [
           { text: 'Cancelar', style: 'cancel' },
           {
-            text: 'Sim',
+            text: 'Descartar',
             style: 'destructive',
-            onPress: async () => {
-              try {
-                navigation.goBack();
-              } catch (error) {
-                console.log(error);
-  
-                Alert.alert('Salvar Flashcard', 'Não foi possível salvar flashcard.');
-              }
-            },
+            onPress: () => navigation.goBack(),
           },
         ],
         { cancelable: true }
       );
-      
     }
   }
 

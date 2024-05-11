@@ -27,8 +27,6 @@ export function ListFlashCard() {
   const [isLoading, setIsLoading] = useState(true);
   const [flashcardsData, setFlashcardsData] = useState<Flashcard[]>([]);
 
-  // const [flashcards, setFlashcards] = useState<FlashcardStorageDTO[]>([]);
-
   const { deckName } = route.params as RouteParams;
   const [searchText, setSearchText] = useState('');
 
@@ -60,7 +58,6 @@ export function ListFlashCard() {
           setFlashcardsData(flashcards);
         }
       } else {
-        console.log('Deck não encontrado');
         setFlashcardsData([]);
       }
     } catch (error) {
@@ -74,17 +71,19 @@ export function ListFlashCard() {
     navigation.navigate('CreateFlashCard', { deckName });
     fetchflashcardByDeck()
   }
+  function editFlashcard(deckName: any, nameCard: string) {
+    navigation.navigate('EditFlashCard', { deckName, nameCard });
+    fetchflashcardByDeck()
+  }
 
   function handleGoBack() {
     navigation.goBack();
-    console.log('flashcardsData', flashcardsData)
-
   }
 
   async function handledeckFlashcardRemove(cardId: any) {
     Alert.alert(
       'Remover Flashcard',
-      'Tem certeza que deseja remover este deck?',
+      'Tem certeza que deseja remover este flashCard?',
       [
         { text: 'Cancelar', style: 'cancel' },
         {
@@ -154,9 +153,8 @@ export function ListFlashCard() {
                 textFront={item.front}
                 textBack={item.back}
                 deleteFlashcard={() => handledeckFlashcardRemove(item.nameCard)}
-                editFlashcard={() => { }}
-
-              />
+                editFlashcard={() => { editFlashcard(deckName, item.nameCard)}
+                } />
             )}
             ListEmptyComponent={() => (
               <ListEmpty message="Que tal darmos início à sua jornada de aprendizado criando o seu primeiro flashcard agora mesmo?" />

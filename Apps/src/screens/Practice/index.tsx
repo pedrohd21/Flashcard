@@ -10,9 +10,17 @@ import theme from "../../theme";
 
 import { ListEmpty } from "../../components/List/ListEmpty";
 import { ButtonIconBig } from "../../components/Button/ButtonIconBig";
+import firestore from '@react-native-firebase/firestore';
 
 type RouteParams = {
   deckName: string;
+}
+
+interface Flashcard {
+  nameCard: string;
+  front: string;
+  back: string;
+  minute: string;
 }
 
 export function Practice() {
@@ -20,7 +28,7 @@ export function Practice() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef<FlatList>(null);
   const [isLoading, setIsLoading] = useState(true);
-  // const [flashcards, setFlashcards] = useState<FlashcardStorageDTO[]>([]);
+  const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
 
   const { width } = Dimensions.get('window');
 
@@ -36,26 +44,48 @@ export function Practice() {
   async function fetchflashcardByDeck() {
     try {
       setIsLoading(true);
-      // const flashcardByDeck = await FlascardGetByDeck(deckName);
-      // setFlashcards(flashcardByDeck)
+      const deckRef = firestore().collection('Decks').doc(deckName);
+      const documentSnapshot = await deckRef.get();
+
+      if (documentSnapshot.exists) {
+        const deckData = documentSnapshot.data();
+        if (deckData) {
+          const flashcards: Flashcard[] = [];
+          Object.keys(deckData).forEach(key => {
+            if (key.startsWith('card')) {
+              const flashcardData = deckData[key];
+              const flashcard: Flashcard = {
+                nameCard: key,
+                front: flashcardData.front,
+                back: flashcardData.back,
+                minute: flashcardData.minute
+              };
+              flashcards.push(flashcard);
+            }
+          });
+          setFlashcards(flashcards);
+        }
+      } else {
+        setFlashcards([]);
+      }
     } catch (error) {
-      Alert.alert('Flashcard', 'Não foi possível carregar os flashcards.');
+      console.error('Erro ao consultar flashcards: ', error);
     } finally {
       setIsLoading(false);
     }
   }
   function buttonRepeatFlashcard() {
-    // showNextItem()
+    showNextItem()
     setShowAnswer(false)
   }
 
-  // function showNextItem() {
-  //   const nextIndex = currentIndex + 1;
-  //   if (flatListRef.current && nextIndex < flashcards.length) {
-  //     setCurrentIndex(nextIndex);
-  //     flatListRef.current.scrollToIndex({ animated: true, index: nextIndex });
-  //   }
-  // };
+  function showNextItem() {
+    const nextIndex = currentIndex + 1;
+    if (flatListRef.current && nextIndex < flashcards.length) {
+      setCurrentIndex(nextIndex);
+      flatListRef.current.scrollToIndex({ animated: true, index: nextIndex });
+    }
+  };
 
   function addFlashcard() {
     navigation.navigate('CreateFlashCard', { deckName });
@@ -78,7 +108,7 @@ export function Practice() {
           
         />
 
-        {/* <FlatList
+        <FlatList
           ref={flatListRef}
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -92,6 +122,7 @@ export function Practice() {
                   textBack={item.back}
                   showFlashcard={showAnswer}
                   buttonRepeat={() => buttonRepeatFlashcard()}
+                  textRepeat={item.minute}
                 />
               )}
 
@@ -114,7 +145,7 @@ export function Practice() {
               }}
             />
           </View>
-        )} */}
+        )}
       </Container>
     </ImageBackground>
   )
