@@ -7,7 +7,7 @@ import { Alert, ImageBackground, TextInput } from "react-native";
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { ButtonIconBig } from "../../../components/Button/ButtonIconBig";
 import firestore from '@react-native-firebase/firestore';
-
+import auth from "@react-native-firebase/auth"
 
 type RouteParams = {
   deckName: string;
@@ -30,7 +30,9 @@ export function EditFlashCard() {
       Alert.alert('Novo Flashcard', 'Por favor, adicione conteúdo ao flashcard antes de salvar.');
     }else{
       try {
-        const deckRef = firestore().collection('Decks').doc(deckName);
+        const currentUser = auth().currentUser;
+        const deckRef = firestore().collection('Users').doc(String(currentUser?.uid)).collection('Flashcards').doc(deckName);
+
         const deckSnapshot = await deckRef.get();
   
         if (!deckSnapshot.exists) {

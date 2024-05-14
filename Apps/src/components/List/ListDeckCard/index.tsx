@@ -6,6 +6,7 @@ import { ButtonCreate } from "../../Button/ButtonCreate";
 import theme from "../../../theme";
 import firestore from '@react-native-firebase/firestore';
 import { useFocusEffect } from "@react-navigation/native";
+import auth from "@react-native-firebase/auth"
 
 type Props = TouchableOpacityProps & {
   textTitle: string;
@@ -23,7 +24,8 @@ export function ListDeckCard({ textTitle, contadorFlashcard, onPressButtonCreate
 
   async function fetchCountCards() {
     try {
-      const deckRef = firestore().collection('Decks').doc(contadorFlashcard);
+      const currentUser = auth().currentUser;
+      const deckRef = firestore().collection('Users').doc(String(currentUser?.uid)).collection('Flashcards').doc(contadorFlashcard);
       const documentSnapshot = await deckRef.get();
   
       if (documentSnapshot.exists) {
@@ -36,9 +38,7 @@ export function ListDeckCard({ textTitle, contadorFlashcard, onPressButtonCreate
             }
           });
           
-          console.log(contadorFlashcard);
-          console.log(totalMaps);
-          setCounter(totalMaps); // Atualizar o estado do contador com o total de subdocumentos
+          setCounter(totalMaps);
         }
       }
     } catch (error) {

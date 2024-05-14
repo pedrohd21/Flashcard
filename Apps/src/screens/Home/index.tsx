@@ -19,6 +19,7 @@ import firestore from '@react-native-firebase/firestore';
 export function Home() {
   const [modalVisible, setModalVisible] = useState(false);
   const [deckName, setDeckName] = useState("");
+  const [deckNameFirestore, setDeckNameFirestore] = useState("");
   const [decks, setDecks] = useState<{ id: string }[]>([]);
   const [selectedDeck, setSelectedDeck] = useState('');
   const [counter, setCounter] = useState(Number);
@@ -41,17 +42,28 @@ export function Home() {
 
   async function fetchDecks() {
     try {
-      firestore()
-        .collection('Decks')
-        .get()
-        .then(querySnapshot => {
-          const decksData = querySnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-          }));
-          setDecks(decksData);
-          setIsLoading(false);
-        })
+      const currentUser = auth().currentUser;
+      setDeckNameFirestore(String(currentUser?.uid))
+      if (currentUser) {
+        await firestore()
+          .collection('Users')
+          .doc(String(currentUser.uid))
+          .collection('Flashcards')
+          .get()
+          .then(querySnapshot => {
+            const decksData = querySnapshot.docs.map(doc => ({
+              id: doc.id,
+              ...doc.data()
+            }));
+            setDecks(decksData);
+            setIsLoading(false);
+          })
+      } else {
+        // Não há usuário autenticado
+        console.log('Nenhum usuário autenticado');
+      }
+
+
     } catch (error) {
       Alert.alert('Erro', 'Ocorreu um erro. Por favor, tente novamente mais tarde.');
       setIsLoading(false);
@@ -67,33 +79,32 @@ export function Home() {
 
       setIsLoading(true);
 
-      const deckSnapshot = await firestore()
-        .collection('Decks')
-        .doc(deckName)
-        .get();
+      const deckCollectionRef = firestore()
+        .collection('Users')
+        .doc(deckNameFirestore)
+        .collection('Flashcards');
 
-      if (deckSnapshot.exists) {
+      // Verificar se o documento com o nome do deck já existe
+      const deckDocSnapshot = await deckCollectionRef.doc(deckName).get();
+
+      if (deckDocSnapshot.exists) {
         Alert.alert('Nome Duplicado', 'Um deck com este nome já existe. Por favor, escolha outro nome.');
-        return
+        return;
       }
 
-      await firestore()
-        .collection('Decks')
-        .doc(deckName)
-        .set({
-          //
-        });
+      await deckCollectionRef.doc(deckName).set({});
 
       closeModal();
       fetchDecks();
       navigation.navigate('CreateFlashCard', { deckName });
-      setDeckName('')
+      setDeckName('');
     } catch (error) {
       Alert.alert('Erro', 'Ocorreu um erro. Por favor, tente novamente mais tarde.');
     } finally {
       setIsLoading(false);
     }
   }
+
 
   async function handleEditNameDeck() {
     try {
@@ -102,7 +113,9 @@ export function Home() {
         return;
       }
       const deckSnapshot = await firestore()
-        .collection('Decks')
+        .collection('Users')
+        .doc(deckNameFirestore)
+        .collection('Flashcards')
         .doc(deckName)
         .get();
 
@@ -111,8 +124,9 @@ export function Home() {
         return;
       }
 
-      const oldDeckRef = firestore().collection('Decks').doc(selectedDeck);
-      const newDeckRef = firestore().collection('Decks').doc(deckName);
+      console.log(deckName)
+      const oldDeckRef = firestore().collection('Users').doc(deckNameFirestore).collection('Flashcards').doc(selectedDeck);
+      const newDeckRef = firestore().collection('Users').doc(deckNameFirestore).collection('Flashcards').doc(deckName);
 
       // Obtenha os dados do documento antigo
       const oldDeckSnapshot = await oldDeckRef.get();
@@ -147,8 +161,8 @@ export function Home() {
           onPress: async () => {
             try {
               setIsLoading(true);
+              const deckRef = firestore().collection('Users').doc(deckNameFirestore).collection('Flashcards').doc(selectedDeck);
 
-              const deckRef = firestore().collection('Decks').doc(selectedDeck);
               await deckRef.delete();
               closeModal();
               fetchDecks();
@@ -207,8 +221,8 @@ export function Home() {
           iconColorRight={theme.COLORS.BLUE}
           onPressButtonRight={() => openModal()}
           showBackButton
-          onPressButtonLeft={signOut} 
-          iconNameLeft="power-off"/>
+          onPressButtonLeft={signOut}
+          iconNameLeft="power-off" />
         {isLoading ? <Loading /> :
           <FlatList
             data={decks}
@@ -219,7 +233,7 @@ export function Home() {
                 onPressButtonCreate={() => buttonAddFlashcard(item.id)}
                 onPressButtonOptions={() => handleButtonOptions(item.id)}
                 onPressButtonEdit={() => handleListFlascard(item.id)}
-              onPressButtonPractice={() => { buttonPracticeFlashcard(item.id) }}
+                onPressButtonPractice={() => { buttonPracticeFlashcard(item.id) }}
               />
             )}
             ListEmptyComponent={() => (

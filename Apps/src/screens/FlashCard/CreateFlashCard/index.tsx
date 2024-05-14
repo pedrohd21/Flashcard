@@ -7,7 +7,7 @@ import { Alert, FlatList, ImageBackground, Keyboard, TextInput } from "react-nat
 import { useRoute, useNavigation, useFocusEffect } from '@react-navigation/native';
 import { ButtonIconBig } from "../../../components/Button/ButtonIconBig";
 import firestore from '@react-native-firebase/firestore';
-
+import auth from "@react-native-firebase/auth"
 
 type RouteParams = {
   deckName: string;
@@ -30,8 +30,9 @@ export function CreateFlashCard() {
       Alert.alert('Novo Flashcard', 'Por favor, adicione conteúdo ao flashcard antes de salvar.');
     } else {
       try {
-        // Consulta o deck para obter o número atual de cartões
-        const deckRef = firestore().collection('Decks').doc(deckName);
+        const currentUser = auth().currentUser;
+        const deckRef = firestore().collection('Users').doc(String(currentUser?.uid)).collection('Flashcards').doc(deckName);
+
         const deckSnapshot = await deckRef.get();
 
         if (!deckSnapshot.exists) {
@@ -44,13 +45,15 @@ export function CreateFlashCard() {
 
         // Cria um novo cartão com o número apropriado
         const newCardName = `card${currentCardCount}`;
+        const currentTime = firestore.Timestamp.now();
 
-        // Adiciona o novo flashcard ao deck
         await deckRef.update({
           [newCardName]: {
             front: newFlashcardFront,
             back: newFlashcardBack,
-            minute: 1
+            // dificuldade: 'EASY',
+            lastReviewDate: currentTime
+
           }
         });
 

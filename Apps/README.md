@@ -13,3 +13,5 @@ npm i -g react-native-asset
 npx react-native-asset 
 
 para criar um apk
+cd android
+./gradlew assembleRelease

@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Container, ContainerButtonOption, ButtonOption, ButtonShow, Icon, Text } from "./styles";
 import { Header } from "../../components/Header";
 import { Title } from "../../components/Title";
@@ -11,16 +11,25 @@ import theme from "../../theme";
 import { ListEmpty } from "../../components/List/ListEmpty";
 import { ButtonIconBig } from "../../components/Button/ButtonIconBig";
 import firestore from '@react-native-firebase/firestore';
+import auth from "@react-native-firebase/auth"
 
 type RouteParams = {
   deckName: string;
+}
+
+enum Dificuldade {
+  EASY = 'EASY',
+  GOOD = 'GOOD',
+  HARD = 'HARD',
+  VERYHARD = 'VERYHARD'
 }
 
 interface Flashcard {
   nameCard: string;
   front: string;
   back: string;
-  minute: string;
+  dificuldade: Dificuldade;
+  lastReviewDate: any;
 }
 
 export function Practice() {
@@ -44,7 +53,8 @@ export function Practice() {
   async function fetchflashcardByDeck() {
     try {
       setIsLoading(true);
-      const deckRef = firestore().collection('Decks').doc(deckName);
+      const currentUser = auth().currentUser;
+      const deckRef = firestore().collection('Users').doc(String(currentUser?.uid)).collection('Flashcards').doc(deckName);
       const documentSnapshot = await deckRef.get();
 
       if (documentSnapshot.exists) {
@@ -54,38 +64,106 @@ export function Practice() {
           Object.keys(deckData).forEach(key => {
             if (key.startsWith('card')) {
               const flashcardData = deckData[key];
+              ;
+              const lastReviewDate = new Date(flashcardData.lastReviewDate.seconds * 1000); // Última revisão
+
               const flashcard: Flashcard = {
                 nameCard: key,
                 front: flashcardData.front,
                 back: flashcardData.back,
-                minute: flashcardData.minute
+                dificuldade: flashcardData.dificuldade,
+                lastReviewDate: lastReviewDate
               };
               flashcards.push(flashcard);
             }
           });
           setFlashcards(flashcards);
         }
+
       } else {
         setFlashcards([]);
       }
+
     } catch (error) {
       console.error('Erro ao consultar flashcards: ', error);
     } finally {
       setIsLoading(false);
     }
   }
-  function buttonRepeatFlashcard() {
-    showNextItem()
-    setShowAnswer(false)
+
+  async function handleReview(dificuldade: Dificuldade, nameCard: string) {
+    const proximaRevisao = calcularProximaRevisao(dificuldade);
+    const currentUser = auth().currentUser;
+    const deckRef = firestore().collection('Users').doc(String(currentUser?.uid)).collection('Flashcards').doc(deckName);
+
+    const deckSnapshot = await deckRef.get();
+
+    if (!deckSnapshot.exists) {
+      console.error('Deck não encontrado');
+      return;
+    }
+
+    await deckRef.set(
+      {
+        [nameCard]: {
+          dificuldade: dificuldade,
+          lastReviewDate: proximaRevisao
+        }
+      },
+      { merge: true }
+    );
+
+
+
+    showNextItem();
+
   }
+
+  function obterIntervaloParaDificuldade(dificuldade: Dificuldade): number {
+    switch (dificuldade) {
+      case Dificuldade.EASY:
+        return 1 * 24 * 60 * 60 * 1000;
+      case Dificuldade.GOOD:
+        return 40 * 60 * 1000;
+      case Dificuldade.HARD:
+        return 10 * 60 * 1000;
+      case Dificuldade.VERYHARD:
+        return 2 * 60 * 1000;
+      default:
+        throw new Error("Dificuldade inválida");
+    }
+  }
+
+  function calcularProximaRevisao(dificuldade: Dificuldade): Date {
+    const intervalo: number = obterIntervaloParaDificuldade(dificuldade);
+    const agora = new Date();
+    const proximaRevisao = new Date(agora.getTime() + intervalo);
+    return proximaRevisao;
+  }
+
 
   function showNextItem() {
     const nextIndex = currentIndex + 1;
-    if (flatListRef.current && nextIndex < flashcards.length) {
-      setCurrentIndex(nextIndex);
-      flatListRef.current.scrollToIndex({ animated: true, index: nextIndex });
+
+
+    if (flatListRef.current) {
+      // Lidar com o cenário em que há mais flashcards
+      if (nextIndex < flashcards.length) {
+        setCurrentIndex(nextIndex);
+        flatListRef.current.scrollToIndex({ animated: true, index: nextIndex });
+      } else if (nextIndex) {
+        // Se nem todos os flashcards forem marcados como "EASY", volte ao início
+        setCurrentIndex(0); // Reseta o índice para começar do início
+        flatListRef.current.scrollToIndex({ animated: true, index: 0 });
+      } else {
+        // Todos os flashcards são "EASY", encerra a sessão de revisão
+        Alert.alert('Revisão', 'Revisão dos flashcards terminada');
+        handleGoBack();
+      }
     }
-  };
+  }
+
+  
 
   function addFlashcard() {
     navigation.navigate('CreateFlashCard', { deckName });
@@ -105,7 +183,6 @@ export function Practice() {
           iconNameRight='ellipsis-v'
           showBackButton={true}
           onPressButtonLeft={handleGoBack}
-          
         />
 
         <FlatList
@@ -121,7 +198,10 @@ export function Practice() {
                   textFront={item.front}
                   textBack={item.back}
                   showFlashcard={showAnswer}
-                  buttonRepeat={() => buttonRepeatFlashcard()}
+                  buttonRepeat={() => handleReview(Dificuldade.VERYHARD, item.nameCard)}
+                  buttonHard={() => handleReview(Dificuldade.HARD, item.nameCard)}
+                  buttonGood={() => handleReview(Dificuldade.GOOD, item.nameCard)}
+                  buttonEasy={() => handleReview(Dificuldade.EASY, item.nameCard)}
                   textRepeat={item.minute}
                 />
               )}
@@ -133,7 +213,7 @@ export function Practice() {
         />
         {flashcards.length <= 0 && (
           <View>
-            <View style={{bottom: 300}}>
+            <View style={{ bottom: 300 }}>
               <ListEmpty message="Vamos lá! Crie seu primeiro flashcard agora mesmo." />
             </View>
             <ButtonIconBig

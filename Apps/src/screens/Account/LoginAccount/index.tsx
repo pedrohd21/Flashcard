@@ -4,6 +4,7 @@ import { Header } from "../../../components/Header";
 import { Alert, ImageBackground } from "react-native";
 import theme from "../../../theme";
 import auth from "@react-native-firebase/auth";
+import firestore from '@react-native-firebase/firestore';
 
 export function LoginAccount() {
   const [mostrarSenha, setMostrarSenha] = useState(false);
@@ -15,29 +16,36 @@ export function LoginAccount() {
   function signUp() {
     if (email.trim().length === 0 && password.trim().length === 0) {
       Alert.alert('Email', 'Por favor, insira seu e-mail e senha para criar a conta.');
-      return 
+      return
     }
     if (password.trim().length === 0) {
       Alert.alert('Senha', 'Não é possível criar conta sem uma senha.');
       return
     }
-    if(password !== passwordRepeat){
+    if (password !== passwordRepeat) {
       Alert.alert('Senha', 'As senhas digitadas não são iguais.');
       return
     }
     auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
-        Alert.alert('Sucesso', 'Sua conta foi criada com sucesso!');
-        signIn(); // Automaticamente faz login após criar a conta
+        const currentUser = auth().currentUser;
+        const newUser = {
+          name: email, // Use o UID do usuário como nome, se disponível, caso contrário, use o email
+          email: email,
+          //como faco para adicionar uma colecao com nome de Flashcards?
+        };
+        firestore().collection('Users').doc(currentUser?.uid).set(newUser);
       })
+
+
       .catch(error => {
         if (error.code === 'auth/email-already-in-use') {
           Alert.alert('Erro', 'O endereço de e-mail já está em uso.');
-        }  
+        }
         if (error.code === 'auth/invalid-email') {
           Alert.alert('Erro', 'O endereço de e-mail é inválido.');
-        }  
+        }
         if (error.code === 'auth/weak-password') {
           Alert.alert('Erro', 'A senha é muito fraca.');
         }
@@ -47,7 +55,7 @@ export function LoginAccount() {
   function signIn() {
     if (email.trim().length === 0 && password.trim().length === 0) {
       Alert.alert('Email', 'Por favor, insira seu e-mail e senha para fazer login.');
-      return 
+      return
     }
     if (email.trim().length === 0) {
       Alert.alert('Email', 'Não é possível entrar sem um email.');
@@ -67,13 +75,13 @@ export function LoginAccount() {
 
         if (error.code === 'auth/email-already-in-use') {
           Alert.alert('Email', 'O endereço de e-mail já está em uso.');
-        }  
+        }
         if (error.code === 'auth/invalid-email') {
           Alert.alert('Email', 'O endereço de e-mail é inválido.');
         }
         if (error.code === 'auth/invalid-credential') {
           Alert.alert('Senha', 'Senha incorreta.');
-        } 
+        }
       });
   }
 
@@ -131,14 +139,14 @@ export function LoginAccount() {
           </Button>
         )}
 
-        <Text style={{ color: theme.COLORS.BLUE }}>Ou escolha a opção:</Text>
+        {/* <Text style={{ color: theme.COLORS.BLUE }}>Ou escolha a opção:</Text>
 
         <Button style={{ width: '80%' }}>
           <Icon
             name="google"
           />
           <TextButtton>  Continuar com Google</TextButtton>
-        </Button>
+        </Button> */}
 
         <Text style={{ color: theme.COLORS.BLUE }}>
           {isCreatingAccount ? 'Já tem uma conta? ' : 'Não tem conta? '}

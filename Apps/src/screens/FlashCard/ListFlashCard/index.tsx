@@ -10,6 +10,7 @@ import { ButtonIconBig } from "../../../components/Button/ButtonIconBig";
 import theme from "../../../theme";
 import { ListEmpty } from "../../../components/List/ListEmpty";
 import firestore from '@react-native-firebase/firestore';
+import auth from "@react-native-firebase/auth"
 
 type RouteParams = {
   deckName: string;
@@ -28,6 +29,8 @@ export function ListFlashCard() {
   const [flashcardsData, setFlashcardsData] = useState<Flashcard[]>([]);
 
   const { deckName } = route.params as RouteParams;
+  const [deckNameFirestore, setDeckNameFirestore] = useState("");
+
   const [searchText, setSearchText] = useState('');
 
   const clearSearchText = () => {
@@ -37,11 +40,15 @@ export function ListFlashCard() {
   async function fetchflashcardByDeck() {
     try {
       setIsLoading(true);
-      const deckRef = firestore().collection('Decks').doc(deckName);
-      const documentSnapshot = await deckRef.get();
+      const currentUser = auth().currentUser;
+      setDeckNameFirestore(String(currentUser?.uid))
 
-      if (documentSnapshot.exists) {
+      const deckRef = firestore().collection('Users').doc(String(currentUser?.uid)).collection('Flashcards');
+      const documentSnapshot = await deckRef.doc(deckName).get();
+  
+      if (currentUser) {
         const deckData = documentSnapshot.data();
+        console.log(deckData)
         if (deckData) {
           const flashcards: Flashcard[] = [];
           Object.keys(deckData).forEach(key => {
@@ -93,7 +100,8 @@ export function ListFlashCard() {
             try {
               setIsLoading(true);
 
-              const deckRef = firestore().collection('Decks').doc(deckName);
+              const deckRef = firestore().collection('Users').doc(deckNameFirestore).collection('Flashcards').doc(deckName);
+
               const deckSnapshot = await deckRef.get();
 
               if (!deckSnapshot.exists) {
@@ -118,8 +126,6 @@ export function ListFlashCard() {
       { cancelable: true }
     );
   }
-
-
 
   useFocusEffect(useCallback(() => {
     fetchflashcardByDeck();
