@@ -42,6 +42,7 @@ export function Home() {
 
   async function fetchDecks() {
     try {
+      setIsLoading(true);
       const currentUser = auth().currentUser;
       setDeckNameFirestore(String(currentUser?.uid))
       if (currentUser) {

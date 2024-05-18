@@ -1,17 +1,16 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Container, ContainerButtonOption, ButtonOption, ButtonShow, Icon, Text } from "./styles";
+import { Container } from "./styles";
 import { Header } from "../../components/Header";
-import { Title } from "../../components/Title";
 import { Alert, Dimensions, FlatList, ImageBackground, TouchableOpacityProps, View } from "react-native";
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 
 import { PracticeComponente } from "../../components/PracticeComponente";
-import theme from "../../theme";
 
 import { ListEmpty } from "../../components/List/ListEmpty";
 import { ButtonIconBig } from "../../components/Button/ButtonIconBig";
 import firestore from '@react-native-firebase/firestore';
 import auth from "@react-native-firebase/auth"
+import { Loading } from "../../components/Loading";
 
 type RouteParams = {
   deckName: string;
@@ -28,16 +27,15 @@ interface Flashcard {
   nameCard: string;
   front: string;
   back: string;
-  dificuldade: Dificuldade;
-  lastReviewDate: any;
+  lastReviewDate: Date;
 }
 
 export function Practice() {
-  const [showAnswer, setShowAnswer] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef<FlatList>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
+  const [filteredFlashcards, setFilteredFlashcards] = useState<Flashcard[]>([]);
 
   const { width } = Dimensions.get('window');
 
@@ -71,19 +69,19 @@ export function Practice() {
                 nameCard: key,
                 front: flashcardData.front,
                 back: flashcardData.back,
-                dificuldade: flashcardData.dificuldade,
                 lastReviewDate: lastReviewDate
               };
               flashcards.push(flashcard);
             }
           });
           setFlashcards(flashcards);
+          updateFilteredFlashcards(flashcards)
+          showNextItem();
         }
-
       } else {
         setFlashcards([]);
+        
       }
-
     } catch (error) {
       console.error('Erro ao consultar flashcards: ', error);
     } finally {
@@ -97,25 +95,20 @@ export function Practice() {
     const deckRef = firestore().collection('Users').doc(String(currentUser?.uid)).collection('Flashcards').doc(deckName);
 
     const deckSnapshot = await deckRef.get();
-
     if (!deckSnapshot.exists) {
       console.error('Deck não encontrado');
       return;
     }
-
     await deckRef.set(
       {
         [nameCard]: {
-          dificuldade: dificuldade,
           lastReviewDate: proximaRevisao
         }
       },
       { merge: true }
-    );
-
-
-
-    showNextItem();
+    ).then(() => {
+      showNextItem(dificuldade, nameCard);
+    });
 
   }
 
@@ -141,29 +134,34 @@ export function Practice() {
     return proximaRevisao;
   }
 
+  async function showNextItem(dificuldade?: Dificuldade, nameCard?: string) {
+    if (dificuldade === Dificuldade.EASY) {
+      setFilteredFlashcards(prevFilteredFlashcards =>
+        prevFilteredFlashcards.filter(flashcard => flashcard.nameCard !== nameCard)
+      );
+    }
 
-  function showNextItem() {
-    const nextIndex = currentIndex + 1;
-
-
-    if (flatListRef.current) {
-      // Lidar com o cenário em que há mais flashcards
-      if (nextIndex < flashcards.length) {
-        setCurrentIndex(nextIndex);
-        flatListRef.current.scrollToIndex({ animated: true, index: nextIndex });
-      } else if (nextIndex) {
-        // Se nem todos os flashcards forem marcados como "EASY", volte ao início
-        setCurrentIndex(0); // Reseta o índice para começar do início
-        flatListRef.current.scrollToIndex({ animated: true, index: 0 });
+    setFilteredFlashcards(prevFilteredFlashcards => {
+      const nextIndex = currentIndex + 1;
+      if (nextIndex >= prevFilteredFlashcards.length) {
+        setCurrentIndex(0);
+        if (flatListRef.current && prevFilteredFlashcards.length > 0) {
+          flatListRef.current.scrollToIndex({ animated: true, index: 0 });
+        }
       } else {
-        // Todos os flashcards são "EASY", encerra a sessão de revisão
-        Alert.alert('Revisão', 'Revisão dos flashcards terminada');
+        setCurrentIndex(nextIndex);
+        if (flatListRef.current) {
+          flatListRef.current.scrollToIndex({ animated: true, index: nextIndex });
+        }
+      }
+
+      if (prevFilteredFlashcards.length === 0) {
+        Alert.alert('Revisão concluída', 'Você revisou todos os flashcards disponíveis para hoje!');
         handleGoBack();
       }
-    }
+      return prevFilteredFlashcards;
+    });
   }
-
-  
 
   function addFlashcard() {
     navigation.navigate('CreateFlashCard', { deckName });
@@ -173,6 +171,15 @@ export function Practice() {
   useFocusEffect(useCallback(() => {
     fetchflashcardByDeck();
   }, []));
+
+  function updateFilteredFlashcards(flashcards: Flashcard[]) {
+    const today = new Date().toDateString();
+    const filtered = flashcards.filter(flashcard => {
+      const flashcardDate = new Date(flashcard.lastReviewDate).toDateString();
+      return flashcardDate === today || new Date(flashcard.lastReviewDate) < new Date();
+    });
+    setFilteredFlashcards(filtered);
+  }
 
   return (
     <ImageBackground source={require('../../assets/img/back14.png')} style={{ flex: 1 }}>
@@ -184,33 +191,30 @@ export function Practice() {
           showBackButton={true}
           onPressButtonLeft={handleGoBack}
         />
-
-        <FlatList
-          ref={flatListRef}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          scrollEnabled={false}
-          data={flashcards}
-          renderItem={({ item, index }) => (
-            <View style={{ width }}>
-              {index === currentIndex && (
+        {isLoading ? <Loading /> :
+          <FlatList
+            ref={flatListRef}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            scrollEnabled={false}
+            data={filteredFlashcards}
+            renderItem={({ item }) => (
+              <View style={{ width }}>
                 <PracticeComponente
                   textFront={item.front}
                   textBack={item.back}
-                  showFlashcard={showAnswer}
+                  showFlashcard={false}
                   buttonRepeat={() => handleReview(Dificuldade.VERYHARD, item.nameCard)}
                   buttonHard={() => handleReview(Dificuldade.HARD, item.nameCard)}
                   buttonGood={() => handleReview(Dificuldade.GOOD, item.nameCard)}
                   buttonEasy={() => handleReview(Dificuldade.EASY, item.nameCard)}
-                  textRepeat={item.minute}
                 />
-              )}
+              </View>
+            )}
+            keyExtractor={(item) => item.key}
 
-            </View>
-          )}
-          keyExtractor={(item) => item.key}
-
-        />
+          />
+        }
         {flashcards.length <= 0 && (
           <View>
             <View style={{ bottom: 300 }}>
