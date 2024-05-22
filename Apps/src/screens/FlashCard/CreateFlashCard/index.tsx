@@ -52,6 +52,7 @@ export function CreateFlashCard() {
             front: newFlashcardFront,
             back: newFlashcardBack,
             // dificuldade: 'EASY',
+            firstReviewDate: currentTime,
             lastReviewDate: currentTime
 
           }

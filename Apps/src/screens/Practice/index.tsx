@@ -27,7 +27,9 @@ interface Flashcard {
   nameCard: string;
   front: string;
   back: string;
+  firstReviewDate: Date;
   lastReviewDate: Date;
+  daysSinceFirstReview: number;
 }
 
 export function Practice() {
@@ -62,14 +64,22 @@ export function Practice() {
           Object.keys(deckData).forEach(key => {
             if (key.startsWith('card')) {
               const flashcardData = deckData[key];
-              ;
-              const lastReviewDate = new Date(flashcardData.lastReviewDate.seconds * 1000); // Última revisão
+
+              const lastReviewDate = new Date(flashcardData.lastReviewDate.seconds * 1000);
+              const firstReviewDate = new Date(flashcardData.lastReviewDate.seconds * 1000);
+
+              const now = new Date();
+              const nowInMilliseconds = now.getTime();
+              const differenceInMilliseconds = nowInMilliseconds - firstReviewDate.getTime();
+              const daysSinceFirstReview = Math.floor(differenceInMilliseconds / (1000 * 60 * 60 * 24));
 
               const flashcard: Flashcard = {
                 nameCard: key,
                 front: flashcardData.front,
                 back: flashcardData.back,
-                lastReviewDate: lastReviewDate
+                firstReviewDate: firstReviewDate,
+                lastReviewDate: lastReviewDate,
+                daysSinceFirstReview: daysSinceFirstReview + 1,
               };
               flashcards.push(flashcard);
             }
@@ -80,7 +90,7 @@ export function Practice() {
         }
       } else {
         setFlashcards([]);
-        
+
       }
     } catch (error) {
       console.error('Erro ao consultar flashcards: ', error);
@@ -89,8 +99,8 @@ export function Practice() {
     }
   }
 
-  async function handleReview(dificuldade: Dificuldade, nameCard: string) {
-    const proximaRevisao = calcularProximaRevisao(dificuldade);
+  async function handleReview(dificuldade: Dificuldade, nameCard: string, daysSinceFirstReview: number) {
+    const proximaRevisao = calcularProximaRevisao(dificuldade, daysSinceFirstReview);
     const currentUser = auth().currentUser;
     const deckRef = firestore().collection('Users').doc(String(currentUser?.uid)).collection('Flashcards').doc(deckName);
 
@@ -102,7 +112,7 @@ export function Practice() {
     await deckRef.set(
       {
         [nameCard]: {
-          lastReviewDate: proximaRevisao
+          lastReviewDate: proximaRevisao,
         }
       },
       { merge: true }
@@ -112,54 +122,57 @@ export function Practice() {
 
   }
 
-  function obterIntervaloParaDificuldade(dificuldade: Dificuldade): number {
+  function obterIntervaloParaDificuldade(dificuldade: Dificuldade, daysSinceFirstReview: number): number {
     switch (dificuldade) {
       case Dificuldade.EASY:
-        return 1 * 24 * 60 * 60 * 1000;
+        return 1 * 24 * 60 * 60 * 1000 * (daysSinceFirstReview + 1);
       case Dificuldade.GOOD:
-        return 40 * 60 * 1000;
+        return 40 * 60 * 1000 * (daysSinceFirstReview + 1);
       case Dificuldade.HARD:
-        return 10 * 60 * 1000;
+        return 10 * 60 * 1000 * (daysSinceFirstReview + 1);
       case Dificuldade.VERYHARD:
-        return 2 * 60 * 1000;
+        return 2 * 60 * 1000 * (daysSinceFirstReview + 1);
       default:
         throw new Error("Dificuldade inválida");
     }
   }
 
-  function calcularProximaRevisao(dificuldade: Dificuldade): Date {
-    const intervalo: number = obterIntervaloParaDificuldade(dificuldade);
+  function calcularProximaRevisao(dificuldade: Dificuldade, daysSinceFirstReview: number): Date {
+    const intervalo: number = obterIntervaloParaDificuldade(dificuldade, daysSinceFirstReview);
     const agora = new Date();
+    console.log('intervalo')
+    console.log(intervalo)
     const proximaRevisao = new Date(agora.getTime() + intervalo);
     return proximaRevisao;
   }
 
   async function showNextItem(dificuldade?: Dificuldade, nameCard?: string) {
-    if (dificuldade === Dificuldade.EASY) {
-      setFilteredFlashcards(prevFilteredFlashcards =>
-        prevFilteredFlashcards.filter(flashcard => flashcard.nameCard !== nameCard)
-      );
-    }
-
     setFilteredFlashcards(prevFilteredFlashcards => {
+      let sortedFlashcards = [...prevFilteredFlashcards].sort((a, b) => a.lastReviewDate.getTime() - b.lastReviewDate.getTime());
+
+      let updatedFlashcards = sortedFlashcards;
+
+      if (dificuldade === Dificuldade.EASY) {
+        updatedFlashcards = sortedFlashcards.filter(flashcard => flashcard.nameCard !== nameCard);
+      }
+
       const nextIndex = currentIndex + 1;
-      if (nextIndex >= prevFilteredFlashcards.length) {
-        setCurrentIndex(0);
-        if (flatListRef.current && prevFilteredFlashcards.length > 0) {
-          flatListRef.current.scrollToIndex({ animated: true, index: 0 });
-        }
-      } else {
-        setCurrentIndex(nextIndex);
-        if (flatListRef.current) {
+      if (flatListRef.current) {
+        if (nextIndex < updatedFlashcards.length) {
+          setCurrentIndex(nextIndex);
           flatListRef.current.scrollToIndex({ animated: true, index: nextIndex });
+        } else {
+          setCurrentIndex(0);
+          flatListRef.current.scrollToIndex({ animated: true, index: 0 });
         }
       }
 
-      if (prevFilteredFlashcards.length === 0) {
+      if (updatedFlashcards.length === 0) {
         Alert.alert('Revisão concluída', 'Você revisou todos os flashcards disponíveis para hoje!');
         handleGoBack();
       }
-      return prevFilteredFlashcards;
+
+      return updatedFlashcards;
     });
   }
 
@@ -204,10 +217,10 @@ export function Practice() {
                   textFront={item.front}
                   textBack={item.back}
                   showFlashcard={false}
-                  buttonRepeat={() => handleReview(Dificuldade.VERYHARD, item.nameCard)}
-                  buttonHard={() => handleReview(Dificuldade.HARD, item.nameCard)}
-                  buttonGood={() => handleReview(Dificuldade.GOOD, item.nameCard)}
-                  buttonEasy={() => handleReview(Dificuldade.EASY, item.nameCard)}
+                  buttonRepeat={() => handleReview(Dificuldade.VERYHARD, item.nameCard, item.daysSinceFirstReview)}
+                  buttonHard={() => handleReview(Dificuldade.HARD, item.nameCard, item.daysSinceFirstReview)}
+                  buttonGood={() => handleReview(Dificuldade.GOOD, item.nameCard, item.daysSinceFirstReview)}
+                  buttonEasy={() => handleReview(Dificuldade.EASY, item.nameCard, item.daysSinceFirstReview)}
                 />
               </View>
             )}
