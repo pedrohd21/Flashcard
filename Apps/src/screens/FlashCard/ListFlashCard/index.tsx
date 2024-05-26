@@ -1,13 +1,12 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Container } from "./styles";
 import { Header } from "../../../components/Header";
-import { Alert, FlatList, ImageBackground, Modal } from "react-native";
+import { Alert, FlatList } from "react-native";
 import { useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import { Loading } from "../../../components/Loading";
 import { ListFlashcardsCard } from "../../../components/List/ListFlashcardsCard";
 import { SearchFlashcard } from "../../../components/Search/SearchFlashcard";
 import { ButtonIconBig } from "../../../components/Button/ButtonIconBig";
-import theme from "../../../theme";
 import { ListEmpty } from "../../../components/List/ListEmpty";
 import firestore from '@react-native-firebase/firestore';
 import auth from "@react-native-firebase/auth"
@@ -29,7 +28,7 @@ export function ListFlashCard() {
   const [flashcardsData, setFlashcardsData] = useState<Flashcard[]>([]);
 
   const { deckName } = route.params as RouteParams;
-  const [deckNameFirestore, setDeckNameFirestore] = useState("");
+  const [deckNameFirestore, setDeckNameFirestore] = useState<string>('');
 
   const [searchText, setSearchText] = useState('');
 
@@ -45,7 +44,7 @@ export function ListFlashCard() {
 
       const deckRef = firestore().collection('Users').doc(String(currentUser?.uid)).collection('Flashcards');
       const documentSnapshot = await deckRef.doc(deckName).get();
-  
+
       if (currentUser) {
         const deckData = documentSnapshot.data();
         console.log(deckData)
@@ -76,11 +75,9 @@ export function ListFlashCard() {
 
   function addFlashcard() {
     navigation.navigate('CreateFlashCard', { deckName });
-    fetchflashcardByDeck()
   }
   function editFlashcard(deckName: any, nameCard: string) {
     navigation.navigate('EditFlashCard', { deckName, nameCard });
-    fetchflashcardByDeck()
   }
 
   function handleGoBack() {
@@ -132,52 +129,50 @@ export function ListFlashCard() {
   }, []));
 
   return (
-    <ImageBackground source={require('../../../assets/img/back14.png')} style={{ flex: 1 }}>
-      <Container>
-        <Header
-          title={deckName}
-          showBackButton={true}
-          onPressButtonRight={addFlashcard}
-          showButtonRight={true}
-          iconNameRight="plus"
-          onPressButtonLeft={handleGoBack}
-          style={{ marginBottom: 20 }}
+    <Container>
+      <Header
+        title={deckName}
+        showBackButton={true}
+        onPressButtonRight={addFlashcard}
+        showButtonRight={true}
+        iconNameRight="plus"
+        onPressButtonLeft={handleGoBack}
+        style={{ marginBottom: 20 }}
+      />
+      <SearchFlashcard
+        valueCleanText={searchText}
+        onChangeNameDeck={(text) => setSearchText(text)}
+        clearText={clearSearchText}
+      />
+      {isLoading ? <Loading /> :
+        <FlatList
+          data={flashcardsData.filter(item =>
+            item.front.toLowerCase().includes(searchText.toLowerCase()) ||
+            item.back.toLowerCase().includes(searchText.toLowerCase())
+          )}
+          renderItem={({ item }) => (
+            <ListFlashcardsCard
+              textFront={item.front}
+              textBack={item.back}
+              deleteFlashcard={() => handledeckFlashcardRemove(item.nameCard)}
+              editFlashcard={() => { editFlashcard(deckName, item.nameCard) }
+              } />
+          )}
+          ListEmptyComponent={() => (
+            <ListEmpty message="Que tal darmos início à sua jornada de aprendizado criando o seu primeiro flashcard agora mesmo?" />
+          )}
         />
-        <SearchFlashcard
-          valueCleanText={searchText}
-          onChangeNameDeck={(text) => setSearchText(text)}
-          clearText={clearSearchText}
+      }
+      {flashcardsData.length <= 0 && (
+        <ButtonIconBig
+          iconName="plus"
+          onPress={addFlashcard}
+          style={{
+            position: "absolute",
+            bottom: 30
+          }}
         />
-        {isLoading ? <Loading /> :
-          <FlatList
-            data={flashcardsData.filter(item =>
-              item.front.toLowerCase().includes(searchText.toLowerCase()) ||
-              item.back.toLowerCase().includes(searchText.toLowerCase())
-            )}
-            renderItem={({ item }) => (
-              <ListFlashcardsCard
-                textFront={item.front}
-                textBack={item.back}
-                deleteFlashcard={() => handledeckFlashcardRemove(item.nameCard)}
-                editFlashcard={() => { editFlashcard(deckName, item.nameCard)}
-                } />
-            )}
-            ListEmptyComponent={() => (
-              <ListEmpty message="Que tal darmos início à sua jornada de aprendizado criando o seu primeiro flashcard agora mesmo?" />
-            )}
-          />
-        }
-        {flashcardsData.length <= 0 && (
-          <ButtonIconBig
-            iconName="plus"
-            onPress={addFlashcard}
-            style={{
-              position: "absolute",
-              bottom: 30
-            }}
-          />
-        )}
-      </Container>
-    </ImageBackground>
+      )}
+    </Container>
   )
 }

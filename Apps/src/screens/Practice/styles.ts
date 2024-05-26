@@ -5,8 +5,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 export const Container = styled(SafeAreaView)`
   flex: 1;
-  background-Color: rgba(0, 0, 0, 0.75);
-  
+  background-color: ${({ theme }) => theme.COLORS.BLACK};  
 `;
 
 export const ContainerButtonOption = styled.View`

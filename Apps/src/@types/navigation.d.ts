@@ -3,7 +3,7 @@ export declare global {
     interface RootParamList {
       Home: undefined;
       LoginAccount: undefined;
-      ViewProfile: undefined;
+      Options: undefined;
 
       CreateDeck: undefined;
 

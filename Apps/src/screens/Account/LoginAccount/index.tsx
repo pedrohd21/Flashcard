@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, Text, TextInput, Button, TextButtton, ButtonSmall, Icon } from "./styles";
 import { Header } from "../../../components/Header";
-import { Alert, ImageBackground } from "react-native";
+import { Alert } from "react-native";
 import theme from "../../../theme";
 import auth from "@react-native-firebase/auth";
 import firestore from '@react-native-firebase/firestore';
@@ -48,6 +48,8 @@ export function LoginAccount() {
         }
         if (error.code === 'auth/weak-password') {
           Alert.alert('Erro', 'A senha é muito fraca.');
+        } else {
+          Alert.alert('Erro', 'Ocorreu um erro ao criar a conta.');
         }
       });
   }
@@ -82,6 +84,9 @@ export function LoginAccount() {
         if (error.code === 'auth/invalid-credential') {
           Alert.alert('Senha', 'Senha incorreta.');
         }
+        if (error.code === 'auth/user-not-found') {
+          Alert.alert('Erro', 'Usuário não encontrado.');
+        }
       });
   }
 
@@ -91,55 +96,54 @@ export function LoginAccount() {
   }
 
   return (
-    <ImageBackground source={require('../../../assets/img/back14.png')} style={{ flex: 1 }}>
-      <Container>
-        <Header title={isCreatingAccount ? 'Criar Conta' : 'Login'} />
+    <Container>
+      <Header title={isCreatingAccount ? 'Criar Conta' : 'Login'} />
 
-        <Text>Email:</Text>
-        <TextInput
-          keyboardAppearance="default"
-          keyboardType="email-address"
-          value={email}
-          onChangeText={setEmail}
-        />
+      <Text>Email:</Text>
+      <TextInput
+        keyboardAppearance="default"
+        keyboardType="email-address"
+        value={email}
+        onChangeText={setEmail}
+      />
 
-        <Text>Senha:</Text>
-        <TextInput
-          secureTextEntry={!mostrarSenha}
-          keyboardAppearance="default"
-          value={password}
-          onChangeText={setPassword}
-        />
+      <Text>Senha:</Text>
+      <TextInput
+        secureTextEntry={!mostrarSenha}
+        keyboardAppearance="default"
+        value={password}
+        onChangeText={setPassword}
+      />
 
-        {isCreatingAccount && (
-          <>
-            <Text>Repetir senha:</Text>
-            <TextInput
-              secureTextEntry={!mostrarSenha}
-              keyboardAppearance="default"
-              value={passwordRepeat}
-              onChangeText={setPasswordRepeat}
-            />
-          </>
-        )}
+      {isCreatingAccount && (
+        <>
+          <Text>Repetir senha:</Text>
+          <TextInput
+            secureTextEntry={!mostrarSenha}
+            keyboardAppearance="default"
+            value={passwordRepeat}
+            onChangeText={setPasswordRepeat}
+          />
+        </>
+      )}
 
-        <ButtonSmall onPress={() => setMostrarSenha(prevState => !prevState)}>
-          <TextButtton style={{ fontSize: theme.FONT_SIZE.SM }}>Mostrar Senha</TextButtton>
-        </ButtonSmall>
+      <ButtonSmall onPress={() => setMostrarSenha(prevState => !prevState)}>
+        <TextButtton style={{ fontSize: theme.FONT_SIZE.SM }}>Mostrar Senha</TextButtton>
+      </ButtonSmall>
 
-        {isCreatingAccount && (
-          <Button onPress={signUp}>
-            <TextButtton>Criar Conta</TextButtton>
-          </Button>
-        )}
+      {isCreatingAccount && (
+        <Button onPress={signUp}>
+          <TextButtton>Criar Conta</TextButtton>
+        </Button>
+      )}
 
-        {!isCreatingAccount && (
-          <Button onPress={signIn}>
-            <TextButtton>Entrar</TextButtton>
-          </Button>
-        )}
+      {!isCreatingAccount && (
+        <Button onPress={signIn}>
+          <TextButtton>Entrar</TextButtton>
+        </Button>
+      )}
 
-        {/* <Text style={{ color: theme.COLORS.BLUE }}>Ou escolha a opção:</Text>
+      {/* <Text style={{ color: theme.COLORS.BLUE }}>Ou escolha a opção:</Text>
 
         <Button style={{ width: '80%' }}>
           <Icon
@@ -148,15 +152,14 @@ export function LoginAccount() {
           <TextButtton>  Continuar com Google</TextButtton>
         </Button> */}
 
-        <Text style={{ color: theme.COLORS.BLUE }}>
-          {isCreatingAccount ? 'Já tem uma conta? ' : 'Não tem conta? '}
-          <ButtonSmall onPress={toggleMode}>
-            <TextButtton>
-              {isCreatingAccount ? 'Entrar' : 'Criar Conta'}
-            </TextButtton>
-          </ButtonSmall>
-        </Text>
-      </Container>
-    </ImageBackground>
+      <Text style={{ color: theme.COLORS.BLUE }}>
+        {isCreatingAccount ? 'Já tem uma conta? ' : 'Não tem conta? '}
+        <ButtonSmall onPress={toggleMode}>
+          <TextButtton>
+            {isCreatingAccount ? 'Entrar' : 'Criar Conta'}
+          </TextButtton>
+        </ButtonSmall>
+      </Text>
+    </Container>
   );
 }

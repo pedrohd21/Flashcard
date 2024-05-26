@@ -1,9 +1,8 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef } from "react";
 import { Container } from "./styles";
 import { Header } from "../../../components/Header";
-import { Title } from "../../../components/Title";
 import { CreateFlashcardCard } from "../../../components/Card/CreateFlashcardCard";
-import { Alert, ImageBackground, TextInput } from "react-native";
+import { Alert, TextInput } from "react-native";
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { ButtonIconBig } from "../../../components/Button/ButtonIconBig";
 import firestore from '@react-native-firebase/firestore';
@@ -15,8 +14,8 @@ type RouteParams = {
 }
 
 export function EditFlashCard() {
-  const [newFlashcardFront, setNewFlashcardFront] = useState('');
-  const [newFlashcardBack, setNewFlashcardBack] = useState('');
+  const [newFlashcardFront, setNewFlashcardFront] = useState<string>('');
+  const [newFlashcardBack, setNewFlashcardBack] = useState<string>('');
 
   const newTextFrontInputRef = useRef<TextInput>(null);
   const newTextBackInputRef = useRef<TextInput>(null);
@@ -28,30 +27,31 @@ export function EditFlashCard() {
   async function editFlashCard() {
     if (newFlashcardFront.trim().length === 0) {
       Alert.alert('Novo Flashcard', 'Por favor, adicione conteúdo ao flashcard antes de salvar.');
-    }else{
+    } else {
       try {
         const currentUser = auth().currentUser;
         const deckRef = firestore().collection('Users').doc(String(currentUser?.uid)).collection('Flashcards').doc(deckName);
 
         const deckSnapshot = await deckRef.get();
-  
+
         if (!deckSnapshot.exists) {
           console.error('Deck não encontrado');
           return;
         }
-  
+
         await deckRef.update({
           [`${nameCard}.front`]: newFlashcardFront,
           [`${nameCard}.back`]: newFlashcardBack,
           [`${nameCard}.minute`]: 1
         });
-  
+
         newTextFrontInputRef.current?.blur();
         newTextBackInputRef.current?.blur();
         setNewFlashcardFront('');
         setNewFlashcardBack('');
         navigation.navigate('ListFlashCard', { deckName });
       } catch (error: any) {
+        console.error('Erro ao editar o flashcard: ', error);
         Alert.alert('Erro', 'Ocorreu um erro ao editar o flashcard. Por favor, tente novamente mais tarde.');
       }
     }
@@ -78,30 +78,28 @@ export function EditFlashCard() {
   }
 
   return (
-    <ImageBackground source={require('../../../assets/img/back14.png')} style={{ flex: 1 }}>
-      <Container>
-        <Header
-          title={deckName}
-          showBackButton={true}
-          onPressButtonLeft={handleGoBack}
-        />
+    <Container>
+      <Header
+        title={deckName}
+        showBackButton={true}
+        onPressButtonLeft={handleGoBack}
+      />
 
-        <CreateFlashcardCard
-          inputRefFront={newTextFrontInputRef}
-          inputRefBack={newTextBackInputRef}
-          onChangeTextFront={setNewFlashcardFront}
-          onChangeTextBack={setNewFlashcardBack}
-          onSubmitEditing={editFlashCard}
-          valueTextFront={newFlashcardFront}
-          valueTextBack={newFlashcardBack}
+      <CreateFlashcardCard
+        inputRefFront={newTextFrontInputRef}
+        inputRefBack={newTextBackInputRef}
+        onChangeTextFront={setNewFlashcardFront}
+        onChangeTextBack={setNewFlashcardBack}
+        onSubmitEditing={editFlashCard}
+        valueTextFront={newFlashcardFront}
+        valueTextBack={newFlashcardBack}
 
-        />
-        <ButtonIconBig
-          onPress={editFlashCard}
-          iconName="edit"
-          text="Editar"
-        />
-      </Container>
-    </ImageBackground>
+      />
+      <ButtonIconBig
+        onPress={editFlashCard}
+        iconName="edit"
+        text="Editar"
+      />
+    </Container>
   );
 }

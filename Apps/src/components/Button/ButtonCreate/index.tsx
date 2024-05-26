@@ -31,7 +31,7 @@ export function ButtonCreate({onPressButtonCreate, onPressButtonPratice, onPress
       </Button >
       <Button {...rest} onPress={onPressButtonEdit} hitSlop={20}>
         <Icon
-          name='book-reader'
+          name='edit'
           color={theme.COLORS.BLUE}
           size={15}
         />

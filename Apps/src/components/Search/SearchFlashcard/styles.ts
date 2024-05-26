@@ -18,7 +18,7 @@ export const TextInput = styled.TextInput`
 `;
 
 export const Container = styled.View`
-  background-color: ${({ theme }) => theme.COLORS.GRAY_900};
+  background-color: ${({ theme }) => theme.COLORS.BLACK};
   flex-direction: row;
   margin: 10px 10px;
   height: 40px;

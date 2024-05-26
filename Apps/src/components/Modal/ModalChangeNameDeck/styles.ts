@@ -26,7 +26,7 @@ export const ModalContainer = styled.View`
    flex: 1;
    justify-content: center;
    align-items: center;
-   background-Color: rgba(0, 0, 0, 0.8);
+   background-color: ${({ theme }) => theme.COLORS.BLACK};
 `;
 
 export const ModalContent = styled.View`

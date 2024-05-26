@@ -5,7 +5,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 export const Container = styled(SafeAreaView)`
   flex: 1;
-  background-Color: rgba(0, 0, 0, 0.7);
+  background-color: ${({ theme }) => theme.COLORS.BLACK};
   align-items: center;
 `;
 

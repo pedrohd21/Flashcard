@@ -1,10 +1,9 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef } from "react";
 import { Container } from "./styles";
 import { Header } from "../../../components/Header";
-import { Title } from "../../../components/Title";
 import { CreateFlashcardCard } from "../../../components/Card/CreateFlashcardCard";
-import { Alert, FlatList, ImageBackground, Keyboard, TextInput } from "react-native";
-import { useRoute, useNavigation, useFocusEffect } from '@react-navigation/native';
+import { Alert, FlatList, TextInput } from "react-native";
+import { useRoute, useNavigation } from '@react-navigation/native';
 import { ButtonIconBig } from "../../../components/Button/ButtonIconBig";
 import firestore from '@react-native-firebase/firestore';
 import auth from "@react-native-firebase/auth"
@@ -90,30 +89,28 @@ export function CreateFlashCard() {
   }
 
   return (
-    <ImageBackground source={require('../../../assets/img/back14.png')} style={{ flex: 1 }}>
-      <Container>
-        <Header
-          title={deckName}
-          showBackButton={true}
-          onPressButtonRight={addFlashcard}
-          onPressButtonLeft={handleGoBack}
-        />
+    <Container>
+      <Header
+        title={deckName}
+        showBackButton={true}
+        onPressButtonRight={addFlashcard}
+        onPressButtonLeft={handleGoBack}
+      />
 
-        <CreateFlashcardCard
-          inputRefFront={newTextFrontInputRef}
-          inputRefBack={newTextBackInputRef}
-          onChangeTextFront={setNewFlashcardFront}
-          onChangeTextBack={setNewFlashcardBack}
-          onSubmitEditing={addFlashcard}
-          valueTextFront={newFlashcardFront}
-          valueTextBack={newFlashcardBack}
+      <CreateFlashcardCard
+        inputRefFront={newTextFrontInputRef}
+        inputRefBack={newTextBackInputRef}
+        onChangeTextFront={setNewFlashcardFront}
+        onChangeTextBack={setNewFlashcardBack}
+        onSubmitEditing={addFlashcard}
+        valueTextFront={newFlashcardFront}
+        valueTextBack={newFlashcardBack}
 
-        />
-        <ButtonIconBig
-          onPress={addFlashcard}
-          iconName="plus"
-        />
-      </Container>
-    </ImageBackground>
+      />
+      <ButtonIconBig
+        onPress={addFlashcard}
+        iconName="plus"
+      />
+    </Container>
   );
 }

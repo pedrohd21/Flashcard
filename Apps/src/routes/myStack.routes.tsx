@@ -11,6 +11,7 @@ import { EditFlashCard } from '../screens/FlashCard/EditFlashCard';
 import { ListFlashCard } from '../screens/FlashCard/ListFlashCard';
 
 import { Practice } from '../screens/Practice';
+import { Options } from '../screens/OptionsApp';
 
 import { useState, useEffect } from "react";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth"
@@ -52,6 +53,7 @@ export function MyStack() {
         {user ? <>
           <Stack.Screen name="MyTabs" component={MyTabs} />
           <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Options" component={Options} />
           <Stack.Screen name="CreateFlashCard" component={CreateFlashCard} />
           <Stack.Screen name="EditFlashCard" component={EditFlashCard} />
           <Stack.Screen name="ListFlashCard" component={ListFlashCard} />

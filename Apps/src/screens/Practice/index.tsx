@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { Container } from "./styles";
 import { Header } from "../../components/Header";
-import { Alert, Dimensions, FlatList, ImageBackground, TouchableOpacityProps, View } from "react-native";
+import { Alert, Dimensions, FlatList, View } from "react-native";
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 
 import { PracticeComponente } from "../../components/PracticeComponente";
@@ -195,55 +195,53 @@ export function Practice() {
   }
 
   return (
-    <ImageBackground source={require('../../assets/img/back14.png')} style={{ flex: 1 }}>
-      <Container>
-        <Header
-          title='Flashcard'
-          showButtonRight={false}
-          iconNameRight='ellipsis-v'
-          showBackButton={true}
-          onPressButtonLeft={handleGoBack}
-        />
-        {isLoading ? <Loading /> :
-          <FlatList
-            ref={flatListRef}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            scrollEnabled={false}
-            data={filteredFlashcards}
-            renderItem={({ item }) => (
-              <View style={{ width }}>
-                <PracticeComponente
-                  textFront={item.front}
-                  textBack={item.back}
-                  showFlashcard={false}
-                  buttonRepeat={() => handleReview(Dificuldade.VERYHARD, item.nameCard, item.daysSinceFirstReview)}
-                  buttonHard={() => handleReview(Dificuldade.HARD, item.nameCard, item.daysSinceFirstReview)}
-                  buttonGood={() => handleReview(Dificuldade.GOOD, item.nameCard, item.daysSinceFirstReview)}
-                  buttonEasy={() => handleReview(Dificuldade.EASY, item.nameCard, item.daysSinceFirstReview)}
-                />
-              </View>
-            )}
-            keyExtractor={(item) => item.key}
-
-          />
-        }
-        {flashcards.length <= 0 && (
-          <View>
-            <View style={{ bottom: 300 }}>
-              <ListEmpty message="Vamos lá! Crie seu primeiro flashcard agora mesmo." />
+    <Container>
+      <Header
+        title='Flashcard'
+        showButtonRight={false}
+        iconNameRight='ellipsis-v'
+        showBackButton={true}
+        onPressButtonLeft={handleGoBack}
+      />
+      {isLoading ? <Loading /> :
+        <FlatList
+          ref={flatListRef}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          scrollEnabled={false}
+          data={filteredFlashcards}
+          renderItem={({ item }) => (
+            <View style={{ width }}>
+              <PracticeComponente
+                textFront={item.front}
+                textBack={item.back}
+                showFlashcard={false}
+                buttonRepeat={() => handleReview(Dificuldade.VERYHARD, item.nameCard, item.daysSinceFirstReview)}
+                buttonHard={() => handleReview(Dificuldade.HARD, item.nameCard, item.daysSinceFirstReview)}
+                buttonGood={() => handleReview(Dificuldade.GOOD, item.nameCard, item.daysSinceFirstReview)}
+                buttonEasy={() => handleReview(Dificuldade.EASY, item.nameCard, item.daysSinceFirstReview)}
+              />
             </View>
-            <ButtonIconBig
-              iconName="plus"
-              onPress={() => addFlashcard()}
-              style={{
-                position: "absolute",
-                bottom: 30
-              }}
-            />
+          )}
+          keyExtractor={(item) => item.nameCard}
+
+        />
+      }
+      {flashcards.length <= 0 && (
+        <View>
+          <View style={{ bottom: 300 }}>
+            <ListEmpty message="Vamos lá! Crie seu primeiro flashcard agora mesmo." />
           </View>
-        )}
-      </Container>
-    </ImageBackground>
+          <ButtonIconBig
+            iconName="plus"
+            onPress={() => addFlashcard()}
+            style={{
+              position: "absolute",
+              bottom: 30
+            }}
+          />
+        </View>
+      )}
+    </Container>
   )
 }

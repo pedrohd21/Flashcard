@@ -1,10 +1,10 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import { Container } from "./styles";
 import { Header } from "../../components/Header";
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 import theme from "../../theme";
-import { Alert, Modal, FlatList, ImageBackground } from 'react-native';
+import { Alert, Modal, FlatList } from 'react-native';
 
 import { Loading } from "../../components/Loading";
 import { ListDeckCard } from "../../components/List/ListDeckCard";
@@ -17,15 +17,15 @@ import auth from "@react-native-firebase/auth"
 import firestore from '@react-native-firebase/firestore';
 
 export function Home() {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [deckName, setDeckName] = useState("");
   const [deckNameFirestore, setDeckNameFirestore] = useState("");
-  const [decks, setDecks] = useState<{ id: string }[]>([]);
+  const [decks, setDecks] = useState<{ id: string; }[]>([]);
+
   const [selectedDeck, setSelectedDeck] = useState('');
-  const [counter, setCounter] = useState(Number);
 
   const navigation = useNavigation();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [useButtonOptions, setUseButtonOptions] = useState(false);
   const [useButtonChangeName, setUseButtonChangeName] = useState(false);
 
@@ -205,85 +205,81 @@ export function Home() {
     navigation.navigate('Practice', { deckName });
   }
 
-  function signOut() {
-    auth().signOut();
-  }
-
-  useFocusEffect(useCallback(() => {
-    fetchDecks()
-  }, []))
+  useEffect(() => {
+    fetchDecks();
+  }, []);
 
   return (
-    <ImageBackground source={require('../../assets/img/back14.png')} style={{ flex: 1 }}>
-      <Container >
-        <Header title='FlashCard'
-          iconNameRight="plus"
-          showButtonRight={true}
-          iconColorRight={theme.COLORS.BLUE}
-          onPressButtonRight={() => openModal()}
-          showBackButton
-          onPressButtonLeft={signOut}
-          iconNameLeft="power-off" />
-        {isLoading ? <Loading /> :
-          <FlatList
-            data={decks}
-            renderItem={({ item }) => (
-              <ListDeckCard
-                textTitle={item.id}
-                contadorFlashcard={item.id}
-                onPressButtonCreate={() => buttonAddFlashcard(item.id)}
-                onPressButtonOptions={() => handleButtonOptions(item.id)}
-                onPressButtonEdit={() => handleListFlascard(item.id)}
-                onPressButtonPractice={() => { buttonPracticeFlashcard(item.id) }}
-              />
-            )}
-            ListEmptyComponent={() => (
-              <ListEmpty message="É hora de começar a construir o seu primeiro deck! Vamos nessa juntos?" />
-            )}
-          />
-        }
-        {decks.length <= 0 && (
-          <ButtonIconBig
-            iconName="plus"
-            onPress={() => openModal()}
-            style={{
-              position: "absolute",
-              bottom: 30
-            }}
-          />
-        )}
-
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={closeModal}
-        >
-          {useButtonOptions ?
-            <ModalButtonOptions
-              onCancel={closeModal}
-              onChangeDelete={handledeckRemove}
-              onChangeNameDeck={handleButtonEditNameDeck}
+    <Container >
+      <Header title='FlashCard'
+        iconNameRight="plus"
+        showButtonRight={true}
+        iconColorRight={theme.COLORS.BLUE}
+        onPressButtonRight={() => openModal()}
+        showBackButton
+        onPressButtonLeft={() => {}}
+        iconNameLeft="bell-slash" 
+        iconColorLeft={theme.COLORS.RED}
+        />
+      {isLoading ? <Loading /> :
+        <FlatList
+          data={decks}
+          renderItem={({ item }) => (
+            <ListDeckCard
+              textTitle={item.id}
+              contadorFlashcard={item.id}
+              onPressButtonCreate={() => buttonAddFlashcard(item.id)}
+              onPressButtonOptions={() => handleButtonOptions(item.id)}
+              onPressButtonEdit={() => handleListFlascard(item.id)}
+              onPressButtonPractice={() => { buttonPracticeFlashcard(item.id) }}
             />
-            :
-            useButtonChangeName ?
-              <ModalChangeNameDeck
+          )}
+          ListEmptyComponent={() => (
+            <ListEmpty message="É hora de começar a construir o seu primeiro deck! Vamos nessa juntos?" />
+          )}
+        />
+      }
+      {decks.length <= 0 && (
+        <ButtonIconBig
+          iconName="plus"
+          onPress={() => openModal()}
+          style={{
+            position: "absolute",
+            bottom: 30
+          }}
+        />
+      )}
+
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={closeModal}
+      >
+        {useButtonOptions ?
+          <ModalButtonOptions
+            onCancel={closeModal}
+            onChangeDelete={handledeckRemove}
+            onChangeNameDeck={handleButtonEditNameDeck}
+          />
+          :
+          useButtonChangeName ?
+            <ModalChangeNameDeck
+              onChangeNameDeck={setDeckName}
+              onCancel={closeModal}
+              onSave={handleEditNameDeck}
+            />
+            : (
+              <ModalCreateDeck
                 onChangeNameDeck={setDeckName}
                 onCancel={closeModal}
-                onSave={handleEditNameDeck}
+                onSave={handleSaveDeck}
+
               />
-              : (
-                <ModalCreateDeck
-                  onChangeNameDeck={setDeckName}
-                  onCancel={closeModal}
-                  onSave={handleSaveDeck}
+            )
+        }
 
-                />
-              )
-          }
-
-        </Modal>
-      </Container>
-    </ImageBackground>
+      </Modal>
+    </Container>
   )
 }

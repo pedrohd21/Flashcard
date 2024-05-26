@@ -9,6 +9,7 @@ type Props = {
   iconNameRight?: string;
   iconNameLeft?: string;
   iconColorRight?: string;
+  iconColorLeft?: string;
   showBackButton?: boolean;
   showButtonRight?: boolean;
   onPressButtonRight?: () => void;
@@ -16,14 +17,14 @@ type Props = {
   style?: ViewStyle;
 }
 
-export function Header({ title, showBackButton, iconNameRight, iconNameLeft, showButtonRight, iconColorRight, onPressButtonRight, onPressButtonLeft, style }: Props) {
+export function Header({ title, showBackButton, iconNameRight, iconNameLeft, showButtonRight, iconColorRight, iconColorLeft, onPressButtonRight, onPressButtonLeft, style }: Props) {
   return (
     <Container 
       style={style}
     >
       {showBackButton &&
         <ButtonBackIcon onPress={onPressButtonLeft}>
-          <IconBack name={iconNameLeft || 'arrow-left'} />
+          <IconBack name={iconNameLeft || 'arrow-left'} color={iconColorLeft} />
         </ButtonBackIcon>}
       <Text>{title}</Text>
       {showButtonRight &&

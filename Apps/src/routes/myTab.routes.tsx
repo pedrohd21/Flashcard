@@ -3,7 +3,7 @@ import React from 'react';
 import theme from '../theme';
 
 import { Home } from '../screens/Home';
-import { ViewProfile } from '../screens/Account/ViewProfile';
+import { Options } from '../screens/OptionsApp';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -48,7 +48,7 @@ export function MyTabs() {
           ),
         }}
       /> */}
-      <Tab.Screen name="Options" component={ViewProfile}
+      <Tab.Screen name="Options" component={Options}
         options={{
           tabBarIcon: ({ color }) => (
             <Icon name="user-circle" size={30} color={color} />

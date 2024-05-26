@@ -1,13 +1,11 @@
 import styled from 'styled-components/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { TouchableOpacity} from 'react-native';
+import { TouchableOpacity } from 'react-native';
 
 export const Container = styled(SafeAreaView)`
   flex: 1;
   justify-content: center;
-  
-  background-Color: rgba(0, 0, 0, 0.7);
-
+  background-color: ${({ theme }) => theme.COLORS.BLACK};
   font-family: 'Roboto';
   
 `;
@@ -15,7 +13,7 @@ export const Container = styled(SafeAreaView)`
 export const Text = styled.Text`
   color: ${({ theme }) => theme.COLORS.WHITE};
   font-size: ${({ theme }) => theme.FONT_SIZE.LG}px;
-  font-family: 'KleeOne-SemiBold';
+  font-family: 'Roboto';
 `;
 
 export const TextInput = styled.TextInput`
