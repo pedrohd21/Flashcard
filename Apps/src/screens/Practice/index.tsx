@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Container } from "./styles";
 import { Header } from "../../components/Header";
 import { Alert, Dimensions, FlatList, View } from "react-native";
@@ -66,10 +66,11 @@ export function Practice() {
               const flashcardData = deckData[key];
 
               const lastReviewDate = new Date(flashcardData.lastReviewDate.seconds * 1000);
-              const firstReviewDate = new Date(flashcardData.lastReviewDate.seconds * 1000);
+              const firstReviewDate = new Date(flashcardData.firstReviewDate.seconds * 1000);
 
               const now = new Date();
               const nowInMilliseconds = now.getTime();
+
               const differenceInMilliseconds = nowInMilliseconds - firstReviewDate.getTime();
               const daysSinceFirstReview = Math.floor(differenceInMilliseconds / (1000 * 60 * 60 * 24));
 
@@ -86,7 +87,9 @@ export function Practice() {
           });
           setFlashcards(flashcards);
           updateFilteredFlashcards(flashcards)
-          showNextItem();
+          if (filteredFlashcards.length > 0) { // Adicione esta verificação
+            showNextItem();
+          }
         }
       } else {
         setFlashcards([]);
@@ -116,9 +119,9 @@ export function Practice() {
         }
       },
       { merge: true }
-    ).then(() => {
-      showNextItem(dificuldade, nameCard);
-    });
+    )
+    showNextItem(dificuldade, nameCard);
+
 
   }
 
@@ -140,50 +143,72 @@ export function Practice() {
   function calcularProximaRevisao(dificuldade: Dificuldade, daysSinceFirstReview: number): Date {
     const intervalo: number = obterIntervaloParaDificuldade(dificuldade, daysSinceFirstReview);
     const agora = new Date();
-    console.log('intervalo')
-    console.log(intervalo)
+
     const proximaRevisao = new Date(agora.getTime() + intervalo);
     return proximaRevisao;
   }
 
   async function showNextItem(dificuldade?: Dificuldade, nameCard?: string) {
-    setFilteredFlashcards(prevFilteredFlashcards => {
-      let sortedFlashcards = [...prevFilteredFlashcards].sort((a, b) => a.lastReviewDate.getTime() - b.lastReviewDate.getTime());
+    setFilteredFlashcards((prevFilteredFlashcards) => {
+      const now = new Date(); // Obtém a data e hora atual
 
-      let updatedFlashcards = sortedFlashcards;
 
-      if (dificuldade === Dificuldade.EASY) {
-        updatedFlashcards = sortedFlashcards.filter(flashcard => flashcard.nameCard !== nameCard);
-      }
+    let sortedFlashcards = [...prevFilteredFlashcards].sort((a, b) => {
+      const diffA = a.lastReviewDate.getTime() - now.getTime(); 
+      const diffB = b.lastReviewDate.getTime() - now.getTime(); 
 
-      const nextIndex = currentIndex + 1;
-      if (flatListRef.current) {
-        if (nextIndex < updatedFlashcards.length) {
-          setCurrentIndex(nextIndex);
-          flatListRef.current.scrollToIndex({ animated: true, index: nextIndex });
-        } else {
-          setCurrentIndex(0);
-          flatListRef.current.scrollToIndex({ animated: true, index: 0 });
-        }
-      }
-
-      if (updatedFlashcards.length === 0) {
-        Alert.alert('Revisão concluída', 'Você revisou todos os flashcards disponíveis para hoje!');
-        handleGoBack();
-      }
-
-      return updatedFlashcards;
+      return diffA - diffB; 
     });
-  }
+      if (dificuldade === Dificuldade.EASY) {
+        sortedFlashcards = sortedFlashcards.filter(
+          (flashcard) => flashcard.nameCard !== nameCard
+        );
+      }
+
+      if (sortedFlashcards.length === 0) {
+        Alert.alert(
+          "Revisão concluída",
+          "Você revisou todos os flashcards disponíveis para hoje!"
+        );
+        handleGoBack();
+        return sortedFlashcards;
+      }
+
+      const nextIndex = (currentIndex + 1) % sortedFlashcards.length;
+
+      setCurrentIndex(nextIndex);
+      if (flatListRef.current) {
+        flatListRef.current.scrollToIndex({
+          animated: true,
+          index: nextIndex,
+        });
+      }
+
+      return sortedFlashcards;
+    });
+  };
+ 
+
+
 
   function addFlashcard() {
     navigation.navigate('CreateFlashCard', { deckName });
     fetchflashcardByDeck()
   }
 
-  useFocusEffect(useCallback(() => {
+  useEffect(() => {
     fetchflashcardByDeck();
-  }, []));
+  }, []);
+
+  useEffect(() => {
+    if (!isLoading && filteredFlashcards.length === 0) {
+      Alert.alert(
+        "Revisão concluída",
+        "Você revisou todos os flashcards disponíveis para hoje!"
+      );
+      handleGoBack();
+    }
+  }, [isLoading, filteredFlashcards]);
 
   function updateFilteredFlashcards(flashcards: Flashcard[]) {
     const today = new Date().toDateString();
