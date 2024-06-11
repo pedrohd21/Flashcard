@@ -150,46 +150,31 @@ export function Practice() {
 
   async function showNextItem(dificuldade?: Dificuldade, nameCard?: string) {
     setFilteredFlashcards((prevFilteredFlashcards) => {
-      const now = new Date(); // Obtém a data e hora atual
-
-
-    let sortedFlashcards = [...prevFilteredFlashcards].sort((a, b) => {
-      const diffA = a.lastReviewDate.getTime() - now.getTime(); 
-      const diffB = b.lastReviewDate.getTime() - now.getTime(); 
-
-      return diffA - diffB; 
-    });
       if (dificuldade === Dificuldade.EASY) {
-        sortedFlashcards = sortedFlashcards.filter(
+        prevFilteredFlashcards = prevFilteredFlashcards.filter(
           (flashcard) => flashcard.nameCard !== nameCard
         );
       }
 
-      if (sortedFlashcards.length === 0) {
+      if (prevFilteredFlashcards.length === 0) {
         Alert.alert(
           "Revisão concluída",
-          "Você revisou todos os flashcards disponíveis para hoje!"
+          "Você revisou todos os flashcards disponíveis!"
         );
         handleGoBack();
-        return sortedFlashcards;
+        return prevFilteredFlashcards;
       }
 
-      const nextIndex = (currentIndex + 1) % sortedFlashcards.length;
-
+      const nextIndex = (currentIndex + 1) % prevFilteredFlashcards.length;
       setCurrentIndex(nextIndex);
+
       if (flatListRef.current) {
-        flatListRef.current.scrollToIndex({
-          animated: true,
-          index: nextIndex,
-        });
+        flatListRef.current.scrollToIndex({ animated: true, index: nextIndex });
       }
 
-      return sortedFlashcards;
+      return prevFilteredFlashcards;
     });
-  };
- 
-
-
+  }
 
   function addFlashcard() {
     navigation.navigate('CreateFlashCard', { deckName });
@@ -212,11 +197,19 @@ export function Practice() {
 
   function updateFilteredFlashcards(flashcards: Flashcard[]) {
     const today = new Date().toDateString();
-    const filtered = flashcards.filter(flashcard => {
-      const flashcardDate = new Date(flashcard.lastReviewDate).toDateString();
-      return flashcardDate === today || new Date(flashcard.lastReviewDate) < new Date();
-    });
-    setFilteredFlashcards(filtered);
+
+    const filteredFlashcards = flashcards
+      .filter(flashcard => {
+        const flashcardDate = new Date(flashcard.lastReviewDate).toDateString();
+        return flashcardDate === today || new Date(flashcard.lastReviewDate) < new Date();
+      })
+      .sort((a, b) => {
+        const dateA = new Date(a.lastReviewDate);
+        const dateB = new Date(b.lastReviewDate);
+        return dateA.getTime() - dateB.getTime();
+      });
+
+    setFilteredFlashcards(filteredFlashcards);
   }
 
   return (

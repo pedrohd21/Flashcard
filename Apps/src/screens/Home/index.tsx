@@ -97,10 +97,11 @@ export function Home() {
 
       closeModal();
       fetchDecks();
-      navigation.navigate('CreateFlashCard', { deckName });
       setDeckName('');
+      navigation.navigate('CreateFlashCard', { deckName });
     } catch (error) {
       Alert.alert('Erro', 'Ocorreu um erro. Por favor, tente novamente mais tarde.');
+      console.log(error)
     } finally {
       setIsLoading(false);
     }
@@ -146,7 +147,6 @@ export function Home() {
     } finally {
       setIsLoading(false);
     }
-    fetchDecks()
     closeModal()
   }
 
@@ -177,7 +177,6 @@ export function Home() {
       ],
       { cancelable: true }
     );
-    fetchDecks()
     closeModal()
   }
 
