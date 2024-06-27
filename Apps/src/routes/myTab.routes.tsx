@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 const Tab = createBottomTabNavigator();
 const styles = StyleSheet.create({
   tabBarStyle: {
-    backgroundColor: theme.COLORS.BLACK,
+    backgroundColor: theme.COLORS.BLUE_DARK,
     borderTopWidth: 1,
     borderTopColor: theme.COLORS.BLUE,
   },
@@ -30,8 +30,8 @@ export function MyTabs() {
         headerShown: false,
         tabBarStyle: styles.tabBarStyle,
         tabBarLabelStyle: styles.tabBarLabelStyle,
-        tabBarActiveTintColor: theme.COLORS.BLUE,
-        tabBarInactiveTintColor: theme.COLORS.BLUE_LIGHT,
+        tabBarActiveTintColor: theme.COLORS.BLUE_LIGHT,
+        tabBarInactiveTintColor: theme.COLORS.BLUE,
       }}
     >
       <Tab.Screen name="Home" component={Home}
@@ -39,15 +39,10 @@ export function MyTabs() {
           tabBarIcon: ({ color }) => (
             <Icon name="home" size={30} color={color} />
           ),
+          
         }}
       />
-      {/* <Tab.Screen name="Criar" component={Home}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <Icon name="plus" size={23} color={color} />
-          ),
-        }}
-      /> */}
+
       <Tab.Screen name="Options" component={Options}
         options={{
           tabBarIcon: ({ color }) => (

@@ -4,7 +4,7 @@ export const Container = styled.View`
   flex: 1;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme }) => theme.COLORS.BLACK};
+  background-color: ${({ theme }) => theme.COLORS.BLUE_DARK};
   z-index: 9999; 
   position: absolute;
   top: 0;

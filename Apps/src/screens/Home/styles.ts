@@ -5,7 +5,7 @@ import { TouchableOpacity } from 'react-native';
 export const Container = styled(SafeAreaView)`
   flex: 1;
   justify-content: center;
-  background-color: ${({ theme }) => theme.COLORS.BLACK};
+  background-color: ${({ theme }) => theme.COLORS.BLUE_DARK};
   font-family: 'Roboto';
   
 `;

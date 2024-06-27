@@ -2,20 +2,22 @@ export default {
   COLORS: {
     WHITE: '#FFFFFF',
     WHITE_LIGHT: '#A5B5F9',
-    BLACK: '#000000',
+    BLACK: '#01010D',
 
     SUCCESS: '#4CAF50', // Cor de sucesso
     WARNING: '#FFC107', // Cor de aviso
     INFO: '#2196F3', // Cor de informação
     DANGER: '#FF4081', // Cor de perigo
 
-    RED: '#ED585E', // Cor vermelha
+    RED: '#D85E5E', // Cor vermelha
     GREEN: '#4CAF50', // 
     GREEN_LIGHT: '#7ebc80', // 
 
 
-    BLUE: '#6495ED', // Cor azul
-    BLUE_LIGHT: '#98AFF5', // Cor azul
+    BLUE: '#69779B', // Cor azul
+    BLUE_DARK: '#030310',
+    BLUE_GRAY: '#797A98',
+    BLUE_LIGHT: '#B8BAE5', // Cor azul
 
     TEAL: '#5CD7D2', // Cor verde-azulado
 

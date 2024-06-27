@@ -10,6 +10,7 @@ export const Button = styled(TouchableOpacity)`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  background-color: ${({ theme }) => theme.COLORS.BLUE_DARK};
 
   border-radius: 50px;
   border-color: ${({ theme }) => theme.COLORS.BLUE};

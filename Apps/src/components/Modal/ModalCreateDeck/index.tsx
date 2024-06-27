@@ -12,7 +12,7 @@ export function ModalCreateDeck({ onCancel, onSave, onChangeNameDeck, ...rest }:
   return (
     <ModalContainer >
       <ModalContent >
-        <Text style={{ color: theme.COLORS.BLUE }}>Criar Deck:</Text>
+        <Text style={{ fontSize: theme.FONT_SIZE.XL}}>Criar Deck:</Text>
         <TextInput
           onChangeText={onChangeNameDeck}
           placeholder="Nome do Deck"

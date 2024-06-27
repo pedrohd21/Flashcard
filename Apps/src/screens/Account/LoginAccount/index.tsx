@@ -143,15 +143,6 @@ export function LoginAccount() {
         </Button>
       )}
 
-      {/* <Text style={{ color: theme.COLORS.BLUE }}>Ou escolha a opção:</Text>
-
-        <Button style={{ width: '80%' }}>
-          <Icon
-            name="google"
-          />
-          <TextButtton>  Continuar com Google</TextButtton>
-        </Button> */}
-
       <Text style={{ color: theme.COLORS.BLUE }}>
         {isCreatingAccount ? 'Já tem uma conta? ' : 'Não tem conta? '}
         <ButtonSmall onPress={toggleMode}>

@@ -126,7 +126,6 @@ export function Home() {
         return;
       }
 
-      console.log(deckName)
       const oldDeckRef = firestore().collection('Users').doc(deckNameFirestore).collection('Flashcards').doc(selectedDeck);
       const newDeckRef = firestore().collection('Users').doc(deckNameFirestore).collection('Flashcards').doc(deckName);
 
@@ -193,17 +192,6 @@ export function Home() {
     openModal()
   }
 
-  function handleListFlascard(deckName: string) {
-    navigation.navigate('ListFlashCard', { deckName })
-  }
-
-  function buttonAddFlashcard(deckName: string) {
-    navigation.navigate('CreateFlashCard', { deckName });
-  }
-  function buttonPracticeFlashcard(deckName: string) {
-    navigation.navigate('Practice', { deckName });
-  }
-
   useEffect(() => {
     fetchDecks();
   }, []);
@@ -227,10 +215,8 @@ export function Home() {
             <ListDeckCard
               textTitle={item.id}
               contadorFlashcard={item.id}
-              onPressButtonCreate={() => buttonAddFlashcard(item.id)}
+              idFlashcard={item.id}
               onPressButtonOptions={() => handleButtonOptions(item.id)}
-              onPressButtonEdit={() => handleListFlascard(item.id)}
-              onPressButtonPractice={() => { buttonPracticeFlashcard(item.id) }}
             />
           )}
           ListEmptyComponent={() => (

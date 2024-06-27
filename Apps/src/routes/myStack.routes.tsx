@@ -18,6 +18,7 @@ import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth"
 import { Loading } from '../components/Loading';
 
 import { MyTabs } from './myTab.routes';
+import { Easing } from 'react-native';
 
 const Stack = createStackNavigator();
 
@@ -47,7 +48,41 @@ export function MyStack() {
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
-          animationEnabled: false,
+          animationEnabled: true,
+          headerTintColor: 'black',
+          // cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          cardOverlayEnabled: true,
+          cardShadowEnabled: true,
+          cardStyleInterpolator: ({ current, layouts }) => {
+            return {
+              cardStyle: {
+                transform: [
+                  {
+                    translateX: current.progress.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [layouts.screen.width, 0],
+                    }),
+                  },
+                ],
+              },
+            };
+          },
+          transitionSpec: {
+            open: {
+              animation: 'timing',
+              config: {
+                duration: 400,
+                easing: Easing.out(Easing.poly(4)),
+              },
+            },
+            close: {
+              animation: 'timing',
+              config: {
+                duration: 400,
+                easing: Easing.in(Easing.poly(4)),
+              },
+            },
+          },
         }}
       >
         {user ? <>
@@ -58,6 +93,7 @@ export function MyStack() {
           <Stack.Screen name="EditFlashCard" component={EditFlashCard} />
           <Stack.Screen name="ListFlashCard" component={ListFlashCard} />
           <Stack.Screen name="Practice" component={Practice} />
+          
         </> : <Stack.Screen name="LoginAccount" component={LoginAccount} />}
 
       </Stack.Navigator>

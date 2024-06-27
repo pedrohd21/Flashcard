@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native';
 
 export const Container = styled(SafeAreaView)`
   flex: 1;
-  background-color: ${({ theme }) => theme.COLORS.BLACK};
+  background-color: ${({ theme }) => theme.COLORS.BLUE_DARK};
 `;
 
 export const Text = styled.Text`

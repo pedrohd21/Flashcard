@@ -30,7 +30,7 @@ export const Button = styled(TouchableOpacity)`
 `;
 
 export const Text = styled.Text`
-  color: ${({ theme }) => theme.COLORS.BLACK};
+  color: ${({ theme }) => theme.COLORS.BLUE_DARK};
   font-size: ${({ theme }) => theme.FONT_SIZE.LG}px;
   font-family: 'Roboto-Bold';
 `;

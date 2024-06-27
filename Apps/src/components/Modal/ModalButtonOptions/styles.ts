@@ -19,7 +19,7 @@ export const Text = styled.Text`
 export const ModalContainer = styled.View`
   flex: 1;
   align-items: center;
-  background-color: ${({ theme }) => theme.COLORS.BLACK};
+  background-color: ${({ theme }) => theme.COLORS.BLUE_DARK};
 `;
 
 export const ModalContent = styled.View`
@@ -29,7 +29,7 @@ export const ModalContent = styled.View`
   align-items: center;
   width: 90%;
   
-  background-color: ${({ theme }) => theme.COLORS.BLACK};
+  background-color: ${({ theme }) => theme.COLORS.BLUE_DARK};
 
   border-radius: 15px;
   border-color: ${({ theme }) => theme.COLORS.BLUE};

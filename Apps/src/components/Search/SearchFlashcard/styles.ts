@@ -2,7 +2,6 @@ import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 
 export const Text = styled.Text`
-  color: ${({ theme }) => theme.COLORS.BLACK};
   font-size: ${({ theme }) => theme.FONT_SIZE.MD}px;
   font-family: 'Roboto-Bold';
 `;
@@ -18,7 +17,7 @@ export const TextInput = styled.TextInput`
 `;
 
 export const Container = styled.View`
-  background-color: ${({ theme }) => theme.COLORS.BLACK};
+  background-color: ${({ theme }) => theme.COLORS.BLUE_DARK};
   flex-direction: row;
   margin: 10px 10px;
   height: 40px;

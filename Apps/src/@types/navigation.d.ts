@@ -5,8 +5,6 @@ export declare global {
       LoginAccount: undefined;
       Options: undefined;
 
-      CreateDeck: undefined;
-
       EditDeck: undefined;
       ListDeck: undefined;
 

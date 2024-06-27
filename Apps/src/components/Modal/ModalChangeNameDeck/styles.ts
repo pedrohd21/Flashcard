@@ -3,7 +3,6 @@ import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import styled from "styled-components/native";
 
 export const Text = styled.Text`
-  color: ${({ theme }) => theme.COLORS.BLACK};
   font-size: ${({ theme }) => theme.FONT_SIZE.MD}px;
   font-family: 'Roboto-Bold';
 
@@ -26,7 +25,7 @@ export const ModalContainer = styled.View`
    flex: 1;
    justify-content: center;
    align-items: center;
-   background-color: ${({ theme }) => theme.COLORS.BLACK};
+   background-color: ${({ theme }) => theme.COLORS.BLUE_DARK};
 `;
 
 export const ModalContent = styled.View`

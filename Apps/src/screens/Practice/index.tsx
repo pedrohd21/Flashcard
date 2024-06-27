@@ -191,7 +191,7 @@ export function Practice() {
         "Revisão concluída",
         "Você revisou todos os flashcards disponíveis para hoje!"
       );
-      handleGoBack();
+      navigation.navigate('Home')
     }
   }, [isLoading, filteredFlashcards]);
 
