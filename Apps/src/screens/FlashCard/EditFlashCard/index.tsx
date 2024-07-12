@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Container } from "./styles";
 import { Header } from "../../../components/Header";
 import { CreateFlashcardCard } from "../../../components/Card/CreateFlashcardCard";
@@ -23,6 +23,8 @@ export function EditFlashCard() {
   const navigation = useNavigation();
   const route = useRoute();
   const { deckName, nameCard } = route.params as RouteParams;
+
+
 
   async function editFlashCard() {
     if (newFlashcardFront.trim().length === 0) {
@@ -57,6 +59,21 @@ export function EditFlashCard() {
     }
   }
 
+  async function nameCardsss() {
+    const currentUser = auth().currentUser;
+    const deckRef = firestore().collection('Users').doc(String(currentUser?.uid)).collection('Flashcards').doc(deckName);
+    
+    const cardSnapshot = await deckRef.get();
+
+    if (cardSnapshot.exists) {
+      const frontValue = cardSnapshot.get(`${nameCard}.front`);
+      const backValue = cardSnapshot.get(`${nameCard}.back`);
+
+      setNewFlashcardFront(`${frontValue}`);
+      setNewFlashcardBack(`${backValue}`)
+    }
+  }
+
   function handleGoBack() {
     if (newFlashcardFront.trim().length === 0) {
       navigation.goBack();
@@ -76,6 +93,14 @@ export function EditFlashCard() {
       );
     }
   }
+
+  useEffect(() => {
+    nameCardsss()
+    // Focar no campo de texto frontal ao entrar na tela (opcional)
+    if (newTextFrontInputRef.current) {
+      newTextFrontInputRef.current.focus();
+    }
+  }, [nameCard]);
 
   return (
     <Container>

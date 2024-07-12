@@ -4,7 +4,7 @@ import styled from "styled-components/native";
 export const Container = styled(TouchableOpacity)`
   height: 70px;
   background-color: ${({ theme }) => theme.COLORS.BLUE_DARK};
-  margin: 12px 12px;
+  margin: 5px 12px;
   border-radius: 8px ;
   border: 1px solid ${({ theme }) => theme.COLORS.BLUE};
   justify-content: center;

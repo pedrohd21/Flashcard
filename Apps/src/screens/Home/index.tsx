@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Container } from "./styles";
 import { Header } from "../../components/Header";
 import { useNavigation } from '@react-navigation/native';
@@ -15,6 +15,10 @@ import { ModalChangeNameDeck } from "../../components/Modal/ModalChangeNameDeck"
 import { ListEmpty } from "../../components/List/ListEmpty";
 import auth from "@react-native-firebase/auth"
 import firestore from '@react-native-firebase/firestore';
+// import messaging from '@react-native-firebase/messaging';
+
+// import {PermissionsAndroid} from 'react-native';
+// PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
 
 export function Home() {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -29,6 +33,16 @@ export function Home() {
   const [useButtonOptions, setUseButtonOptions] = useState(false);
   const [useButtonChangeName, setUseButtonChangeName] = useState(false);
 
+  // const getToken = async() => {
+  //   const token = await messaging().getToken()
+  //   console.log('token=', token)
+  // }
+
+  // useEffect(() => {
+  //   // requestUserPermission()
+  //   getToken()
+  // })
+
   function openModal() {
     setModalVisible(true);
   };
@@ -39,6 +53,8 @@ export function Home() {
     setUseButtonChangeName(false)
     setDeckName('')
   };
+
+  
 
   async function fetchDecks() {
     try {
@@ -192,8 +208,16 @@ export function Home() {
     openModal()
   }
 
+
   useEffect(() => {
     fetchDecks();
+  }, []);
+
+  useEffect(() => {
+    // Configurações do Firestore
+    firestore().settings({
+      persistence: true,
+    });
   }, []);
 
   return (

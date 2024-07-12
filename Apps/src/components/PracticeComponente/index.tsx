@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Container, QuestionFlashcard, AnswerFlashcard, ContainerQuestionAnswer, Text, ContainerButtonOption, ButtonOption, ButtonShow, Icon, } from "./styles";
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { ScrollView, TouchableOpacityProps } from "react-native";
 
 import theme from "../../theme";
@@ -72,6 +71,7 @@ export function PracticeComponente({ textFront, textBack, showFlashcard, buttonR
               }
             }}>
               <Text style={{ fontSize: theme.FONT_SIZE.SM, fontFamily: 'Roboto-Bold', color: theme.COLORS.RED }}>Repetir</Text>
+              <Text style={{ fontSize: theme.FONT_SIZE.SM, fontFamily: 'Roboto-Bold', color: theme.COLORS.RED }}>hoje</Text>
             </ButtonOption>
             {/* // )} */}
             <ButtonOption hitSlop={20} style={{ borderColor: theme.COLORS.WHITE }} onPress={() => {
@@ -80,7 +80,8 @@ export function PracticeComponente({ textFront, textBack, showFlashcard, buttonR
                 setShowAnswer(false);
               }
             }}>
-              <Text style={{ fontSize: theme.FONT_SIZE.SM, fontFamily: 'Roboto-Bold', color: theme.COLORS.WHITE }}>Dificil</Text>
+              <Text style={{ fontSize: theme.FONT_SIZE.SM, fontFamily: 'Roboto-Bold', color: theme.COLORS.WHITE }}>1 dia</Text>
+              <Text style={{ fontSize: theme.FONT_SIZE.SM, fontFamily: 'Roboto-Bold', color: theme.COLORS.WHITE }}> Difícil</Text>
             </ButtonOption>
 
             <ButtonOption hitSlop={20} style={{ borderColor: theme.COLORS.GREEN }} onPress={() => {
@@ -89,6 +90,7 @@ export function PracticeComponente({ textFront, textBack, showFlashcard, buttonR
                 setShowAnswer(false);
               }
             }}>
+              <Text style={{ fontSize: theme.FONT_SIZE.SM, fontFamily: 'Roboto-Bold', color: theme.COLORS.GREEN }}>2 dias</Text>
               <Text style={{ fontSize: theme.FONT_SIZE.SM, fontFamily: 'Roboto-Bold', color: theme.COLORS.GREEN }}>Bom</Text>
             </ButtonOption>
 
@@ -98,7 +100,8 @@ export function PracticeComponente({ textFront, textBack, showFlashcard, buttonR
                 setShowAnswer(false);
               }
             }}>
-              <Text style={{ fontSize: theme.FONT_SIZE.SM, fontFamily: 'Roboto-Bold', color: theme.COLORS.BLUE }}>Facil</Text>
+              <Text style={{ fontSize: theme.FONT_SIZE.SM, fontFamily: 'Roboto-Bold', color: theme.COLORS.BLUE }}>7 dias</Text>
+              <Text style={{ fontSize: theme.FONT_SIZE.SM, fontFamily: 'Roboto-Bold', color: theme.COLORS.BLUE }}>Fácil</Text>
 
             </ButtonOption>
           </ContainerButtonOption>

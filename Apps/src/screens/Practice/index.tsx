@@ -47,7 +47,7 @@ export function Practice() {
   const { deckName } = route.params as RouteParams;
 
   function handleGoBack() {
-    navigation.goBack();
+    navigation.navigate('ListFlashCard', { deckName });
   }
 
   async function fetchflashcardByDeck() {
@@ -128,17 +128,18 @@ export function Practice() {
   function obterIntervaloParaDificuldade(dificuldade: Dificuldade, daysSinceFirstReview: number): number {
     switch (dificuldade) {
       case Dificuldade.EASY:
-        return 1 * 24 * 60 * 60 * 1000 * (daysSinceFirstReview + 1);
+        return 7 * 24 * 60 * 60 * 1000; // 7 dias em milissegundos
       case Dificuldade.GOOD:
-        return 40 * 60 * 1000 * (daysSinceFirstReview + 1);
+        return 2 * 24 * 60 * 60 * 1000; // 2 dias em milissegundos
       case Dificuldade.HARD:
-        return 10 * 60 * 1000 * (daysSinceFirstReview + 1);
+        return 1 * 24 * 60 * 60 * 1000; // 1 dia em milissegundos
       case Dificuldade.VERYHARD:
-        return 2 * 60 * 1000 * (daysSinceFirstReview + 1);
+        return 0; // No mesmo dia
       default:
         throw new Error("Dificuldade inválida");
     }
   }
+
 
   function calcularProximaRevisao(dificuldade: Dificuldade, daysSinceFirstReview: number): Date {
     const intervalo: number = obterIntervaloParaDificuldade(dificuldade, daysSinceFirstReview);
@@ -150,10 +151,12 @@ export function Practice() {
 
   async function showNextItem(dificuldade?: Dificuldade, nameCard?: string) {
     setFilteredFlashcards((prevFilteredFlashcards) => {
-      if (dificuldade === Dificuldade.EASY) {
+      let nextItemUpdate = 0
+      if (dificuldade != Dificuldade.VERYHARD) {
         prevFilteredFlashcards = prevFilteredFlashcards.filter(
           (flashcard) => flashcard.nameCard !== nameCard
         );
+        nextItemUpdate = 1
       }
 
       if (prevFilteredFlashcards.length === 0) {
@@ -165,7 +168,7 @@ export function Practice() {
         return prevFilteredFlashcards;
       }
 
-      const nextIndex = (currentIndex + 1) % prevFilteredFlashcards.length;
+      const nextIndex = (currentIndex + 1 - nextItemUpdate) % prevFilteredFlashcards.length;
       setCurrentIndex(nextIndex);
 
       if (flatListRef.current) {
@@ -191,9 +194,10 @@ export function Practice() {
         "Revisão concluída",
         "Você revisou todos os flashcards disponíveis para hoje!"
       );
-      navigation.navigate('Home')
+      handleGoBack()
     }
   }, [isLoading, filteredFlashcards]);
+
 
   function updateFilteredFlashcards(flashcards: Flashcard[]) {
     const today = new Date().toDateString();
@@ -203,11 +207,6 @@ export function Practice() {
         const flashcardDate = new Date(flashcard.lastReviewDate).toDateString();
         return flashcardDate === today || new Date(flashcard.lastReviewDate) < new Date();
       })
-      .sort((a, b) => {
-        const dateA = new Date(a.lastReviewDate);
-        const dateB = new Date(b.lastReviewDate);
-        return dateA.getTime() - dateB.getTime();
-      });
 
     setFilteredFlashcards(filteredFlashcards);
   }

@@ -12,8 +12,14 @@ export function ModalCreateDeck({ onCancel, onSave, onChangeNameDeck, ...rest }:
   return (
     <ModalContainer >
       <ModalContent >
-        <Text style={{ fontSize: theme.FONT_SIZE.XL}}>Criar Deck:</Text>
+        <Text style={{ fontSize: theme.FONT_SIZE.XL }}>Criar Deck:</Text>
         <TextInput
+          ref={(ref) => {
+            if (ref !== undefined && ref && !ref.isFocused()) {
+              ref.focus();
+            }
+          }}
+
           onChangeText={onChangeNameDeck}
           placeholder="Nome do Deck"
           maxLength={30}

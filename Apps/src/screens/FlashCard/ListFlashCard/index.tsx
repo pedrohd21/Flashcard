@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Container } from "./styles";
 import { Header } from "../../../components/Header";
-import { Alert, FlatList } from "react-native";
+import { Alert, FlatList, View } from "react-native";
 import { useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import { Loading } from "../../../components/Loading";
 import { ListFlashcardsCard } from "../../../components/List/ListFlashcardsCard";
@@ -10,6 +10,8 @@ import { ButtonIconBig } from "../../../components/Button/ButtonIconBig";
 import { ListEmpty } from "../../../components/List/ListEmpty";
 import firestore from '@react-native-firebase/firestore';
 import auth from "@react-native-firebase/auth"
+import { Item } from "react-native-paper/lib/typescript/components/Drawer/Drawer";
+import theme from "../../../theme";
 
 type RouteParams = {
   deckName: string;
@@ -19,6 +21,7 @@ interface Flashcard {
   nameCard: string;
   front: string;
   back: string;
+  lastReviewDate: Date;
 }
 
 export function ListFlashCard() {
@@ -26,6 +29,7 @@ export function ListFlashCard() {
   const route = useRoute();
   const [isLoading, setIsLoading] = useState(true);
   const [flashcardsData, setFlashcardsData] = useState<Flashcard[]>([]);
+  const [filteredFlashcards, setFilteredFlashcards] = useState<Flashcard[]>([]);
 
   const { deckName } = route.params as RouteParams;
   const [deckNameFirestore, setDeckNameFirestore] = useState<string>('');
@@ -45,23 +49,29 @@ export function ListFlashCard() {
       const deckRef = firestore().collection('Users').doc(String(currentUser?.uid)).collection('Flashcards');
       const documentSnapshot = await deckRef.doc(deckName).get();
 
+
       if (currentUser) {
         const deckData = documentSnapshot.data();
         console.log(deckData)
         if (deckData) {
           const flashcards: Flashcard[] = [];
+
           Object.keys(deckData).forEach(key => {
             if (key.startsWith('card')) {
               const flashcardData = deckData[key];
+              const lastReviewDate = new Date(flashcardData.lastReviewDate.seconds * 1000);
               const flashcard: Flashcard = {
                 nameCard: key,
                 front: flashcardData.front,
-                back: flashcardData.back
+                back: flashcardData.back,
+                lastReviewDate: lastReviewDate,
+
               };
               flashcards.push(flashcard);
             }
           });
           setFlashcardsData(flashcards);
+          updateFilteredFlashcards(flashcards)
         }
       } else {
         setFlashcardsData([]);
@@ -124,6 +134,30 @@ export function ListFlashCard() {
     );
   }
 
+  function verificationFlashcards() {
+    if (!isLoading && filteredFlashcards.length === 0) {
+      Alert.alert(
+        "Revisão concluída",
+        "Você revisou todos os flashcards disponíveis para hoje!"
+      );
+
+    } else {
+      navigation.navigate('Practice', { deckName })
+    }
+  }
+
+  function updateFilteredFlashcards(flashcards: Flashcard[]) {
+    const today = new Date().toDateString();
+
+    const filteredFlashcards = flashcards
+      .filter(flashcard => {
+        const flashcardDate = new Date(flashcard.lastReviewDate).toDateString();
+        return flashcardDate === today || new Date(flashcard.lastReviewDate) < new Date();
+      })
+
+    setFilteredFlashcards(filteredFlashcards);
+  }
+
   useFocusEffect(useCallback(() => {
     fetchflashcardByDeck();
   }, []));
@@ -163,16 +197,33 @@ export function ListFlashCard() {
           )}
         />
       }
-      {flashcardsData.length <= 0 && (
-        <ButtonIconBig
-          iconName="plus"
-          onPress={addFlashcard}
-          style={{
-            position: "absolute",
-            bottom: 30
-          }}
-        />
-      )}
+
+      {
+        flashcardsData.length <= 0 ? (
+          <ButtonIconBig
+            iconName="plus"
+            onPress={addFlashcard}
+            style={{
+              position: "absolute",
+              bottom: 30
+            }}
+          />
+        ) : (
+          <View style={{ height: 60, justifyContent: 'center' }}>
+            <ButtonIconBig
+              iconName="book-reader"
+              text="Praticar"
+              onPress={verificationFlashcards}
+              style={{
+                // position: "absolute",
+                bottom: 0,
+                width: '60%',
+              }}
+            />
+          </View>
+        )
+      }
+
     </Container>
   )
 }

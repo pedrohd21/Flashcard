@@ -23,7 +23,7 @@ export const Container = styled.View`
   height: 40px;
   align-items: center;
   justify-content: center;
-  border-radius: 15px;
+  border-radius: 8px;
   border: 1px solid ${({ theme }) => theme.COLORS.BLUE};
 
 `;
