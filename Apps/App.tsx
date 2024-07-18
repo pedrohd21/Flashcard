@@ -8,7 +8,10 @@ import theme from "./src/theme";
 import { Loading } from './src/components/Loading';
 
 import Routes from './src/routes';
+import {PermissionsAndroid} from 'react-native';
 
+
+PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
 export default function App(){
   return (
     <ThemeProvider theme={theme}>

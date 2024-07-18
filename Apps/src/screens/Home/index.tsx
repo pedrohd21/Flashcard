@@ -15,10 +15,7 @@ import { ModalChangeNameDeck } from "../../components/Modal/ModalChangeNameDeck"
 import { ListEmpty } from "../../components/List/ListEmpty";
 import auth from "@react-native-firebase/auth"
 import firestore from '@react-native-firebase/firestore';
-// import messaging from '@react-native-firebase/messaging';
-
-// import {PermissionsAndroid} from 'react-native';
-// PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
+import messaging from '@react-native-firebase/messaging';
 
 export function Home() {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -33,15 +30,21 @@ export function Home() {
   const [useButtonOptions, setUseButtonOptions] = useState(false);
   const [useButtonChangeName, setUseButtonChangeName] = useState(false);
 
-  // const getToken = async() => {
-  //   const token = await messaging().getToken()
-  //   console.log('token=', token)
-  // }
+  const getToken = async() => {
+    const token = await messaging().getToken()
+    console.log('token=', token)
+  }
 
-  // useEffect(() => {
-  //   // requestUserPermission()
-  //   getToken()
-  // })
+  async function requestUserPermission() {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+  
+    if (enabled) {
+      console.log('Authorization status:', authStatus);
+    }
+  }
 
   function openModal() {
     setModalVisible(true);
@@ -211,10 +214,8 @@ export function Home() {
 
   useEffect(() => {
     fetchDecks();
-  }, []);
-
-  useEffect(() => {
-    // Configurações do Firestore
+    requestUserPermission()
+    getToken()
     firestore().settings({
       persistence: true,
     });
