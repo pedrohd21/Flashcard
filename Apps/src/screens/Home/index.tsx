@@ -79,7 +79,6 @@ export function Home() {
             setIsLoading(false);
           })
       } else {
-        // Não há usuário autenticado
         console.log('Nenhum usuário autenticado');
       }
 
@@ -104,7 +103,6 @@ export function Home() {
         .doc(deckNameFirestore)
         .collection('Flashcards');
 
-      // Verificar se o documento com o nome do deck já existe
       const deckDocSnapshot = await deckCollectionRef.doc(deckName).get();
 
       if (deckDocSnapshot.exists) {
@@ -148,11 +146,9 @@ export function Home() {
       const oldDeckRef = firestore().collection('Users').doc(deckNameFirestore).collection('Flashcards').doc(selectedDeck);
       const newDeckRef = firestore().collection('Users').doc(deckNameFirestore).collection('Flashcards').doc(deckName);
 
-      // Obtenha os dados do documento antigo
       const oldDeckSnapshot = await oldDeckRef.get();
       const oldDeckData = oldDeckSnapshot.data() || {};
 
-      // Crie um novo documento com o novo nome e os mesmos dados do documento antigo
       await newDeckRef.set(oldDeckData);
 
       await oldDeckRef.delete();

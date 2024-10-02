@@ -31,9 +31,9 @@ export function LoginAccount() {
       .then(() => {
         const currentUser = auth().currentUser;
         const newUser = {
-          name: email, // Use o UID do usuário como nome, se disponível, caso contrário, use o email
+          name: email, 
           email: email,
-          //como faco para adicionar uma colecao com nome de Flashcards?
+          
         };
         firestore().collection('Users').doc(currentUser?.uid).set(newUser);
       })
@@ -70,10 +70,10 @@ export function LoginAccount() {
     auth()
       .signInWithEmailAndPassword(email, password)
       .then(() => {
-        // console.log('Usuário logado com sucesso!');
+        
       })
       .catch(error => {
-        console.log("Código de erro:", error.code); // Adicione essa linha para imprimir o código de erro
+        console.log("Código de erro:", error.code); 
 
         if (error.code === 'auth/email-already-in-use') {
           Alert.alert('Email', 'O endereço de e-mail já está em uso.');
@@ -91,7 +91,7 @@ export function LoginAccount() {
   }
 
   function toggleMode() {
-    // Alterna entre os modos de criar conta e fazer login
+
     setIsCreatingAccount(prevState => !prevState);
   }
 

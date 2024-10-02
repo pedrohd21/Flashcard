@@ -96,7 +96,6 @@ export function EditFlashCard() {
 
   useEffect(() => {
     nameCardsss()
-    // Focar no campo de texto frontal ao entrar na tela (opcional)
     if (newTextFrontInputRef.current) {
       newTextFrontInputRef.current.focus();
     }

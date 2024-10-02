@@ -215,7 +215,6 @@ export function ListFlashCard() {
               text="Praticar"
               onPress={verificationFlashcards}
               style={{
-                // position: "absolute",
                 bottom: 0,
                 width: '60%',
               }}

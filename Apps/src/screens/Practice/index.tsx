@@ -87,7 +87,7 @@ export function Practice() {
           });
           setFlashcards(flashcards);
           updateFilteredFlashcards(flashcards)
-          if (filteredFlashcards.length > 0) { // Adicione esta verificação
+          if (filteredFlashcards.length > 0) { 
             showNextItem();
           }
         }
@@ -128,13 +128,13 @@ export function Practice() {
   function obterIntervaloParaDificuldade(dificuldade: Dificuldade, daysSinceFirstReview: number): number {
     switch (dificuldade) {
       case Dificuldade.EASY:
-        return 7 * 24 * 60 * 60 * 1000; // 7 dias em milissegundos
+        return 7 * 24 * 60 * 60 * 1000; 
       case Dificuldade.GOOD:
-        return 2 * 24 * 60 * 60 * 1000; // 2 dias em milissegundos
+        return 2 * 24 * 60 * 60 * 1000; 
       case Dificuldade.HARD:
-        return 1 * 24 * 60 * 60 * 1000; // 1 dia em milissegundos
+        return 1 * 24 * 60 * 60 * 1000; 
       case Dificuldade.VERYHARD:
-        return 0; // No mesmo dia
+        return 0; 
       default:
         throw new Error("Dificuldade inválida");
     }

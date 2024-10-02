@@ -73,7 +73,7 @@ export function PracticeComponente({ textFront, textBack, showFlashcard, buttonR
               <Text style={{ fontSize: theme.FONT_SIZE.SM, fontFamily: 'Roboto-Bold', color: theme.COLORS.RED }}>Repetir</Text>
               <Text style={{ fontSize: theme.FONT_SIZE.SM, fontFamily: 'Roboto-Bold', color: theme.COLORS.RED }}>hoje</Text>
             </ButtonOption>
-            {/* // )} */}
+
             <ButtonOption hitSlop={20} style={{ borderColor: theme.COLORS.WHITE }} onPress={() => {
               if (buttonHard) {
                 buttonHard();

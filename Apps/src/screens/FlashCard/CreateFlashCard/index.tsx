@@ -42,7 +42,6 @@ export function CreateFlashCard() {
         const deckData = deckSnapshot.data();
         const currentCardCount = deckData ? Object.keys(deckData).length : 0;
 
-        // Cria um novo cartão com o número apropriado
         const newCardName = `card${currentCardCount}`;
         const currentTime = firestore.Timestamp.now();
 
@@ -50,7 +49,6 @@ export function CreateFlashCard() {
           [newCardName]: {
             front: newFlashcardFront,
             back: newFlashcardBack,
-            // dificuldade: 'EASY',
             firstReviewDate: currentTime,
             lastReviewDate: currentTime
 
